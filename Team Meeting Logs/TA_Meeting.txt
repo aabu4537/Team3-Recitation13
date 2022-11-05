@@ -1,4 +1,18 @@
+Meeting 1
 Date/Time: Saturday November 5th, 11:40am-12:00pm, remote
-Decisions Made:
-Alternative actions/options discussed:
-Follow-up items:
+Decisions Made: N/A
+Alternative actions/options discussed: N/A
+Follow-up items: N/A
+Notes:
+For each user story: make sure to create a new branch and then push, not straight to main
+Only need to commit 3 times a week per person
+Meetings are mandatory
+
+Every week, by time of meeting: (excludes meeting on Tuesday 11/8/22)
+1 Update readme
+2 New working code and release notes
+3 Updated project dashboard
+Final note: After meeting, Drew, Alam, and Eric discussed getting a headstart on the ejs partials and database over the weekend.
+
+
+Meeting 2 ...
