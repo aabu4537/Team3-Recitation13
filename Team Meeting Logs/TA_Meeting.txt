@@ -15,4 +15,8 @@ Every week, by time of meeting: (excludes meeting on Tuesday 11/8/22)
 Final note: After meeting, Drew, Alam, and Eric discussed getting a headstart on the ejs partials and database over the weekend.
 
 
-Meeting 2 ...
+Meeting 2
+Date/Time: Saturday November 5th, 3:50am-4:10pm, remote
+Decisions Made: N/A
+Alternative actions/options discussed: N/A
+Follow-up items: N/A
