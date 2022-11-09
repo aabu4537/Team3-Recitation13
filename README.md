@@ -1,5 +1,5 @@
 # Brief Application description:
-## This website will be a recipe sharing website for elderly people. This website is designed to replace physical cookbooks entirely, meaning you can find 
+This website will be a recipe sharing website for elderly people. This website is designed to replace physical cookbooks entirely, meaning you can find 
 and save new recipes online rather than having to buy and store physical cookbooks.The main features will be discovering recipes through filtering and sorting and the ability to curate a personal cookbook (list of favorite recipes).
 The personal cookbook will of course require a sign-in function, but the rest of the website will be accessible. The value of the website will mainly come from ease-of-use, so we will keep in mind big font sizes, tooltips on anything that might not be intuitive, and similar things. Users will be able to upload pictures of their own recipes in order to be able to keep everything in one place.
 
