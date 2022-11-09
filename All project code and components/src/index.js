@@ -36,3 +36,24 @@ app.use(
   app.get("/login", (req, res) => {
     res.render("pages/login");
   });
+
+
+
+  // Authentication Middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+      if(req.path == "/register" || req.path == "/login"){
+          return;
+      }
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
+};
+
+// Authentication Required
+app.use(auth);
+
+  app.listen(3000);
+  console.log("Server is listening on port 3000");
+    
