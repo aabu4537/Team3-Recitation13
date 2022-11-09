@@ -75,9 +75,37 @@ app.get('/', (req, res) =>{
     res.redirect('/login'); 
 });
 
+//GET register
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+
 //GET login
 app.get("/login", (req, res) => {
     res.render("pages/login");
+});
+
+
+//POST register - Ready to test when Database is done - 
+  // Note: Need to rectify the fact that we need a password yet the pages are only sending username and email
+
+app.post('/register', async (req, res) => { //Input: username and password as JSON
+  //hashes the user's password for safety. The password that goes into the database will be the hashed one, not what the user provided.
+  const hash = await bcrypt.hash(req.body.password, 10);
+  
+  //Insert username and hash into users
+  const query = 'insert into users (username, email, password) values ($1, $2, $3);';
+  
+  db.any(query, [req.body.username, req.body.email, hash])
+    .then(function (queryResult) {
+        res.render("pages/login"); //kind of inefficient to have them login right after registering, but its not a problem
+    })
+    .catch(function (err) { // if there's an error, send them back to register page, rendered with the error as a JSON object accessible by EJS/JS to show to the user 
+        console.log(err);
+        res.render("pages/register", {
+          message: err,
+        });
+    });
 });
 
 
