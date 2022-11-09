@@ -1,15 +1,3 @@
-CREATE TABLE recipes (
-  recipe_id SERIAL PRIMARY KEY NOT NULL,
-  recipe_name VARCHAR(100) NOT NULL,
-  prep_time INT,
-  cook_time INT,
-  recipe_image VARCHAR(1000), 
-  instructions VARCHAR(10000), /* is formatting multi-paragraph instructions going to be a problem?*/
-  author_id INTEGER NOT NULL REFERENCES users(user_id),
-  cuisine_type VARCHAR(50),
-  rating REAL /* maybe too extra, feel free to remove*/
-);
-
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(50),
@@ -22,6 +10,19 @@ CREATE TABLE IF NOT EXISTS ingredients(
   ingredient_name varchar(50) NOT NULL,
   dietary_warning BOOLEAN /* maybe too extra, feel free to remove*/
   );
+
+CREATE TABLE recipes (
+  recipe_id SERIAL PRIMARY KEY NOT NULL,
+  recipe_name VARCHAR(100) NOT NULL,
+  prep_time INT,
+  cook_time INT,
+  recipe_image VARCHAR(1000), 
+  instructions VARCHAR(10000), /* is formatting multi-paragraph instructions going to be a problem?*/
+  author_id INTEGER NOT NULL REFERENCES users(user_id),
+  cuisine_type VARCHAR(50),
+  rating REAL /* maybe too extra, feel free to remove*/
+);
+
 
 CREATE TABLE IF NOT EXISTS favorites( /* since this is a many-to-many relationship between users and recipes (unlike the author_id in recipes table) we need a bridge table */
   user_id INTEGER NOT NULL REFERENCES users(user_id),
