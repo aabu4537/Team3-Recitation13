@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS favorites ( /* since this is a many-to-many relations
   PRIMARY KEY(user_id, recipe_id) /* this defines a composite primary key consisting of two halves: the user_id foreign key and the recipe_id foreign key*/
 );
 
+
 /* CREATE TABLE IF NOT EXISTS recipes_to_ingredients (
   recipe_id INTEGER NOT NULL REFERENCES recipes(recipe_id),
   ingredient_id INTEGER NOT NULL REFERENCES ingredients(ingredient_id),

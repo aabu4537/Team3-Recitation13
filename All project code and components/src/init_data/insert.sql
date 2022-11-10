@@ -6,14 +6,6 @@ insert into users (username, email, password) values ('Robert', 'rob@gmail.com',
 insert into users (username, email, password) values ('OldPerson', 'grandpa@gmail.com', 'cooking');
 insert into users (username, email, password) values ('Light', 'deathnote@gmail.com', 'illtakeapotatochipandeatit');
 
-/* Initialize Ingredients Table*/
-insert into ingredients (ingredient_name) values (steak);
-insert into ingredients (ingredient_name) values (butter);
-insert into ingredients (ingredient_name) values (rosemary);
-insert into ingredients (ingredient_name) values (eggs);
-insert into ingredients (ingredient_name) values (canola oil);
-insert into ingredients (ingredient_name) values (olive oil);
-
 /* Initialize Recipes Table*/
 insert into recipes (recipe_name, prep_time, cook_time, recipe_image, instructions, author_id, cuisine_type, rating) 
     values ('Steak and Eggs', 5, 20, 'https://healthyrecipesblogs.com/wp-content/uploads/2013/02/steak-and-eggs-featured-2021.jpg', 
@@ -32,6 +24,3 @@ insert into recipes ()
 
 /* Initialize Favorites Table - FOR TESTING ONLY - should be added to only dynamically in production*/
 insert into favorites (user_id, recipe_id) values (, );
-
-/* Initialize Recipes to Ingredients Table*/
-insert into recipes_to_ingredients (user_id, username, email, password) values (, );
