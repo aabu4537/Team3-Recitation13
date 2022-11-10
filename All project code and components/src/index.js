@@ -4,7 +4,7 @@ const pgp = require("pg-promise")();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
-const { queryResult } = require("pg-promise");
+//const { queryResult } = require("pg-promise");
 
 // db config
 const dbConfig = {
@@ -148,6 +148,8 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
       });
   });
 
+
+/*
   // Authentication Middleware.
 const auth = (req, res, next) => {
   //if no session variable, that means user is not logged in, so shouldn't be able to view profile, for example
@@ -161,7 +163,7 @@ const auth = (req, res, next) => {
   }
   next();
 };
-
+*/
 
 //Remaining routes to implement:
 //POST upload - like POST register, except bigger and to recipes table, not users
@@ -179,17 +181,17 @@ app.get("/profile", (req, res) => {
     .catch(err => {
     // Handle errors
       console.log(err);
-      res.render("pages/discover", {
+      res.render("pages/profile", {
         results: [],
       });
     });
-});
+}); 
 //GET filtering - render the simple HTML filtering options only
 //POST filtering - the beefy boi. Render like profile except beforehand, choose a lot of options through the HTML form (not automatic.)
 
 
 // Authentication Required
-app.use(auth);
+//app.use(auth);
 
   app.listen(3000);
   console.log("Server is listening on port 3000");
