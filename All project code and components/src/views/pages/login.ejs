@@ -1,34 +1,39 @@
-<%- include ('../partials/header') %> <%- include ('../partials/menu') %>
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<div class="col"><%- include ('../partials/message') %></div>
 
 <main>
   <div class="container">
     <!-- THE REST OF YOUR HTML CODE GOES HERE -->
     <form action="/login" method="post">
+      <div class="mb-3">
+        <h3> Log in</h3>
+
         <div class="mb-3">
-            <label for="InputEmail" class="form-label">Email Address</label>
-            <input
-                type="email"
-                class="form-control"
-                name="email"
-                id="email"
-                aria-describedby="emailHelp"
-            />
-            <div id="emailHelp" class="form-text">
-                We'll never share your email with anyone else.
-            </div>
+          <label for="username" class="form-label">Username</label>
+          <input name="username" type="text" class="form-control" name="username" id="username" placeholder="Enter username">
         </div>
+
         <div class="mb-3">
-            <label for="UserName" class="form-label">Username</label>
-            <input
-                type="text"
-                class="form-control"
-                name="username"
-                id="username"
-            />
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailH" placeholder="Enter email">
+          </div>  
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input name="password" type="password" class="form-control" name="password" id="password" placeholder="Enter password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+      <form action="/login" method="post">
+      <button type="submit" class="btn btn-primary">Log in</button>
     </form>
   </div>
 </main>
+
+<p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="/register"
+  class="fw-bold text-body"><u>Register</u></a></p>
+
 
 <%- include ('../partials/footer') %>
