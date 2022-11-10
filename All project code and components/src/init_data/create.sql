@@ -40,15 +40,15 @@ CREATE TABLE IF NOT EXISTS recipes (
   contains_fish BOOLEAN,
   /* different checklists, only one option for each */
   under_30_minutes BOOLEAN, /* total cook time */
-  30_minutes_1_hour BOOLEAN,
-  1_hour_2_hours BOOLEAN,
-  2_hours_3_hours BOOLEAN,
-  3_hours_or_more BOOLEAN,
-  1_star BOOLEAN, /* rating */
-  2_stars BOOLEAN,
-  3_stars BOOLEAN,
-  4_stars BOOLEAN,
-  5_stars BOOLEAN
+  m30_minutes_1_hour BOOLEAN,
+  h1_hour_2_hours BOOLEAN,
+  h2_hours_3_hours BOOLEAN,
+  h3_hours_or_more BOOLEAN,
+  s1_star BOOLEAN, /* rating */
+  s2_stars BOOLEAN,
+  s3_stars BOOLEAN,
+  s4_stars BOOLEAN,
+  s5_stars BOOLEAN
 );
 
 /* CREATE TABLE IF NOT EXISTS filters (
