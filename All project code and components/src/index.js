@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const pgp = require("pg-promise")();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 //const { queryResult } = require("pg-promise");
-
 // db config
 const dbConfig = {
   host: "db",
   port: 5432,
   database: process.env.POSTGRES_DB,
   user: process.env.POSTGRES_USER,
+  email: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
 };
 
@@ -80,6 +80,7 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
+
 //GET login
 app.get("/login", (req, res) => {
     res.render("pages/login");
@@ -105,8 +106,10 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
         res.render("pages/register", {
           message: err,
         });
+
     });
 });
+
 
 
 //POST login - Ready to test when Database is done
@@ -155,6 +158,7 @@ const auth = (req, res, next) => {
   //if no session variable, that means user is not logged in, so shouldn't be able to view profile, for example
   if (!req.session.user) {
     //if the path is /register or /login, thats fine, do nothing. Otherwise, redirect to login
+
       if(req.path == "/register" || req.path == "/login"){
           return;
       }
@@ -192,6 +196,7 @@ app.get("/profile", (req, res) => {
 
 // Authentication Required
 //app.use(auth);
+
 
   app.listen(3000);
   console.log("Server is listening on port 3000");
