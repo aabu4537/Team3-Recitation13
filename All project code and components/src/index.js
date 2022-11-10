@@ -162,6 +162,32 @@ const auth = (req, res, next) => {
   next();
 };
 
+
+//Remaining routes to implement:
+//POST upload - like POST register, except bigger and to recipes table, not users
+//GET logout - called when clicked on logout button from other pages, renders login page, EXACTLY like labs
+//GET profile - dynamic page rendering, like GET discover from lab9
+app.get("/profile", (req, res) => {
+  query = 'SELECT ... ;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user. Quite a mouthful
+  db.one(query, [req.session.user.username]) 
+    .then(queryResult => {
+     // Send some parameters
+     res.render("pages/profile", {
+      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+    });
+    })
+    .catch(err => {
+    // Handle errors
+      console.log(err);
+      res.render("pages/discover", {
+        results: [],
+      });
+    });
+});
+//GET filtering - render the simple HTML filtering options only
+//POST filtering - the beefy boi. Render like profile except beforehand, choose a lot of options through the HTML form (not automatic.)
+
+
 // Authentication Required
 app.use(auth);
 
