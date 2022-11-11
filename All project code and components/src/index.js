@@ -50,7 +50,7 @@ app.use(
     })
   );
 
- - <-> IMPORTANT!!! <> -
+ - <-> IMPORTANT!!! <-> -
 If you want to use this method instead, you MUST add the following line of code to the .env file:
 SESSION_SECRET="super duper secret!"
 
@@ -75,21 +75,19 @@ app.get('/', (req, res) =>{
     res.redirect('/login'); 
 });
 
-//GET register
+//GET register - Done
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
 
-//GET login
+//GET login - Done
 app.get("/login", (req, res) => {
     res.render("pages/login");
 });
 
 
-//POST register - Ready to test when Database is done - 
-  // Note: Need to rectify the fact that we need a password yet the pages are only sending username and email
-
+//POST register - Tested - Done
 app.post('/register', async (req, res) => { //Input: username and password as JSON
   //hashes the user's password for safety. The password that goes into the database will be the hashed one, not what the user provided.
   const hash = await bcrypt.hash(req.body.password, 10);
@@ -112,8 +110,7 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
 
 
 
-//POST login - Ready to test when Database is done
-  // Note: Need to rectify the fact that we need a password yet the pages are only sending username and email
+//POST login - Tested - Done
   app.post("/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -171,8 +168,42 @@ const auth = (req, res, next) => {
 
 //Remaining routes to implement:
 //POST upload - like POST register, except bigger and to recipes table, not users
+  
+  //Need from HTML:
+  //HTML needs to send values for every column in the recipes table except recipe_id and author_id
+  //the items sent can be empty, except for recipe name, but they should still be sent.
+  //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+
+  //To be explicit, I need recipe_name, prep_time, cook_time, recipe_image(link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
+  //and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
+  //and the booleans (only one should be true) for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
+  //and the booleans (only one should be true) for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
+
+  //Return to HTML:
+  //I will not return anything for the website to use, instead I will redirect to home.
+
 //GET logout - called when clicked on logout button from other pages, renders login page, EXACTLY like labs
+  //Need: nothing
+  //Return to HTML: an object called message - it says "Logged out successfully"
+
 //GET profile - dynamic page rendering, like GET discover from lab9
+  //Need from HTML:
+  //Does not need anything from HTML.
+
+  //Return to HTML:
+  //Will return a JSON object called results (for use on the profile.ejs page)
+  //results will contain MULTIPLE  (an array of) recipes, and for each one, you will be able to access ALL of its information just like the recipes table (except as a JSON object of course)
+  
+  // To be explicit, for each recipe in the JSON object, it will have:
+  // recipe_id, recipe_name, prep_time, cook_time, recipe_image(a link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
+  //and the booleans for vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
+  //and the booleans for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
+  //and the booleans for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
+  
+    //if you want to display all of the information for each recipe, you will need to use ALL of these except recipe_id
+    //if you don't need to display all of the information for each recipe, you can simply use whatever you need.
+    //if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
+
 app.get("/profile", (req, res) => {
   query = 'SELECT ... ;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user. Quite a mouthful
   db.one(query, [req.session.user.username]) 
@@ -187,16 +218,70 @@ app.get("/profile", (req, res) => {
       console.log(err);
       res.render("pages/profile", {
         results: [],
+        message: err,
       });
     });
 }); 
-//GET filtering - render the simple HTML filtering options only
-//POST filtering - the beefy boi. Render like profile except beforehand, choose a lot of options through the HTML form (not automatic.)
+
+//GET home - render like profile except no fancy query: we're returning all columns for all recipes.
+
+  //Need from HTML:
+  //Does not need anything from HTML.
+
+  //Return to HTML:
+  //Will return a JSON object called results (for use on the home.ejs page)
+  //results will contain MULTIPLE  (an array of) recipes, and for each one, you will be able to access ALL of its information just like the recipes table (except as a JSON object of course)
+  
+  // To be explicit, for each recipe in the JSON object, it will have:
+  // recipe_id, recipe_name, prep_time, cook_time, recipe_image(a link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
+  //and the booleans for vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
+  //and the booleans for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
+  //and the booleans for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
+  
+    //if you want to display all of the information for each recipe, you will need to use ALL of these except recipe_id
+    //if you don't need to display all of the information for each recipe, you can simply use whatever you need.
+    //if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
+
+app.get("/home", (req, res) => {
+  query = 'SELECT * FROM recipes;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user. Quite a mouthful
+  db.one(query, [req.session.user.username]) 
+    .then(queryResult => {
+     // Send some parameters
+     res.render("pages/home", {
+      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+    });
+    })
+    .catch(err => {
+    // Handle errors
+      console.log(err);
+      res.render("pages/home", {
+        results: [],
+        message: err,
+      });
+    });
+}); 
+
+//POST home - the beefy boi. Render like profile except beforehand, choose a lot of options through the HTML form (not automatic.)
+
+
+//POST favorite - this is a route that will be called by some kind of form or something that you use to favorite a recipe. It does not need to be its own page.
+  //Need from HTML: recipe_name
+
+  //Return to HTML: Nothing
+
+  //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
+  //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
 
 
 // Authentication Required
 //app.use(auth);
 
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.render("pages/login", {
+    message: `Logged out Successfully`,
+  });
+});
 
   app.listen(3000);
   console.log("Server is listening on port 3000");
