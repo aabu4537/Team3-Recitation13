@@ -167,17 +167,20 @@ const auth = (req, res, next) => {
 */
 
 //Remaining routes to implement:
-//POST upload - like POST register, except bigger and to recipes table, not users
+//POST upload - called from a form probably, needs info from form, does not return anything (updates database)
+  //(like POST register, except bigger and to recipes table, not users)
   
   //Need from HTML:
-  //HTML needs to send values for every column in the recipes table except recipe_id and author_id
+  //HTML needs to send values for every column in the recipes table EXCEPT for recipe_id, author_id, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
   //the items sent can be empty, except for recipe name, but they should still be sent.
   //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
 
   //To be explicit, I need recipe_name, prep_time, cook_time, recipe_image(link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
   //and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
-  //and the booleans (only one should be true) for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
   //and the booleans (only one should be true) for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
+    //Note: if it is too hard to ensure only one of these is TRUE, then please send star_rating instead of these 5 booleans, s1_star, s2_stars, s3_stars, s4_stars, and s5_stars.
+    //star_rating should be an integer
+    //I can then use this star_rating integer to assign the correct booleans in the table.
 
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
@@ -185,8 +188,14 @@ const auth = (req, res, next) => {
 //GET logout - called when clicked on logout button from other pages, renders login page, EXACTLY like labs
   //Need: nothing
   //Return to HTML: an object called message - it says "Logged out successfully"
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.render("pages/login", {
+    message: `Logged out Successfully`,
+  });
+});
 
-//GET profile - dynamic page rendering, like GET discover from lab9
+//GET profile - called from menu bar or redirected from login, renders /profile page with a results object
   //Need from HTML:
   //Does not need anything from HTML.
 
@@ -214,7 +223,7 @@ app.get("/profile", (req, res) => {
     });
     })
     .catch(err => {
-    // Handle errors
+    // Handle errors, send no results and an error message to HTML
       console.log(err);
       res.render("pages/profile", {
         results: [],
@@ -223,10 +232,23 @@ app.get("/profile", (req, res) => {
     });
 }); 
 
-//GET home - render like profile except no fancy query: we're returning all columns for all recipes.
+//GET home - will render the HTML page home.ejs with a results object containing recipes. If called from its own page, this means it needs to filter the database before returning this. If called from somewhere else (i.e. menu bar), renders with all recipes.
+  
+  //ok so this one is a bit confusing. When we render it without any input, it should render /home with results as all columns for all recipes (like profile except no fancy query)
+  //but when the user has selected filters, it should build a query that returns to the HTML a result object with only what the user was looking for.
+  //so in the code, I think we need to be able to decide which of these things to do.
 
   //Need from HTML:
-  //Does not need anything from HTML.
+  //HTML needs to send values for cuisine_type and all of the columns under "filters"
+  //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
+  //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+
+  //To be explicit, I need 
+  //cuisine_type, and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
+  //and the booleans (any amount of them can be true) for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
+  //and the booleans (any amount of them can be true) for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
+    //Note: This time, sending one star_rating instead of the 5 different star booleans will not suffice, because the user should be able to filter for all recipes that are 3 or 4 stars, for example, and sending one value cannot convey this
+
 
   //Return to HTML:
   //Will return a JSON object called results (for use on the home.ejs page)
@@ -243,7 +265,8 @@ app.get("/profile", (req, res) => {
     //if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
 
 app.get("/home", (req, res) => {
-  query = 'SELECT * FROM recipes;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user. Quite a mouthful
+  //only the easy case implemented right now. This API call will be MUCH longer when done.y
+  query = 'SELECT * FROM recipes;'; //getting all recipes and all their info
   db.one(query, [req.session.user.username]) 
     .then(queryResult => {
      // Send some parameters
@@ -252,7 +275,7 @@ app.get("/home", (req, res) => {
     });
     })
     .catch(err => {
-    // Handle errors
+    // Handle errors, send no results and an error message to HTML
       console.log(err);
       res.render("pages/home", {
         results: [],
@@ -261,27 +284,20 @@ app.get("/home", (req, res) => {
     });
 }); 
 
-//POST home - the beefy boi. Render like profile except beforehand, choose a lot of options through the HTML form (not automatic.)
 
-
-//POST favorite - this is a route that will be called by some kind of form or something that you use to favorite a recipe. It does not need to be its own page.
-  //Need from HTML: recipe_name
+//POST favorite - will be called by some kind of form that you use to favorite a recipe. It does not need to be its own page. Updates the database favorites table.
+  //Need from HTML: only one thing, recipe_name
 
   //Return to HTML: Nothing
 
   //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
   //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
+  //redirects to home.
 
 
 // Authentication Required
 //app.use(auth);
 
-app.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.render("pages/login", {
-    message: `Logged out Successfully`,
-  });
-});
 
   app.listen(3000);
   console.log("Server is listening on port 3000");
