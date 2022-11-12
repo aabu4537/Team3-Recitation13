@@ -195,30 +195,30 @@ app.get("/logout", (req, res) => {
   });
 });
 
-//GET profile - called from menu bar or redirected from login, renders /profile page with a results object
-  //Need from HTML:
-  //Does not need anything from HTML.
+/*GET profile - called from menu bar or redirected from login, renders /profile page with a results object
+  Need from HTML:
+  Does not need anything from HTML.
 
-  //Return to HTML:
-  //Will return a JSON object called results (for use on the profile.ejs page)
-  //results will contain MULTIPLE  (an array of) recipes, and for each one, you will be able to access ALL of its information just like the recipes table (except as a JSON object of course)
+  Return to HTML:
+  Will return a JSON object called results (for use on the profile.ejs page)
+  results will contain MULTIPLE (an array of) recipes, and for each one, 
+  you will be able to access ALL of its information just like the recipes table 
+  (except as a JSON object of course), 
+  also the JSON object will be printed to console for your reference
   
-  // To be explicit, for each recipe in the JSON object, it will have:
-  // recipe_id, recipe_name, prep_time, cook_time, recipe_image(a link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
-  //and the booleans for vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
-  //and the booleans for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
-  //and the booleans for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
-  
-    //if you want to display all of the information for each recipe, you will need to use ALL of these except recipe_id
-    //if you don't need to display all of the information for each recipe, you can simply use whatever you need.
-    //if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
-
+    Notes: if you want to display all of the information for each recipe, you will need to use ALL of these except recipe_id
+    if you don't need to display all of the information for each recipe, you can simply use whatever you need.
+    if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
+*/
+    //DONE - TESTED
 app.get("/profile", (req, res) => {
-  query = 'SELECT ... ;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user. Quite a mouthful
-  db.one(query, [req.session.user.username]) 
+  query = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM users FULL JOIN favorites ON users.user_id = favorites.user_id FULL JOIN recipes ON favorites.recipe_id = recipes.recipe_id WHERE users.user_id = $1;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user.
+  db.any(query, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows!
     .then(queryResult => {
-     // Send some parameters
-     res.render("pages/profile", {
+      // show the object on console for reference, then render it to the page. On page, reference like results[0].recipe_name 
+      console.log(queryResult);
+
+      res.render("pages/profile", {
       results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
     });
     })
