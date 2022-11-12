@@ -185,9 +185,12 @@ const auth = (req, res, next) => {
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
 
-//GET logout - called when clicked on logout button from other pages, renders login page, EXACTLY like labs
-  //Need: nothing
-  //Return to HTML: an object called message - it says "Logged out successfully"
+/*GET logout - called when clicked on logout button from other pages, renders login page with message, EXACTLY like labs
+  Need: nothing
+  Return to HTML: an object called message - it says "Logged out successfully"
+  //Tested the error message functionality as well as session destroy functionality and it all worked.
+*/
+    //DONE - TESTED
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.render("pages/login", {
