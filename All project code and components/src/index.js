@@ -185,7 +185,7 @@ const auth = (req, res, next) => {
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
 */
-  //DONE - Partially Tested
+  //DONE - Partially Tested with Postman
 app.post("/upload", (req, res) => {//1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
   //Print received object to console for testing purposes
   console.log(req.body);
@@ -300,7 +300,7 @@ a GET /filter, which will be more complicated.
 <->
 
     */
-//DONE - NOT TESTED
+//DONE - TESTED
 app.get("/home", (req, res) => {
   const query = 'SELECT * FROM recipes;'; //getting all recipes and all their info
   db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
@@ -335,7 +335,7 @@ app.get("/home", (req, res) => {
 
   Return to HTML:
   Same as GET home, except will have fewer recipes
-    */
+*/
     //IN PROGRESS
 app.get("/filter", (req, res) => {
 
@@ -389,6 +389,38 @@ app.get("/filter", (req, res) => {
     });
 }); 
 
+/*GET /sort
+  //HTML needs to send values for date, time, and rating
+  //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
+  //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+
+  Return to HTML:
+  Same as GET home, except will be sorted by the attribute in question
+*/
+    //JUST STARTED (copied skeleton of filter because they're similar)
+app.get("/sort", (req, res) => {
+  //Here's where you'll build the query based off of the info you receive in req.body
+  //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
+  const query = '';
+
+  db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
+    .then(queryResult => {
+
+      //Render sort page
+    res.render("pages/sort", {
+      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+    });
+    })
+    .catch(err => {
+    // Handle errors, send no results and an error message to HTML
+      console.log(err);
+      res.render("pages/home", {
+        results: [],
+        message: err,
+      });
+    });
+}); 
+    
 
 /*POST favorite - will be called by some kind of form that you use to favorite a recipe. It does not need to be its own page. Updates the database favorites table.
   //Need from HTML: only one thing, recipe_name
