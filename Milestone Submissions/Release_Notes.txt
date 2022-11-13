@@ -57,3 +57,22 @@ More insertions added to insert.sql
 Release_Notes updated
 
 Last edited: November 10th, 2022
+
+
+----------------------------------------------------------------------
+Outline for Tuesday, 11/12/2022
+- Needs number of commits per person
+
+Eric: ?
+Alam: ?
+Drew: ?
+Batool: ?
+Kayla: ?
+
+- Login/Register bugs fixed (Alam and Eric)
+- Insertions added (approximately 20 recipes now in database) (Alam)
+- API calls finished (favorite, upload, and profile) finished (Eric)
+- API calls finished (Drew)
+- Discover page html initialized (Kayla)
+- Profile page/upload modal(or page?) html initialized (Batool)
+- Search feature(?) implemented (???)
