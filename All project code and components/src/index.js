@@ -62,7 +62,8 @@ SESSION_SECRET="super duper secret!"
       extended: true,
     })
   );
-  
+  app.use(express.static("resources"));
+
 //We will use this to store the user's information in a session variable.
 const user = {
   user_id: undefined,
@@ -236,7 +237,7 @@ app.get("/logout", (req, res) => {
 */
     //DONE - TESTED
 app.get("/profile", (req, res) => {
-  query = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM users FULL JOIN favorites ON users.user_id = favorites.user_id FULL JOIN recipes ON favorites.recipe_id = recipes.recipe_id WHERE users.user_id = $1;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user.
+  const query = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM users FULL JOIN favorites ON users.user_id = favorites.user_id FULL JOIN recipes ON favorites.recipe_id = recipes.recipe_id WHERE users.user_id = $1;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user.
   db.any(query, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
       
@@ -301,10 +302,11 @@ a GET /filter, which will be more complicated.
     */
 //DONE - NOT TESTED
 app.get("/home", (req, res) => {
-  query = 'SELECT * FROM recipes;'; //getting all recipes and all their info
-  db.any(query, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
+  const query = 'SELECT * FROM recipes;'; //getting all recipes and all their info
+  db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
       //Render home page using a JSON object called results that contains all recipes for the webpage to use however it wants to.
+      console.log(queryResult);
      res.render("pages/home", {
       results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
     });
@@ -338,7 +340,7 @@ app.get("/home", (req, res) => {
 app.get("/filter", (req, res) => {
 
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
-  query = 'SELECT * FROM recipes WHERE (';
+  const query = 'SELECT * FROM recipes WHERE (';
   //here we will start building the query based off of the filters the user has sent.
   //this will basically be a lot of if statements that concatenate the query string, for example:
 
@@ -369,11 +371,11 @@ app.get("/filter", (req, res) => {
   //after all the filters have been checked, finish the query
   query = query + ');'
 
-  db.any(query, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
+  db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
 
       //Render HOME or different page?
-    res.render("pages/home", {
+    res.render("pages/filter", {
       results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
     });
     })
@@ -399,7 +401,7 @@ app.get("/filter", (req, res) => {
   */
   //WORKING - But handles edge cases and errors badly
 app.post("/favorite", (req, res) => {
-  query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
+  const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
     .then(queryResult => {
       //don't need to do anything
