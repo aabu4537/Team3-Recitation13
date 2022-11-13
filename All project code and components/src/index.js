@@ -269,10 +269,6 @@ app.get("/profile", (req, res) => {
 
 /*GET home - will render the HTML page home.ejs with a results object containing recipes. If called from its own page, this means it needs to filter the database before returning this. If called from somewhere else (i.e. menu bar), renders with all recipes.
   
-  //ok so this one is a bit confusing. When we render it without any input, it should render /home with results as all columns for all recipes (like profile except no fancy query)
-  //but when the user has selected filters, it should build a query that returns to the HTML a result object with only what the user was looking for.
-  //so in the code, I think we need to be able to decide which of these things to do.
-
   //Need from HTML:
   Nothing
 
@@ -289,16 +285,6 @@ app.get("/profile", (req, res) => {
     //if you want to display all of the information for each recipe, you will need to use ALL of these except recipe_id
     //if you don't need to display all of the information for each recipe, you can simply use whatever you need.
     //if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
-
-<->
-On second thought, it probably makes sense to split this into two different calls, 
-even if it has to use two more or less identical HTML pages. Therefore I suggest a 
-home.ejs which loads all of the recipes, and something like a filter.ejs, 
-which can look basically identical, but on which we will load the filtered recipes. 
-We will then have a GET /home, which will require a very easy query, and 
-a GET /filter, which will be more complicated.
-<->
-
     */
 //DONE - TESTED
 app.get("/home", (req, res) => {
@@ -366,6 +352,7 @@ app.get("/filter", (req, res) => {
     i++;
   }
 
+    //etc for the rest of the filters... it will be a long one.
 
 
   //after all the filters have been checked, finish the query
