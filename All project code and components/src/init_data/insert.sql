@@ -6,21 +6,18 @@ insert into users (username, email, password) values ('Robert', 'rob@gmail.com',
 insert into users (username, email, password) values ('OldPerson', 'grandpa@gmail.com', 'cooking');
 insert into users (username, email, password) values ('Light', 'deathnote@gmail.com', 'illtakeapotatochipandeatit');
 
-/* Initialize Recipes Table*/
-insert into recipes (recipe_name, prep_time, cook_time, recipe_image, instructions, author_id, cuisine_type, rating) 
-    values ('Steak and Eggs', 5, 20, 'https://healthyrecipesblogs.com/wp-content/uploads/2013/02/steak-and-eggs-featured-2021.jpg', 
-    'Couldnt be bothered to add an actual instructions, so take a lorem ipsum: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    Ut sagittis commodo ullamcorper. Quisque tincidunt ac orci eget facilisis. Morbi porttitor eros nec imperdiet vehicula. Donec a massa et 
-    erat ullamcorper cursus. Nulla efficitur eu tellus sed venenatis. Aenean rutrum, dui in rutrum ullamcorper, ipsum orci fringilla tellus, 
-    vel luctus eros sapien quis eros. Donec eu enim condimentum, bibendum magna at, condimentum mauris. Nunc dictum ante quis nibh pellentesque, 
-    et tempor diam porta. In mollis ex sed massa euismod tincidunt. Nullam faucibus tristique massa eget egestas. Integer id ultricies eros. 
-    Pellentesque malesuada tempus congue. Phasellus at est orci. Donec iaculis ultricies urna sit amet dictum. Sed ultricies, lorem at auctor 
-    bibendum, enim sapien fringilla lorem, eget dictum massa nunc ac nisi. Etiam commodo non purus ac viverra. Duis aliquam felis id condimentum 
-    tristique. Donec interdum blandit auctor. Aliquam ac massa a lectus vulputate cursus. Proin consectetur ut tellus quis posuere. 
-    Pellentesque felis dolor, congue quis ipsum et, tempus scelerisque nulla. Maecenas nec interdum mauris, et pharetra nunc. 
-    Donec ut enim malesuada, volutpat erat eget, pulvinar urna. Aenean orci mauris, fringilla id dolor non, malesuada tincidunt nibh.', 
-    1, 'American', 7.5);
-insert into recipes ()
+/* mock recipes */
+insert into recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_description, recipe_indredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars)
+    values ('Recipe A', 30, 30, 'https://healthyrecipesblogs.com/wp-content/uploads/2013/02/steak-and-eggs-featured-2021.jpg', 
+    'Recipe A Description', 'Recipe A Ingredients', 'Recipe A Instructions', 1, 'American', 2, 0001-01-01,
+    1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0);
 
-/* Initialize Favorites Table - FOR TESTING ONLY - should be added to only dynamically in production*/
-insert into favorites (user_id, recipe_id) values (, );
+insert into recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_description, recipe_indredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars)
+    values ('Recipe B', 20, 60, 'https://healthyrecipesblogs.com/wp-content/uploads/2013/02/steak-and-eggs-featured-2021.jpg', 
+    'Recipe B Description', 'Recipe B Ingredients', 'Recipe B Instructions', 1, 'European', 5, 1234-12-21,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+
+insert into recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_description, recipe_indredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars)
+    values ('Recipe C', 30, 30, 'https://healthyrecipesblogs.com/wp-content/uploads/2013/02/steak-and-eggs-featured-2021.jpg', 
+    'Recipe C Description', 'Recipe C Ingredients', 'Recipe C Instructions', 2, 'Asian', 2, 0055-05-05,
+    1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0);
