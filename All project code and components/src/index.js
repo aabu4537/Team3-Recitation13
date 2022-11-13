@@ -62,6 +62,8 @@ SESSION_SECRET="super duper secret!"
     })
   );
   
+app.use(express.static("resources"));
+
 //We will use this to store the user's information in a session variable.
 const user = {
   user_id: undefined,
@@ -139,7 +141,7 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
           //make this user into a session variable
           req.session.user = user;
             req.session.save();
-            res.redirect("/profile");
+            res.redirect("/home");
         }
       })
       //if error, return the error and render login with this error message so it can be displayed to user
@@ -193,6 +195,24 @@ app.get("/profile", (req, res) => {
 //GET filtering - render the simple HTML filtering options only
 //POST filtering - the beefy boi. Render like profile except beforehand, choose a lot of options through the HTML form (not automatic.)
 
+//for testing only
+app.get("/home", (req, res) => {
+  query = 'SELECT ... ;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user. Quite a mouthful
+  db.one(query, [req.session.user.username]) 
+    .then(queryResult => {
+     // Send some parameters
+     res.render("pages/home", {
+      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+    });
+    })
+    .catch(err => {
+    // Handle errors
+      console.log(err);
+      res.render("pages/home", {
+        results: [],
+      });
+    });
+}); 
 
 // Authentication Required
 //app.use(auth);
