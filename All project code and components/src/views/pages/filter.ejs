@@ -115,6 +115,17 @@
               <button type="submit" class="btn btn-primary">Apply Filters</button>
             </form>
           </form>
+          <form action="/sort" method="post"></form>
+            <h3>Sort</h3>
+            <select name="sort_recipes" id="sort_menu">
+              <option value="Total_Time_High_Low">Total Cook Time: High to Low</option>
+              <option value="Total_Time_Low_High">Total Cook Time: Low to High</option>
+              <option value="Date_Old_New">Oldest to Newest</option>
+              <option value="Date_New_Old">Newest to Oldest</option>
+              <option value="Rating_High_Low">Highest Rating to Lowest</option>
+              <option value="Rating_Low_High">Lowest Rating to Highest</option>
+            </select>
+          </form>
         </div>
       
       <div class="col-9" style="background:rgb(255, 247, 201)"> <!--colors just to distinguish recipe section from filters-->
