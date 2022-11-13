@@ -7,33 +7,107 @@
       <div class="col-3" style="background:rgb(240, 224, 134)"> <!--colors just to distinguish filter section from recipes-->
         <br>
         <h1>Filters</h1>
-        <h3>Diets</h3>
-        <p>Vegan</p>
-        <p>Vegetarian</p>
-        <p>Keto</p>
-        <p>Grain Free</p>
-        <p>Gluten Free</p>
-        <h3>Sensitivities</h3>
-        <p>Contains Dairy</p>
-        <p>Contains Eggs</p>
-        <p>Contains Nuts</p>
-        <p>Contains Soy</p>
-        <p>Contains Wheat</p>
-        <p>Contains Beef</p>
-        <p>Contains Pork</p>
-        <p>Contains Fish</p>
-        <h3>Total Cook Time</h3>
-        <p>Under 30 Minutes</p>
-        <p>30 Minutes to 1 Hour</p>
-        <p>1 to 2 Hours</p>
-        <p>2 to 3 Hours</p>
-        <p>3 Hours or More</p>
-        <h3>Rating</h3>
-        <p>1 Star</p>
-        <p>2 Star</p>
-        <p>3 Star</p>
-        <p>4 Star</p>
-        <p>5 Star</p>
+        <div>
+          <h3>Search</h3>
+          <div style="display:block">
+            <input type="search" placeholder="search something">        
+          </div>
+        </div>
+        <br>
+        <div>
+          <h3>Diets</h3>
+          <ul>
+          <div>
+            <input type="checkbox">
+            <label for="vegan_filter">Vegan</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="vegetarian_filter">Vegetarian</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="keto_filter">Keto</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="paleo_filter">Paleo</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="grain_free_filter">Grain Free</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="gluten_free_filter">Gluten Free</label>
+          </div>
+          </ul>
+        </div>
+        <br>
+        <div>
+          <h3>Without:</h3>
+          <ul>
+          <div>
+            <input type="checkbox">
+            <label for="dairy_filter">Dairy</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="eggs_filter">Eggs</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="nuts_filter">Nuts</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="soy_filter">Soy</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="wheat_filter">Wheat</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="Beef_filter">Beef</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="Pork_filter">Pork</label>
+          </div>
+          <div>
+            <input type="checkbox">
+            <label for="Fish_filter">Fish</label>
+          </div>
+          </ul>
+        </div>
+        <br>
+        <div>
+          <h3>Total Cook Time</h3> <!--if possible, do buttons-->
+          <select name="time_filters" id="time_menu">
+            <option value="any_time_filter">Any</option>
+            <option value="under_30_minutes_filter">Under 30 Minutes</option>
+            <option value="m30_minutes_1_hour_filter">30 Minutes to 1 Hour</option>
+            <option value="h1_hour_2_hours_filter">1 to 2 Hours</option>
+            <option value="h2_hours_3_hours_filter">2 to 3 Hours</option>
+            <option value="h3_hours_or_more_filter">Over 3 Hours</option>
+          </select>
+        </div>
+        <br>
+        <div>
+          <h3>Rating</h3>
+          <select name="rating_filters" id="rating_menu">
+            <option value="s1_star_filter">1 Star</option>
+            <option value="s2_star_filter">2 Star</option>
+            <option value="s3_star_filter">3 Star</option>
+            <option value="s4_star_filter">4 Star</option>
+            <option value="s5_star_filter">5 Star</option>
+          </select>
+        </div>
+        <br>
+        <form>
+          <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
       </div>
       <div class="col-9" style="background:rgb(255, 247, 201)"> <!--colors just to distinguish recipe section from filters-->
         <br>
