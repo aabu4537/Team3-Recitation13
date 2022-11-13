@@ -171,28 +171,73 @@ const auth = (req, res, next) => {
   //(like POST register, except bigger and to recipes table, not users)
   
   //Need from HTML:
-  //HTML needs to send values for every column in the recipes table EXCEPT for recipe_id, author_id, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
+  //HTML needs to send values for every column in the recipes table EXCEPT for recipe_id, author_id, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, and s1_star, s2_stars, s3_stars, s4_stars, s5_stars
   //the items sent can be empty, except for recipe name, but they should still be sent.
   //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
 
   //To be explicit, I need recipe_name, prep_time, cook_time, recipe_image(link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
   //and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
-  //and the booleans (only one should be true) for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
-    //Note: if it is too hard to ensure only one of these is TRUE, then please send star_rating instead of these 5 booleans, s1_star, s2_stars, s3_stars, s4_stars, and s5_stars.
-    //star_rating should be an integer
-    //I can then use this star_rating integer to assign the correct booleans in the table.
 
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
 */
-  //DONE - Partially Tested with Postman
-app.post("/upload", (req, res) => {//1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
+  //DONE - Partially Tested with Postman - 
+  //UPDATE: not tested since adding star and time category boolean logic
+app.post("/upload", (req, res) => {
   //Print received object to console for testing purposes
   console.log(req.body);
+
+  //Need to add some logic for assigning star and total time booleans:
+  var star1 = false;
+  var star2 = false;
+  var star3 = false;
+  var star4 = false;
+  var star5 = false;
+  var underThirtyMin = false;
+  var thirtyMinToHour = false;
+  var HourToTwoHour = false;
+  var TwoHourToThreeHour = false;
+  var aboveThreeHour = false;
+
+  //assigning star category for filtering
+  if(req.body.rating >= 5){
+    star5 = true;
+  }
+  else if(req.body.rating >= 4){
+    star4 = true;
+  }
+  else if(req.body.rating >= 3){
+    star3 = true;
+  }
+  else if(req.body.rating >= 2){
+    star2 = true;
+  }
+  else {
+    star1 = true;
+  }
+
+  //assigning total time category for filtering
+  if((req.body.cook_time + req.body.prep_time) < 30){
+    underThirtyMin = true;
+  }
+  else if((req.body.cook_time + req.body.prep_time) < 60){
+    thirtyMinToHour = true;
+  }
+  else if((req.body.cook_time + req.body.prep_time) < 120){
+    HourToTwoHour = true;
+  }
+  else if((req.body.cook_time + req.body.prep_time) < 180){
+    TwoHourToThreeHour = true;
+  }
+  else{
+    aboveThreeHour = true;
+  }
+
+                                  //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
   var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
   
-  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, req.body.under_30_minutes, req.body.m30_minutes_1_hour, req.body.h1_hour_2_hours, req.body.h2_hours_3_hours, req.body.h3_hours_or_more, req.body.s1_star, req.body.s2_stars, req.body.s3_stars, req.body.s4_stars, req.body.s5_stars])
-    .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25                         26                           27                        28                         29                           30               31                  32                 33                34
+  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
+    .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
       //don't need to do anything special
       res.render("pages/home", {
         message: `Added Recipe Successfully`,
