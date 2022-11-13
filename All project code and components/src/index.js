@@ -184,6 +184,27 @@ const auth = (req, res, next) => {
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
 */
+  //DONE - Partially Tested
+app.post("/upload", (req, res) => {//1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
+  //Print received object to console for testing purposes
+  console.log(req.body);
+  var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
+  
+  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, req.body.under_30_minutes, req.body.m30_minutes_1_hour, req.body.h1_hour_2_hours, req.body.h2_hours_3_hours, req.body.h3_hours_or_more, req.body.s1_star, req.body.s2_stars, req.body.s3_stars, req.body.s4_stars, req.body.s5_stars])
+    .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25                         26                           27                        28                         29                           30               31                  32                 33                34
+      //don't need to do anything special
+      res.render("pages/home", {
+        message: `Added Recipe Successfully`,
+      });
+    })
+    .catch(err => {
+    // Handle errors, send no results and an error message to HTML
+      console.log(err);
+      res.render("pages/home", {
+        message: err,
+      });
+    });
+}); 
 
 /*GET logout - called when clicked on logout button from other pages, renders login page with message, EXACTLY like labs
   Need: nothing
@@ -377,7 +398,7 @@ app.get("/filter", (req, res) => {
   //redirects to home.
   */
   //WORKING - But handles edge cases and errors badly
-  app.post("/favorite", (req, res) => {
+app.post("/favorite", (req, res) => {
   query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
     .then(queryResult => {
