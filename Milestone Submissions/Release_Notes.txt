@@ -1,78 +1,32 @@
-New Documents:
-none
+Last TA Meeting (11/10/2022):
+- Logout.ejs had code but was not functional, did not log users out or redirect to login when logout in menu was clicked
+- Home.ejs, profile.ejs empty
+- Had the following API calls (all tested)
+    - (GET) '/', '/register', '/login', '/profile'
+    - (POST) '/register', '/login'
+- Had some insertions in the users table and the recipes table
 
-Updated Documents:
-README.md
-TA_Meeting.txt
-create.sql
-insert.sql
+What's Changed (11/15/2022):
+- Added 20 new insertions into database (in insert.sql, 5 to users table, 15 to recipes table)
+- Implemented home.ejs
+    - Added checkboxes, textboxes, and dropdown menus for users in filter column to filter recipes
+    - Added dropdown menu to sort recipes in recipe column
+    - Added recipe cards to recipe column
+- Implemented profile.ejs
+    - 
+- Created filter.ejs, sort.ejs and copied contents of home.ejs for API calls
+- Added, implemented, and tested the following API calls
+    - (GET) '/logout', '/profile', '/home', '/filter', '/sort'
+    - (POST) '/upload', 'favorite'
+- Users can now press the "Logout" button in the menu and successfully logout
+- Users can now press the "Discover Recipes" button in the menu and navigate to the "Discover Recipes" page
+    - Previously the "Search" button in menu
+- Changed text on the "Register" page
+- Additional commits since last TA meeting:
+    Eric: ?
+    Batool: ?
+    Drew: ?
+    Alam: ?
+    Kayla: ?
 
-Other:
-RecipEZ project board changed
-- SQL Tables moved to Scraps
-- Acceptance Criteria added for all user stories
-- User stories moved to In Progress
-- New user stories added
-DatabaseBranch branch deleted
-DatabaseBranch branch created
-Lab11 branch deleted
-login/register branch created
-APIBranch created
-
-Timeline:
-November 5th, 2022
-TA Meeting 1: 11:40am-12:00pm
-details from TA Meeting 1 added to TA_Meeting.txt
-Source files, .env, .gitignore, and docker-compose.yaml created
-
-November 6th, 2022 - November 7th, 2022
-.env implemented
-.gitignore implemented
-added packages and API calls to All project code and components/src/index.js
-All project code and components/src/views/pages/login.ejs implemented
-All project code and components/src/views/pages/register.ejs implemented
-All project code and components/src/views/partials/footer.ejs implemented
-All project code and components/src/views/partials/header.ejs implemented
-All project code and components/src/views/partials/menu.ejs implemented
-added tables to All project code and components/src/init_data/create.sql
-
-November 8th, 2022
-Release_Notes.txt created and edited
-Team 3 Testing Document.pdf completed
-Lab11 branch merged wih main in Github
-
-November 9th, 2022
-Fixed bugs in create.sql
-Added description to README.md
-Project Board updated
-DatabaseBranch merged with main in Github
-Added more API calls and packages to index.js
-message.ejs created
-insert.sql, login.ejs, logout.ejs, register.ejs, message.ejs, .gitignore implemented
-Edited details in footer.ejs and header.ejs
-
-November 10th, 2022
-More tables added to create.sql
-More insertions added to insert.sql
-Release_Notes updated
-
-Last edited: November 10th, 2022
-
-
-----------------------------------------------------------------------
-Outline for Tuesday, 11/12/2022
-- Needs number of commits per person
-
-Eric: ?
-Alam: ?
-Drew: ?
-Batool: ?
-Kayla: ?
-
-- Login/Register bugs fixed (Alam and Eric)
-- Insertions added (approximately 20 recipes now in database) (Alam)
-- API calls finished (favorite, upload, and profile) finished (Eric)
-- API calls finished (Drew)
-- Discover page html initialized (Kayla)
-- Profile page/upload modal(or page?) html initialized (Batool)
-- Search feature(?) implemented (???)
+Last edited: November 14th, 2022
