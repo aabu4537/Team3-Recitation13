@@ -398,241 +398,241 @@ app.get("/filter", (req, res) => {
   }
 
   //vegan
-  if((req.body.vegan_filter == checked)){ //Not null and not empty
+  if((req.body.vegan_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` vegan = TRUE`;
+      query = query + ` vegan = 1`;
     }
     else {
-      query = query + ` AND vegan = TRUE`;
+      query = query + ` AND vegan = 1`;
     }
     i++;
   }
 
   //vegetarian
-  if((req.body.vegetarian_filter == checked)){ //Not null and not empty
+  if((req.body.vegetarian_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` vegetarian = TRUE`;
+      query = query + ` vegetarian = 1`;
     }
     else {
-      query = query + ` AND vegetarian = TRUE`;
+      query = query + ` AND vegetarian = 1`;
     }
     i++;
   }
 
   //keto
-  if((req.body.keto_filter == checked)){ //Not null and not empty
+  if((req.body.keto_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` keto = TRUE`;
+      query = query + ` keto = 1`;
     }
     else {
-      query = query + ` AND keto = TRUE`;
+      query = query + ` AND keto = 1`;
     }
     i++;
   }
 
   //paleo
-  if((req.body.paleo_filter == checked)){ //Not null and not empty
+  if((req.body.paleo_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` paleo = TRUE`;
+      query = query + ` paleo = 1`;
     }
     else {
-      query = query + ` AND paleo = TRUE`;
+      query = query + ` AND paleo = 1`;
     }
     i++;
   }
 
 
   //grain free
-  if((req.body.grain_free_filter == checked)){ //Not null and not empty
+  if((req.body.grain_free_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` grain_free = TRUE`;
+      query = query + ` grain_free = 1`;
     }
     else {
-      query = query + ` AND grain_free = TRUE`;
+      query = query + ` AND grain_free = 1`;
     }
     i++;
   }
 
 
   //gluten free
-  if((req.body.gluten_free_filter == checked)){ //Not null and not empty
+  if((req.body.gluten_free_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` gluten_free = TRUE`;
+      query = query + ` gluten_free = 1`;
     }
     else {
-      query = query + ` AND gluten_free = TRUE`;
+      query = query + ` AND gluten_free = 1`;
     }
     i++;
   }
   
   //dairy free
-  if((req.body.dairy_filter == checked)){ //Not null and not empty
+  if((req.body.dairy_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` dairy_free = TRUE`;
+      query = query + ` dairy_free = 1`;
     }
     else {
-      query = query + ` AND dairy_free = TRUE`;
+      query = query + ` AND dairy_free = 1`;
     }
     i++;
   }
 
   //eggs
-  if((req.body.eggs_filter == checked)){ //Not null and not empty
+  if((req.body.eggs_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_eggs = FALSE`;
+      query = query + ` contains_eggs = 0`;
     }
     else {
-      query = query + ` AND contains_eggs = FALSE`;
+      query = query + ` AND contains_eggs = 0`;
     }
     i++;
   }
 
   //nuts
-  if((req.body.nuts_filter == checked)){ //Not null and not empty
+  if((req.body.nuts_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_nuts = FALSE`;
+      query = query + ` contains_nuts = 0`;
     }
     else {
-      query = query + ` AND contains_nuts = FALSE`;
+      query = query + ` AND contains_nuts = 0`;
     }
     i++;
   }
 
   //soy
-  if((req.body.soy_filter == checked)){ //Not null and not empty
+  if((req.body.soy_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_soy = FALSE`;
+      query = query + ` contains_soy = 0`;
     }
     else {
-      query = query + ` AND contains_soy = FALSE`;
+      query = query + ` AND contains_soy = 0`;
     }
     i++;
   }
   
   //wheat
-  if((req.body.wheat_filter == checked)){ //Not null and not empty
+  if((req.body.wheat_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_wheat = FALSE`;
+      query = query + ` contains_wheat = 0`;
     }
     else {
-      query = query + ` AND contains_wheat = FALSE`;
+      query = query + ` AND contains_wheat = 0`;
     }
     i++;
   }
   
   //beef
-  if((req.body.beef_filter == checked)){ //Not null and not empty
+  if((req.body.beef_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_beef = FALSE`;
+      query = query + ` contains_beef = 0`;
     }
     else {
-      query = query + ` AND contains_beef = FALSE`;
+      query = query + ` AND contains_beef = 0`;
     }
     i++;
   }
   
   //pork
-  if((req.body.pork_filter == checked)){ //Not null and not empty
+  if((req.body.pork_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_pork = FALSE`;
+      query = query + ` contains_pork = 0`;
     }
     else {
-      query = query + ` AND contains_pork = FALSE`;
+      query = query + ` AND contains_pork = 0`;
     }
     i++;
   }
   
   //fish
-  if((req.body.fish_filter == checked)){ //Not null and not empty
+  if((req.body.fish_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_fish = FALSE`;
+      query = query + ` contains_fish = 0`;
     }
     else {
-      query = query + ` AND contains_fish = FALSE`;
+      query = query + ` AND contains_fish = 0`;
     }
     i++;
   }
 
   if((req.body.time_filters == 'under_30_minutes_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` under_30_minutes = TRUE`;
+      query = query + ` under_30_minutes = 1`;
     }
     else {
-      query = query + ` AND under_30_minutes = TRUE`;
+      query = query + ` AND under_30_minutes = 1`;
     }
     i++;
   } else if((req.body.time_filters == 'm30_minutes_1_hour_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` m30_minutes_1_hour = TRUE`;
+      query = query + ` m30_minutes_1_hour = 1`;
     }
     else {
-      query = query + ` AND m30_minutes_1_hour = TRUE`;
+      query = query + ` AND m30_minutes_1_hour = 1`;
     }
     i++;
   }else if((req.body.time_filters == 'h1_hour_2_hours_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` h1_hour_2_hours = TRUE`;
+      query = query + ` h1_hour_2_hours = 1`;
     }
     else {
-      query = query + ` h1_hour_2_hours = TRUE`;
+      query = query + ` h1_hour_2_hours = 1`;
     }
     i++;
   }else if((req.body.time_filters == 'h2_hours_3_hours_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` h2_hours_3_hours = TRUE`;
+      query = query + ` h2_hours_3_hours = 1`;
     }
     else {
-      query = query + ` AND h2_hours_3_hours = TRUE`;
+      query = query + ` AND h2_hours_3_hours = 1`;
     }
     i++;
   }else if((req.body.time_filters == 'h3_hours_or_more_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` h3_hours_or_more = TRUE`;
+      query = query + ` h3_hours_or_more = 1`;
     }
     else {
-      query = query + ` AND h3_hours_or_more = TRUE`;
+      query = query + ` AND h3_hours_or_more = 1`;
     }
     i++;
   }
 
   if((req.body.rating_filters == 's1_star_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` s1_star = TRUE`;
+      query = query + ` s1_star = 1`;
     }
     else {
-      query = query + ` AND s1_star = TRUE`;
+      query = query + ` AND s1_star = 1`;
     }
     i++;
   } else if((req.body.rating_filters == 's2_star_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` s2_stars = TRUE`;
+      query = query + ` s2_stars = 1`;
     }
     else {
-      query = query + ` AND s2_stars = TRUE`;
+      query = query + ` AND s2_stars = 1`;
     }
     i++;
   }else if((req.body.rating_filters == 's3_star_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` s3_stars = TRUE`;
+      query = query + ` s3_stars = 1`;
     }
     else {
-      query = query + ` s3_stars = TRUE`;
+      query = query + ` s3_stars = 1`;
     }
     i++;
   }else if((req.body.rating_filters == 's4_star_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` s4_stars = TRUE`;
+      query = query + ` s4_stars = 1`;
     }
     else {
-      query = query + ` AND s4_stars = TRUE`;
+      query = query + ` AND s4_stars = 1`;
     }
     i++;
   }else if((req.body.rating_filters == 's5_star_filter')){ //Not null and not empty
     if(i == 0){
-      query = query + ` s5_stars = TRUE`;
+      query = query + ` s5_stars = 1`;
     }
     else {
-      query = query + ` AND s5_stars = TRUE`;
+      query = query + ` AND s5_stars = 1`;
     }
     i++;
   }
