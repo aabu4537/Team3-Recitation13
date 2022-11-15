@@ -552,6 +552,93 @@ app.get("/filter", (req, res) => {
     }
     i++;
   }
+
+  if((req.body.time_filters == 'under_30_minutes_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` under_30_minutes = TRUE`;
+    }
+    else {
+      query = query + ` AND under_30_minutes = TRUE`;
+    }
+    i++;
+  } else if((req.body.time_filters == 'm30_minutes_1_hour_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` m30_minutes_1_hour = TRUE`;
+    }
+    else {
+      query = query + ` AND m30_minutes_1_hour = TRUE`;
+    }
+    i++;
+  }else if((req.body.time_filters == 'h1_hour_2_hours_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` h1_hour_2_hours = TRUE`;
+    }
+    else {
+      query = query + ` h1_hour_2_hours = TRUE`;
+    }
+    i++;
+  }else if((req.body.time_filters == 'h2_hours_3_hours_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` h2_hours_3_hours = TRUE`;
+    }
+    else {
+      query = query + ` AND h2_hours_3_hours = TRUE`;
+    }
+    i++;
+  }else if((req.body.time_filters == 'h3_hours_or_more_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` h3_hours_or_more = TRUE`;
+    }
+    else {
+      query = query + ` AND h3_hours_or_more = TRUE`;
+    }
+    i++;
+  }
+
+  if((req.body.rating_filters == 's1_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s1_star = TRUE`;
+    }
+    else {
+      query = query + ` AND s1_star = TRUE`;
+    }
+    i++;
+  } else if((req.body.rating_filters == 's2_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s2_stars = TRUE`;
+    }
+    else {
+      query = query + ` AND s2_stars = TRUE`;
+    }
+    i++;
+  }else if((req.body.rating_filters == 's3_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s3_stars = TRUE`;
+    }
+    else {
+      query = query + ` s3_stars = TRUE`;
+    }
+    i++;
+  }else if((req.body.rating_filters == 's4_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s4_stars = TRUE`;
+    }
+    else {
+      query = query + ` AND s4_stars = TRUE`;
+    }
+    i++;
+  }else if((req.body.rating_filters == 's5_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s5_stars = TRUE`;
+    }
+    else {
+      query = query + ` AND s5_stars = TRUE`;
+    }
+    i++;
+  }
+
+
+
     //etc for the rest of the filters... it will be a long one.
 
 
