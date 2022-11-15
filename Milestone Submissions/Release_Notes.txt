@@ -32,10 +32,10 @@ What's Changed (11/15/2022):
 - Users can now filter/sort the recipes on the Discover Page
 
 - Additional commits since last TA meeting (11/10/2022):
-    Eric: 10
-    Batool: 4
-    Drew: 1
+    Eric: 11 *Some are minor changes (like changing one line)
+    Batool: 3 *Had issues with committing to Github, already talked to Professor Nath
+    Drew: 4 
     Alam: 2
-    Kayla: 6
+    Kayla: 16 *6 are from merging a duplicate branch, some are minor changes (like changing one line)
 
-Last edited: November 14th, 2022
+Last edited: November 15th, 2022
