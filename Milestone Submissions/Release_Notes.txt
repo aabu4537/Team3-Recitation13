@@ -1,44 +1,32 @@
-New Documents:
-src (folder)
-.env
-.gitignore
-.docker-compose.yaml
-Team 3 Testing Document.pdf
-Release_Notes.txt
+Last TA Meeting (11/10/2022):
+- Logout.ejs had code but was not functional, did not log users out or redirect to login when logout in menu was clicked
+- Home.ejs, profile.ejs empty
+- Had the following API calls (all tested)
+    - (GET) '/', '/register', '/login', '/profile'
+    - (POST) '/register', '/login'
+- Had some insertions in the users table and the recipes table
 
-Updated Documents:
-TA_Meeting.txt
+What's Changed (11/15/2022):
+- Added 20 new insertions into database (in insert.sql, 5 to users table, 15 to recipes table)
+- Implemented home.ejs
+    - Added checkboxes, textboxes, and dropdown menus for users in filter column to filter recipes
+    - Added dropdown menu to sort recipes in recipe column
+    - Added recipe cards to recipe column
+- Implemented profile.ejs
+    - 
+- Created filter.ejs, sort.ejs and copied contents of home.ejs for API calls
+- Added, implemented, and tested the following API calls
+    - (GET) '/logout', '/profile', '/home', '/filter', '/sort'
+    - (POST) '/upload', 'favorite'
+- Users can now press the "Logout" button in the menu and successfully logout
+- Users can now press the "Discover Recipes" button in the menu and navigate to the "Discover Recipes" page
+    - Previously the "Search" button in menu
+- Changed text on the "Register" page
+- Additional commits since last TA meeting:
+    Eric: ?
+    Batool: ?
+    Drew: ?
+    Alam: ?
+    Kayla: ?
 
-Other:
-RecipEZ project board changed
-- Partials and Load Database moved to In Progress
-- Database Structure moved to In Progress
-- Database Structure moved to 
-DatabaseBranch branch created
-Lab11 branch created
-
-Timeline:
-November 5th, 2022
-TA Meeting 1: 11:40am-12:00pm
-details from TA Meeting 1 added to TA_Meeting.txt
-TA_Meeting.txt pushed to Github
-Source files, .env, .gitignore, and docker-compose.yaml created
-
-November 6th 2022 - November 7th, 2022
-.env implemented
-.gitignore implemented
-added packages and API calls to All project code and components/src/index.js
-All project code and components/src/views/pages/login.ejs implemented
-All project code and components/src/views/pages/register.ejs implemented
-All project code and components/src/views/partials/footer.ejs implemented
-All project code and components/src/views/partials/header.ejs implemented
-All project code and components/src/views/partials/menu.ejs implemented
-added tables to All project code and components/src/init_data/create.sql
-
-November 8th 2022
-Release_Notes.txt created and edited
-src, .env, .gitignore, and docker-compose.yaml pushed to Github
-Team 3 Testing Document.pdf completed
-Team 3 Testing Document.pdf and Release_Notes.txt pushed to Github
-
-Last edited: November 8th, 2022
+Last edited: November 14th, 2022
