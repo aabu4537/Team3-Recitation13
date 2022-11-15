@@ -116,7 +116,7 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
     const password = req.body.password;
     const query = 'SELECT * FROM users WHERE username = $1;';
   
-    db.one(query, [username]) //query the database using the username provided at login
+    db.any(query, [username]) //query the database using the username provided at login
       .then(async (queryResult) => {
 
         //compare the hashed password in the database with the hashed version of the password the user provided
@@ -397,6 +397,161 @@ app.get("/filter", (req, res) => {
     i++;
   }
 
+  //vegan
+  if((req.body.vegan_filter != null)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` vegan = ${req.body.vegan_filter}`;
+    }
+    else {
+      query = query + ` AND vegan = ${req.body.vegan_filter}`;
+    }
+    i++;
+  }
+
+  //vegetarian
+  if((req.body.vegetarian_filter != null)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` vegetarian = ${req.body.vegetarian_filter}`;
+    }
+    else {
+      query = query + ` AND vegetarian = ${req.body.vegetarian_filter}`;
+    }
+    i++;
+  }
+
+  //keto
+  if((req.body.keto_filter != null)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` keto = ${req.body.keto_filter}`;
+    }
+    else {
+      query = query + ` AND keto = ${req.body.keto_filter}`;
+    }
+    i++;
+  }
+
+  //paleo
+  if((req.body.paleo_filter != null)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` paleo = ${req.body.paleo_filter}`;
+    }
+    else {
+      query = query + ` AND paleo = ${req.body.paleo_filter}`;
+    }
+    i++;
+  }
+
+
+  //grain free
+  if((req.body.grain_free_filter != null)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` grain_free = ${req.body.grain_free_filter}`;
+    }
+    else {
+      query = query + ` AND grain_free = ${req.body.grain_free_filter}`;
+    }
+    i++;
+  }
+
+
+  //gluten free
+  if((req.body.gluten_free_filter != null)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` gluten_free = ${req.body.gluten_free_filter}`;
+    }
+    else {
+      query = query + ` AND gluten_free = ${req.body.gluten_free_filter}`;
+    }
+    i++;
+  }
+  
+  //dairy free
+  if((req.body.dairy_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` dairy_free = TRUE`;
+    }
+    else {
+      query = query + ` AND dairy_free = TRUE`;
+    }
+    i++;
+  }
+
+  //eggs
+  if((req.body.eggs_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_eggs = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_eggs = FALSE`;
+    }
+    i++;
+  }
+
+  //nuts
+  if((req.body.nuts_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_nuts = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_nuts = FALSE`;
+    }
+    i++;
+  }
+
+  //soy
+  if((req.body.soy_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_soy = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_soy = FALSE`;
+    }
+    i++;
+  }
+  
+  //wheat
+  if((req.body.wheat_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_wheat = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_wheat = FALSE`;
+    }
+    i++;
+  }
+  
+  //beef
+  if((req.body.beef_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_beef = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_beef = FALSE`;
+    }
+    i++;
+  }
+  
+  //pork
+  if((req.body.pork_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_pork = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_pork = FALSE`;
+    }
+    i++;
+  }
+  
+  //fish
+  if((req.body.fish_filter == checked)){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_fish = FALSE`;
+    }
+    else {
+      query = query + ` AND contains_fish = FALSE`;
+    }
+    i++;
+  }
     //etc for the rest of the filters... it will be a long one.
 
 
@@ -433,7 +588,22 @@ app.get("/filter", (req, res) => {
 app.get("/sort", (req, res) => {
   //Here's where you'll build the query based off of the info you receive in req.body
   //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
-  const query = '';
+  const option = req.body.sort_recipes;
+  if (option = "Date_Old_New"){
+    const query = 'select * from recipes order by data_published asc';
+  } else if (option = "Date_New_Old"){
+    const query = 'select * from recipes order by data_published desc';
+  } else if (option = "Total_Time_Low_High"){
+    const query = 'select * from recipes order by (prep_time + cook_time) asc';
+  } else if (option = "Total_Time_High_Low"){
+    const query = 'select * from recipes order by (prep_time + cook_time) desc';
+  } else if (option = "Rating_High_Low"){
+    const query = 'select * from recipes order by rating desc';
+  } else if (option = "Rating_Low_High"){
+    const query = 'select * from recipes order by rating asc';
+  } else {
+    const query = 'select * from recipes';
+  }
 
   db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {

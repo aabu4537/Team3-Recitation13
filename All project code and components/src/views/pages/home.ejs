@@ -2,8 +2,159 @@
 <%- include ('../partials/menu') %>
 
 <main>
-  <div class="container">
-    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-2" style="background:rgb(255, 247, 201)"> <!--colors just to distinguish filter section from recipes-->
+          <form action="/filter" method="post">
+            <br>
+            <h1>Filter By</h1>
+            <div>
+              <h3>Recipe Name</h3>
+              <div style="display:block">
+                <input type="search" placeholder="" name="recipe_name" class="form-control">        
+              </div>
+            </div>
+            <br>
+            <div>
+              <h3>Cuisnine Type</h3>
+              <div style="display:block">
+                <input type="search" placeholder="" name="cuisine_type" class="form-control">
+              </div>
+            </div>
+            <br>
+            <div>
+              <h3>Diets</h3>
+              <ul>
+              <div>
+                <input type="checkbox" name="vegan_filter">
+                <label>Vegan</label>
+              </div>
+              <div>
+                <input type="checkbox" name="vegetarian_filter">
+                <label>Vegetarian</label>
+              </div>
+              <div>
+                <input type="checkbox" name="keto_filter">
+                <label>Keto</label>
+              </div>
+              <div>
+                <input type="checkbox" name="paleo_filter">
+                <label>Paleo</label>
+              <div>
+                <input type="checkbox" name="grain_free_filter">
+                <label>Grain Free</label>
+              </div>
+              <div>
+                <input type="checkbox" name="gluten_free_filter">
+                <label>Gluten Free</label>
+              </div>
+              </ul>
+            </div>
+            <div>
+              <h3>Without:</h3>
+              <ul>
+              <div>
+                <input type="checkbox" name="dairy_filter">
+                <label>Dairy</label>
+              </div>
+              <div>
+                <input type="checkbox" name="eggs_filter">
+                <label>Eggs</label>
+              </div>
+              <div>
+                <input type="checkbox" name="nuts_filter">
+                <label>Nuts</label>
+              </div>
+              <div>
+                <input type="checkbox" name="soy_filter">
+                <label>Soy</label>
+              </div>
+              <div>
+                <input type="checkbox" name="wheat_filter">
+                <label>Wheat</label>
+              </div>
+              <div>
+                <input type="checkbox" name="beef_filter">
+                <label>Beef</label>
+              </div>
+              <div>
+                <input type="checkbox" name="pork_filter">
+                <label>Pork</label>
+              </div>
+              <div>
+                <input type="checkbox" name="fish_filter">
+                <label>Fish</label>
+              </div>
+              </ul>
+            </div>
+            <div>
+              <h3>Total Cook Time</h3> <!--if possible, do buttons-->
+              <select name="time_filters" class="form-control">
+                <option value="any_time_filter">Any</option>
+                <option value="under_30_minutes_filter">Under 30 Minutes</option>
+                <option value="m30_minutes_1_hour_filter">30 Minutes to 1 Hour</option>
+                <option value="h1_hour_2_hours_filter">1 to 2 Hours</option>
+                <option value="h2_hours_3_hours_filter">2 to 3 Hours</option>
+                <option value="h3_hours_or_more_filter">Over 3 Hours</option>
+              </select>
+            </div>
+            <br>
+            <div>
+              <h3>Rating</h3>
+              <select name="rating_filters" class="form-control">
+                <option value="Any_filter">Any</option>
+                <option value="s1_star_filter">1 Star</option>
+                <option value="s2_star_filter">2 Star</option>
+                <option value="s3_star_filter">3 Star</option>
+                <option value="s4_star_filter">4 Star</option>
+                <option value="s5_star_filter">5 Star</option>
+              </select>
+            </div>
+            <br>
+            <form action="/filter" method="post">
+              <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </form>
+          </form>
+          <br>
+        </div>
+      <div class="col"></div>
+      <div class="col-9">
+        <br>
+        <h1>Recipes</h1>
+        <div>
+          <form action="/sort" method="post"></form>
+          <h3>Sort By</h3>
+          <select name="sort_recipes" id="sort_menu" class="form-control">
+            <option value="Default">Default</option>
+            <option value="Date_Old_New">Oldest to Newest</option>
+            <option value="Date_New_Old">Newest to Oldest</option>
+            <option value="Total_Time_Low_High">Total Cook Time: Low to High</option>
+            <option value="Total_Time_High_Low">Total Cook Time: High to Low</option>
+            <option value="Rating_High_Low">Highest Rating to Lowest</option>
+            <option value="Rating_Low_High">Lowest Rating to Highest</option>
+          </select>
+          </form>
+        </div>
+        <br>
+        <div class="row">
+          <% results.forEach(result => { %>
+            <div class="col">
+              <div class="card">
+                <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
+                <div class="card-body">
+                  <h5 class="card-title"><%= result.recipe_name %></h5>
+                  <!--<p class="card-text"><%= result.recipe_description %></p>-->
+                  <form action="/favorite" method="post">
+                    <button type="submit" class="btn btn-primary">Favorite</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+      <div class="col"></div>
+    </div>
   </div>
 </main>
 
