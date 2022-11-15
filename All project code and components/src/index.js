@@ -398,69 +398,69 @@ app.get("/filter", (req, res) => {
   }
 
   //vegan
-  if((req.body.vegan_filter != null)){ //Not null and not empty
+  if((req.body.vegan_filter == checked)){ //Not null and not empty
     if(i == 0){
-      query = query + ` vegan = ${req.body.vegan_filter}`;
+      query = query + ` vegan = TRUE`;
     }
     else {
-      query = query + ` AND vegan = ${req.body.vegan_filter}`;
+      query = query + ` AND vegan = TRUE`;
     }
     i++;
   }
 
   //vegetarian
-  if((req.body.vegetarian_filter != null)){ //Not null and not empty
+  if((req.body.vegetarian_filter == checked)){ //Not null and not empty
     if(i == 0){
-      query = query + ` vegetarian = ${req.body.vegetarian_filter}`;
+      query = query + ` vegetarian = TRUE`;
     }
     else {
-      query = query + ` AND vegetarian = ${req.body.vegetarian_filter}`;
+      query = query + ` AND vegetarian = TRUE`;
     }
     i++;
   }
 
   //keto
-  if((req.body.keto_filter != null)){ //Not null and not empty
+  if((req.body.keto_filter == checked)){ //Not null and not empty
     if(i == 0){
-      query = query + ` keto = ${req.body.keto_filter}`;
+      query = query + ` keto = TRUE`;
     }
     else {
-      query = query + ` AND keto = ${req.body.keto_filter}`;
+      query = query + ` AND keto = TRUE`;
     }
     i++;
   }
 
   //paleo
-  if((req.body.paleo_filter != null)){ //Not null and not empty
+  if((req.body.paleo_filter == checked)){ //Not null and not empty
     if(i == 0){
-      query = query + ` paleo = ${req.body.paleo_filter}`;
+      query = query + ` paleo = TRUE`;
     }
     else {
-      query = query + ` AND paleo = ${req.body.paleo_filter}`;
+      query = query + ` AND paleo = TRUE`;
     }
     i++;
   }
 
 
   //grain free
-  if((req.body.grain_free_filter != null)){ //Not null and not empty
+  if((req.body.grain_free_filter == checked)){ //Not null and not empty
     if(i == 0){
-      query = query + ` grain_free = ${req.body.grain_free_filter}`;
+      query = query + ` grain_free = TRUE`;
     }
     else {
-      query = query + ` AND grain_free = ${req.body.grain_free_filter}`;
+      query = query + ` AND grain_free = TRUE`;
     }
     i++;
   }
 
 
   //gluten free
-  if((req.body.gluten_free_filter != null)){ //Not null and not empty
+  if((req.body.gluten_free_filter == checked)){ //Not null and not empty
     if(i == 0){
-      query = query + ` gluten_free = ${req.body.gluten_free_filter}`;
+      query = query + ` gluten_free = TRUE`;
     }
     else {
-      query = query + ` AND gluten_free = ${req.body.gluten_free_filter}`;
+      query = query + ` AND gluten_free = TRUE`;
     }
     i++;
   }
