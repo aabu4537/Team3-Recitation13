@@ -116,7 +116,7 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
     const password = req.body.password;
     const query = 'SELECT * FROM users WHERE username = $1;';
   
-    db.any(query, [username]) //query the database using the username provided at login
+    db.one(query, [username]) //query the database using the username provided at login
       .then(async (queryResult) => {
 
         //compare the hashed password in the database with the hashed version of the password the user provided
