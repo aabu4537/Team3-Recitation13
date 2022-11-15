@@ -3,12 +3,12 @@
 
 <div class="col"><%- include ('../partials/message') %></div>
 
+<br>
 <main>
   <div class="container">
-    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
     <form action="/login" method="post">
       <div class="mb-3">
-        <h3> Log in</h3>
+        <h3> Login</h3>
 
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -18,22 +18,26 @@
         <div class="mb-3">
             <label for="inputEmail" class="form-label">Email</label>
             <input type="email" class="form-control" name="email" id="email" aria-describedby="emailH" placeholder="Enter email">
-          </div>  
+        </div>  
 
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input name="password" type="password" class="form-control" name="password" id="password" placeholder="Enter password">
         </div>
 
+        <form action="/login" method="post">
+          <button type="submit" class="btn btn-primary">Login</button> <!--like title, Log in or Login?-->
+        </form>
 
-      <form action="/login" method="post">
-      <button type="submit" class="btn btn-primary">Log in</button>
+      </div>
     </form>
   </div>
 </main>
 
-<p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="/register"
-  class="fw-bold text-body"><u>Register</u></a></p>
-
+<p class="text-center text-muted mt-5 mb-0">Don't have an account? 
+  <a href="/register"> <!--Got rid of class to have a blue link-->
+    <u>Register</u>
+  </a>
+</p>
 
 <%- include ('../partials/footer') %>
