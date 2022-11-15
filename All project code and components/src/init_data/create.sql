@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS recipes (
   s5_stars BOOLEAN
 );
 
+
 CREATE TABLE IF NOT EXISTS favorites ( 
   user_id INTEGER NOT NULL REFERENCES users(user_id),
   recipe_id INTEGER NOT NULL REFERENCES recipes(recipe_id),
