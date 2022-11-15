@@ -42,6 +42,7 @@ app.use(
   })
 );
 /* This was the other version used on the labs; I am not sure about the difference, other than this might be more secure.
+
 app.use(
     session({
       secret: process.env.SESSION_SECRET,
@@ -49,9 +50,11 @@ app.use(
       resave: false,
     })
   );
+
  - <-> IMPORTANT!!! <-> -
 If you want to use this method instead, you MUST add the following line of code to the .env file:
 SESSION_SECRET="super duper secret!"
+
 */
 
   app.use(
@@ -113,7 +116,7 @@ app.post('/register', async (req, res) => { //Input: username and password as JS
     const password = req.body.password;
     const query = 'SELECT * FROM users WHERE username = $1;';
   
-    db.one(query, [username]) //query the database using the username provided at login
+    db.any(query, [username]) //query the database using the username provided at login
       .then(async (queryResult) => {
 
         //compare the hashed password in the database with the hashed version of the password the user provided
@@ -152,6 +155,7 @@ const auth = (req, res, next) => {
   //if no session variable, that means user is not logged in, so shouldn't be able to view profile, for example
   if (!req.session.user) {
     //if the path is /register or /login, thats fine, do nothing. Otherwise, redirect to login
+
       if(req.path == "/register" || req.path == "/login"){
           return;
       }
@@ -170,8 +174,10 @@ const auth = (req, res, next) => {
   //HTML needs to send values for every column in the recipes table EXCEPT for recipe_id, author_id, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, and s1_star, s2_stars, s3_stars, s4_stars, s5_stars
   //the items sent can be empty, except for recipe name, but they should still be sent.
   //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+
   //To be explicit, I need recipe_name, prep_time, cook_time, recipe_image(link), recipe_ingredients, instructions, cuisine_type, rating, date_published(format?), 
   //and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
+
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
 */
@@ -262,6 +268,7 @@ app.get("/logout", (req, res) => {
 /*GET profile - called from menu bar or redirected from login, renders /profile page with a results object
   Need from HTML:
   Does not need anything from HTML.
+
   Return to HTML:
   Will return a JSON object called results (for use on the profile.ejs page)
   results will contain MULTIPLE (an array of) recipes, and for each one, 
@@ -309,6 +316,7 @@ app.get("/profile", (req, res) => {
   
   //Need from HTML:
   Nothing
+
   //Return to HTML:
   //Will return a JSON object called results (for use on the home.ejs page)
   //results will contain MULTIPLE  (an array of) recipes, and for each one, you will be able to access ALL of its information just like the recipes table (except as a JSON object of course)
@@ -349,11 +357,13 @@ app.get("/home", (req, res) => {
   //HTML needs to send values for cuisine_type and all of the columns under "filters"
   //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
   //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+
   //To be explicit, I need 
   //cuisine_type, and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
   //and the booleans (any amount of them can be true) for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
   //and the booleans (any amount of them can be true) for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
     //Note: This time, sending one star_rating instead of the 5 different star booleans will not suffice, because the user should be able to filter for all recipes that are 3 or 4 stars, for example, and sending one value cannot convey this
+
   Return to HTML:
   Same as GET home, except will have fewer recipes
 */
@@ -387,6 +397,248 @@ app.get("/filter", (req, res) => {
     i++;
   }
 
+  //vegan
+  if((req.body.vegan_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` vegan = 1`;
+    }
+    else {
+      query = query + ` AND vegan = 1`;
+    }
+    i++;
+  }
+
+  //vegetarian
+  if((req.body.vegetarian_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` vegetarian = 1`;
+    }
+    else {
+      query = query + ` AND vegetarian = 1`;
+    }
+    i++;
+  }
+
+  //keto
+  if((req.body.keto_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` keto = 1`;
+    }
+    else {
+      query = query + ` AND keto = 1`;
+    }
+    i++;
+  }
+
+  //paleo
+  if((req.body.paleo_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` paleo = 1`;
+    }
+    else {
+      query = query + ` AND paleo = 1`;
+    }
+    i++;
+  }
+
+
+  //grain free
+  if((req.body.grain_free_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` grain_free = 1`;
+    }
+    else {
+      query = query + ` AND grain_free = 1`;
+    }
+    i++;
+  }
+
+
+  //gluten free
+  if((req.body.gluten_free_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` gluten_free = 1`;
+    }
+    else {
+      query = query + ` AND gluten_free = 1`;
+    }
+    i++;
+  }
+  
+  //dairy free
+  if((req.body.dairy_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` dairy_free = 1`;
+    }
+    else {
+      query = query + ` AND dairy_free = 1`;
+    }
+    i++;
+  }
+
+  //eggs
+  if((req.body.eggs_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_eggs = 0`;
+    }
+    else {
+      query = query + ` AND contains_eggs = 0`;
+    }
+    i++;
+  }
+
+  //nuts
+  if((req.body.nuts_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_nuts = 0`;
+    }
+    else {
+      query = query + ` AND contains_nuts = 0`;
+    }
+    i++;
+  }
+
+  //soy
+  if((req.body.soy_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_soy = 0`;
+    }
+    else {
+      query = query + ` AND contains_soy = 0`;
+    }
+    i++;
+  }
+  
+  //wheat
+  if((req.body.wheat_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_wheat = 0`;
+    }
+    else {
+      query = query + ` AND contains_wheat = 0`;
+    }
+    i++;
+  }
+  
+  //beef
+  if((req.body.beef_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_beef = 0`;
+    }
+    else {
+      query = query + ` AND contains_beef = 0`;
+    }
+    i++;
+  }
+  
+  //pork
+  if((req.body.pork_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_pork = 0`;
+    }
+    else {
+      query = query + ` AND contains_pork = 0`;
+    }
+    i++;
+  }
+  
+  //fish
+  if((req.body.fish_filter == "checked")){ //Not null and not empty
+    if(i == 0){
+      query = query + ` contains_fish = 0`;
+    }
+    else {
+      query = query + ` AND contains_fish = 0`;
+    }
+    i++;
+  }
+
+  if((req.body.time_filters == 'under_30_minutes_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` under_30_minutes = 1`;
+    }
+    else {
+      query = query + ` AND under_30_minutes = 1`;
+    }
+    i++;
+  } else if((req.body.time_filters == 'm30_minutes_1_hour_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` m30_minutes_1_hour = 1`;
+    }
+    else {
+      query = query + ` AND m30_minutes_1_hour = 1`;
+    }
+    i++;
+  }else if((req.body.time_filters == 'h1_hour_2_hours_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` h1_hour_2_hours = 1`;
+    }
+    else {
+      query = query + ` h1_hour_2_hours = 1`;
+    }
+    i++;
+  }else if((req.body.time_filters == 'h2_hours_3_hours_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` h2_hours_3_hours = 1`;
+    }
+    else {
+      query = query + ` AND h2_hours_3_hours = 1`;
+    }
+    i++;
+  }else if((req.body.time_filters == 'h3_hours_or_more_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` h3_hours_or_more = 1`;
+    }
+    else {
+      query = query + ` AND h3_hours_or_more = 1`;
+    }
+    i++;
+  }
+
+  if((req.body.rating_filters == 's1_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s1_star = 1`;
+    }
+    else {
+      query = query + ` AND s1_star = 1`;
+    }
+    i++;
+  } else if((req.body.rating_filters == 's2_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s2_stars = 1`;
+    }
+    else {
+      query = query + ` AND s2_stars = 1`;
+    }
+    i++;
+  }else if((req.body.rating_filters == 's3_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s3_stars = 1`;
+    }
+    else {
+      query = query + ` s3_stars = 1`;
+    }
+    i++;
+  }else if((req.body.rating_filters == 's4_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s4_stars = 1`;
+    }
+    else {
+      query = query + ` AND s4_stars = 1`;
+    }
+    i++;
+  }else if((req.body.rating_filters == 's5_star_filter')){ //Not null and not empty
+    if(i == 0){
+      query = query + ` s5_stars = 1`;
+    }
+    else {
+      query = query + ` AND s5_stars = 1`;
+    }
+    i++;
+  }
+
+
+
     //etc for the rest of the filters... it will be a long one.
 
 
@@ -415,6 +667,7 @@ app.get("/filter", (req, res) => {
   //HTML needs to send values for date, time, and rating
   //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
   //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+
   Return to HTML:
   Same as GET home, except will be sorted by the attribute in question
 */
@@ -422,7 +675,22 @@ app.get("/filter", (req, res) => {
 app.get("/sort", (req, res) => {
   //Here's where you'll build the query based off of the info you receive in req.body
   //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
-  const query = '';
+  const option = req.body.sort_recipes;
+  if (option = "Date_Old_New"){
+    const query = 'select * from recipes order by data_published asc';
+  } else if (option = "Date_New_Old"){
+    const query = 'select * from recipes order by data_published desc';
+  } else if (option = "Total_Time_Low_High"){
+    const query = 'select * from recipes order by (prep_time + cook_time) asc';
+  } else if (option = "Total_Time_High_Low"){
+    const query = 'select * from recipes order by (prep_time + cook_time) desc';
+  } else if (option = "Rating_High_Low"){
+    const query = 'select * from recipes order by rating desc';
+  } else if (option = "Rating_Low_High"){
+    const query = 'select * from recipes order by rating asc';
+  } else {
+    const query = 'select * from recipes';
+  }
 
   db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
@@ -445,7 +713,9 @@ app.get("/sort", (req, res) => {
 
 /*POST favorite - will be called by some kind of form that you use to favorite a recipe. It does not need to be its own page. Updates the database favorites table.
   //Need from HTML: only one thing, recipe_name
+
   //Return to HTML: Nothing
+
   //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
   //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
   //redirects to home.

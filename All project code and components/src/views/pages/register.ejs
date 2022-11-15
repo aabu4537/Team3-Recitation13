@@ -3,11 +3,10 @@
 
 <main>
   <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
     <form action="/register" method="post">
-      <div class="col"><%- include ('../partials/message') %></div> <!--should this be above like login?-->
-
+      <div class="col"><%- include ('../partials/message') %></div>
       <div class="mb-3">
-        <br>
         <h3> Register</h3>
 
         <div class="mb-3">
@@ -16,29 +15,25 @@
         </div>
 
         <div class="mb-3">
-          <label for="inputEmail" class="form-label">Email</label>
-          <input type="email" class="form-control" name="email" id="email" aria-describedby="emailH" placeholder="Enter email">
-        </div>  
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailH" placeholder="Enter email">
+          </div>  
+
 
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input name="password" type="password" class="form-control" name="password" id="password" placeholder="Enter password">
         </div>
 
-        <form action="/login" method="post">
-          <button type="submit" class="btn btn-primary">Register</button>
-        </form>
 
-      </div>
+      <form action="/login" method="post">
+      <button type="submit" class="btn btn-primary">Register</button>
     </form>
   </div>
 </main>
 
-<p class="text-center text-muted mt-5 mb-0">Already have an account? 
-  <a href="/login"> <!--same as login-->
-    <u>Login</u>
-  </a>
-</p>
+<p class="text-center text-muted mt-5 mb-0">Already have an account? <a href="/login"
+  class="fw-bold text-body"><u>Login here</u></a></p>
 
 
 <%- include ('../partials/footer') %>
