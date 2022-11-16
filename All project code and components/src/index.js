@@ -239,16 +239,12 @@ app.post("/upload", (req, res) => {
   db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
     .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
       //don't need to do anything special
-      res.render("pages/home", {
-        message: `Added Recipe Successfully`,
-      });
+      res.redirect("/profile");
     })
     .catch(err => {
     // Handle errors, send no results and an error message to HTML
       console.log(err);
-      res.render("pages/home", {
-        message: err,
-      });
+      res.redirect("/profile");
     });
 }); 
 
@@ -291,6 +287,8 @@ app.get("/profile", (req, res) => {
         res.render("pages/profile", {
           results: [],
           message: 'No Favorited Recipes',
+          username: req.session.user.username, //provides the username for use in EJS
+          email: req.session.user.email //provides the email for use in EJS
         });
         return;
       }
@@ -300,6 +298,8 @@ app.get("/profile", (req, res) => {
       
       res.render("pages/profile", {
       results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+      username: req.session.user.username, //provides the username for use in EJS
+      email: req.session.user.email //provides the email for use in EJS
     });
     })
     .catch(err => {
@@ -639,8 +639,6 @@ app.get("/filter", (req, res) => {
 
 
 
-    //etc for the rest of the filters... it will be a long one.
-
 
   //after all the filters have been checked, finish the query
   query = query + ');'
@@ -726,13 +724,12 @@ app.post("/favorite", (req, res) => {
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
     .then(queryResult => {
       //don't need to do anything
+      res.redirect("pages/home");
     })
     .catch(err => {
     // Handle errors, send no results and an error message to HTML
       console.log(err);
-      res.render("pages/home", {
-        message: err,
-      });
+      res.redirect("pages/home");
     });
 }); 
 
