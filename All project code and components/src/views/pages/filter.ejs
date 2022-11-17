@@ -16,49 +16,36 @@
       </div>
       <br><br>
     </div>
+    <div class="col"><%- include ('../partials/message') %></div>
     <div class="row">
         <div class="col-2" style="background:rgb(255, 247, 201)"> <!--colors just to distinguish filter section from recipes-->
           <form action="/filter" method="post">
             <br>
-            <h2>Filter By</h2>
-            <div>
-              <h4>Recipe Name</h4>
-              <div style="display:block">
-                <input type="search" placeholder="" name="recipe_name" class="form-control">        
-              </div>
-            </div>
-            <br>
-            <div>
-              <h4>Cuisnine Type</h4>
-              <div style="display:block">
-                <input type="search" placeholder="" name="cuisine_type" class="form-control">
-              </div>
-            </div>
-            <br>
+            <h2><b>Filter By</b></h2>
             <div>
               <h4>Diets</h4>
               <ul>
               <div>
-                <input type="checkbox" name="vegan_filter">
+                <input type="checkbox" name="vegan_filter" value="checked">
                 <label>Vegan</label>
               </div>
               <div>
-                <input type="checkbox" name="vegetarian_filter">
+                <input type="checkbox" name="vegetarian_filter" value="checked">
                 <label>Vegetarian</label>
               </div>
               <div>
-                <input type="checkbox" name="keto_filter">
+                <input type="checkbox" name="keto_filter" value="checked">
                 <label>Keto</label>
               </div>
               <div>
-                <input type="checkbox" name="paleo_filter">
+                <input type="checkbox" name="paleo_filter" value="checked">
                 <label>Paleo</label>
               <div>
-                <input type="checkbox" name="grain_free_filter">
+                <input type="checkbox" name="grain_free_filter" value="checked">
                 <label>Grain Free</label>
               </div>
               <div>
-                <input type="checkbox" name="gluten_free_filter">
+                <input type="checkbox" name="gluten_free_filter" value="checked">
                 <label>Gluten Free</label>
               </div>
               </ul>
@@ -67,35 +54,35 @@
               <h4>Without:</h4>
               <ul>
               <div>
-                <input type="checkbox" name="dairy_filter">
+                <input type="checkbox" name="dairy_filter" value="checked">
                 <label>Dairy</label>
               </div>
               <div>
-                <input type="checkbox" name="eggs_filter">
+                <input type="checkbox" name="eggs_filter" value="checked">
                 <label>Eggs</label>
               </div>
               <div>
-                <input type="checkbox" name="nuts_filter">
+                <input type="checkbox" name="nuts_filter" value="checked">
                 <label>Nuts</label>
               </div>
               <div>
-                <input type="checkbox" name="soy_filter">
+                <input type="checkbox" name="soy_filter" value="checked">
                 <label>Soy</label>
               </div>
               <div>
-                <input type="checkbox" name="wheat_filter">
+                <input type="checkbox" name="wheat_filter" value="checked">
                 <label>Wheat</label>
               </div>
               <div>
-                <input type="checkbox" name="beef_filter">
+                <input type="checkbox" name="beef_filter" value="checked">
                 <label>Beef</label>
               </div>
               <div>
-                <input type="checkbox" name="pork_filter">
+                <input type="checkbox" name="pork_filter" value="checked">
                 <label>Pork</label>
               </div>
               <div>
-                <input type="checkbox" name="fish_filter">
+                <input type="checkbox" name="fish_filter" value="checked">
                 <label>Fish</label>
               </div>
               </ul>
@@ -134,19 +121,51 @@
       <div class="col-9">
         <br>
         <!--<h2>Recipes</h2>-->
-        <div>
-          <form action="/sort" method="get">
-            <h4>Sort By</h4>
-            <select name="sort_recipes" class="form-control">
-              <option value="Default">Default</option>
-              <option value="Date_Old_New">Oldest to Newest</option>
-              <option value="Date_New_Old">Newest to Oldest</option>
-              <option value="Total_Time_Low_High">Total Cook Time: Low to High</option>
-              <option value="Total_Time_High_Low">Total Cook Time: High to Low</option>
-              <option value="Rating_High_Low">Highest Rating to Lowest</option>
-              <option value="Rating_Low_High">Lowest Rating to Highest</option>
-            </select>
-          </form>
+        <div class="row" style="background-color:rgb(255, 247, 201)">
+        <br>
+        </div>
+        <div class="row" style="background-color:rgb(255, 247, 201)">
+          <h2><b>Search By</b></h2>
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <form action="/searchRecipeName" method="post">
+                  <label for="recipe_search" class="form-label">Recipe Name</label>
+                  <input type="text" class="form-control" name="recipe_name" id="recipe_search" placeholder="Enter Recipe Name">
+                  <form action="/searchRecipeName" method="post">
+                    <button type="submit" class="btn btn-secondary" style="background-color:green">Search</button>
+                  </form>
+                </form>
+              </div>
+              <div class="col">
+                <form action="/searchCuisineType" method="post">
+                  <label for="cusine_search" class="form-label">Cuisine Type</label>
+                  <input type="text" class="form-control" name="cuisine_type" id="cuisine_search" placeholder="Enter Cuisine Type">
+                  <form action="/searchCuisineType" method="post">
+                    <button type="submit" class="btn btn-secondary" style="background-color:green">Search</button>
+                  </form>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+              <label for="sort_menu" class="form-label">Order</label>
+              <select name="sort_recipes" class="form-control" form="sort_form" id="sort_menu">
+                <option value="Default">Default</option>
+                <option value="Date_Old_New">Oldest to Newest</option>
+                <option value="Date_New_Old">Newest to Oldest</option>
+                <option value="Total_Time_Low_High">Total Cook Time: Low to High</option>
+                <option value="Total_Time_High_Low">Total Cook Time: High to Low</option>
+                <option value="Rating_High_Low">Highest Rating to Lowest</option>
+                <option value="Rating_Low_High">Lowest Rating to Highest</option>
+              </select>
+              <form action="/sort" method="get" id="sort_form">
+                <input type="Submit" value="Sort" style="background-color:green; color:white" class="btn btn-secondary">
+              </form>
+          </div>
+        </div>
+        <div class="row" style="background-color:rgb(255, 247, 201)">
+        <br>
         </div>
         <br>
         <div class="row">
@@ -154,12 +173,21 @@
               <div class="card col-lg-4 col-md-6">
                 <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
                 <div class="card-body">
-                  <h5 class="card-title"><%= result.recipe_name %></h5>
-                  <!--<p class="card-text"><%= result.recipe_description %></p>-->
-                  <form action="/favorite" method="post">
-                    <input type="hidden" name="recipe_name" value="<%- result.recipe_name %>"/>
-                    <button type="submit" class="btn btn-primary">Favorite</button>
-                  </form>
+                  <h4 class="card-title"><%= result.recipe_name %></h4>
+                  <div class="row">
+                    <div class="col">
+                      <form action="/view" method="get">
+                        <input type="hidden" name="recipe_id" value="<%- result.recipe_id %>"/>
+                        <button type="submit" class="form-control" style="background-color:rgb(166, 166, 16); color:white">View Recipe</button>
+                      </form>
+                    </div>
+                    <div class="col">
+                      <form action="/favorite" method="post">
+                        <input type="hidden" name="recipe_name" value="<%- result.recipe_name %>"/>
+                        <button type="submit" class="form-control" style="background-color:rgb(234, 116, 135); color:white;">Favorite</button>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               </div>
           <% }) %>
