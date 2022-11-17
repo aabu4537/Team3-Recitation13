@@ -352,58 +352,97 @@ app.get("/home", (req, res) => {
     });
 }); 
 
+app.post("/searchRecipeName", (req, res) => {
+  const recipeName = req.body.recipe_name;
+  var query = '';
+  if ((recipeName != null) && (recipeName != ""))
+  {
+    query = 'SELECT * FROM recipes WHERE recipe_name = $1;';
+  }
+  else {
+    query = 'SELECT * FROM recipes;';
+  }
 
-/*GET /filter
-  //HTML needs to send values for cuisine_type and all of the columns under "filters"
-  //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
-  //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
+  db.any(query, [recipeName])
+    .then(queryResult => {
+      res.render("pages/filter", {
+        results: queryResult,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render("pages/filter", {
+        results: [],
+        message: err,
+      });
+    });
+});
 
-  //To be explicit, I need 
-  //cuisine_type, and all the booleans for: vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, 
-  //and the booleans (any amount of them can be true) for under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more
-  //and the booleans (any amount of them can be true) for s1_star, s2_stars, s3_stars, s4_stars, s5_stars
-    //Note: This time, sending one star_rating instead of the 5 different star booleans will not suffice, because the user should be able to filter for all recipes that are 3 or 4 stars, for example, and sending one value cannot convey this
 
-  Return to HTML:
-  Same as GET home, except will have fewer recipes
-*/
-    //IN PROGRESS
-app.get("/filter", (req, res) => {
+
+app.post("/searchCuisineType", (req, res) => {
+  const cuisineType = req.body.cuisine_type;
+  var query = '';
+  if ((cuisineType != null) && (cuisineType != ""))
+  {
+    query = 'SELECT * FROM recipes WHERE cuisine_type = $1;';
+  }
+  else {
+    query = 'SELECT * FROM recipes;';
+  }
+
+  db.any(query, [cuisineType])
+    .then(queryResult => {
+      res.render("pages/filter", {
+        results: queryResult,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render("pages/filter", {
+        results: [],
+        message: err,
+      });
+    });
+});
+
+
+
+app.post("/filter", (req, res) => {
 
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
-  const query = 'SELECT * FROM recipes WHERE (';
+  var query = 'SELECT * FROM recipes WHERE (';
   //here we will start building the query based off of the filters the user has sent.
   //this will basically be a lot of if statements that concatenate the query string, for example:
 
   //recipe_name
-  if((req.body.recipe_name != '') && (req.body.recipe_name != null)){ //NOTE: the user passing a recipe_name is kind of an edge case
+  /*if((req.body.recipe_name != '') && (req.body.recipe_name != null)){ //NOTE: the user passing a recipe_name is kind of an edge case
     if(i == 0){
       query = query + ` recipe_name = ${req.body.recipe_name}`;
     }
     else {
-      query = query + ` AND recipe_name = ${req.body.recipe_name}`;
+      query = query + ' AND recipe_name = ' + `${req.body.recipe_name}`;
     }
     i++;
-  }
-  
+  }*/
   //cuisine_type
-  if((req.body.cuisine_type != null) && (req.body.cuisine_type != "")){ //Not null and not empty
+  /*if((req.body.cuisine_type != null) && (req.body.cuisine_type != "")){ //Not null and not empty
     if(i == 0){
-      query = query + ` cuisine_type = ${req.body.cuisine_type}`;
+      query = query + ' cuisine_type = ' + `${req.body.cuisine_type}`;
     }
     else {
-      query = query + ` AND cuisine_type = ${req.body.cuisine_type}`;
+      query = query + ' AND cuisine_type = ' + `${req.body.cuisine_type}`;
     }
     i++;
-  }
+  }*/
 
   //vegan
   if((req.body.vegan_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` vegan = TRUE`;
+      query = query + ' vegan = ' + `TRUE`;
     }
     else {
-      query = query + ` AND vegan = TRUE`;
+      query = query + ' AND vegan = ' + `TRUE`;
     }
     i++;
   }
@@ -574,7 +613,7 @@ app.get("/filter", (req, res) => {
       query = query + ` h1_hour_2_hours = TRUE`;
     }
     else {
-      query = query + ` h1_hour_2_hours = TRUE`;
+      query = query + ` AND h1_hour_2_hours = TRUE`;
     }
     i++;
   }else if((req.body.time_filters == 'h2_hours_3_hours_filter')){ //Not null and not empty
@@ -591,6 +630,14 @@ app.get("/filter", (req, res) => {
     }
     else {
       query = query + ` AND h3_hours_or_more = TRUE`;
+    }
+    i++;
+  }else{ //Not null and not empty
+    if(i == 0){
+      query = query + ` (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
+    }
+    else {
+      query = query + ` AND (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
     }
     i++;
   }
@@ -616,7 +663,7 @@ app.get("/filter", (req, res) => {
       query = query + ` s3_stars = TRUE`;
     }
     else {
-      query = query + ` s3_stars = TRUE`;
+      query = query + ` AND s3_stars = TRUE`;
     }
     i++;
   }else if((req.body.rating_filters == 's4_star_filter')){ //Not null and not empty
@@ -635,6 +682,14 @@ app.get("/filter", (req, res) => {
       query = query + ` AND s5_stars = TRUE`;
     }
     i++;
+  }else { //Not null and not empty
+    if(i == 0){
+      query = query + ` (s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE)`;
+    }
+    else {
+      query = query + ` AND (s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE)`;
+    }
+    i++;
   }
 
 
@@ -642,7 +697,7 @@ app.get("/filter", (req, res) => {
 
   //after all the filters have been checked, finish the query
   query = query + ');'
-
+  console.log(query);
   db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
 
@@ -661,77 +716,46 @@ app.get("/filter", (req, res) => {
     });
 }); 
 
-/*GET /sort
-  //HTML needs to send values for date, time, and rating
-  //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
-  //for example, in the login POST, it sends an email, but if the user provided no email, it would be empty. This is ok.
 
-  Return to HTML:
-  Same as GET home, except will be sorted by the attribute in question
-*/
-    //JUST STARTED (copied skeleton of filter because they're similar)
+
 app.get("/sort", (req, res) => {
-  //Here's where you'll build the query based off of the info you receive in req.body
-  //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
-  const option = req.body.sort_recipes;
-  if (option = "Date_Old_New"){
-    const query = 'select * from recipes order by data_published asc';
-  } else if (option = "Date_New_Old"){
-    const query = 'select * from recipes order by data_published desc';
-  } else if (option = "Total_Time_Low_High"){
-    const query = 'select * from recipes order by (prep_time + cook_time) asc';
-  } else if (option = "Total_Time_High_Low"){
-    const query = 'select * from recipes order by (prep_time + cook_time) desc';
-  } else if (option = "Rating_High_Low"){
-    const query = 'select * from recipes order by rating desc';
-  } else if (option = "Rating_Low_High"){
-    const query = 'select * from recipes order by rating asc';
-  } else {
-    const query = 'select * from recipes';
-  }
+//Here's where you'll build the query based off of the info you receive in req.body
+//Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
+var option = req.query.sort_recipes;
+var query = 'select * from recipes;';
 
-  db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
-    .then(queryResult => {
+if (option == "Date_Old_New"){
+query = 'select * from recipes order by recipes.date_published asc;';
+} else if (option == "Date_New_Old"){
+query = 'select * from recipes order by recipes.date_published desc;';
+} else if (option == "Total_Time_Low_High"){
+query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) asc;';
+} else if (option == "Total_Time_High_Low"){
+query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
+} else if (option == "Rating_High_Low"){
+query = 'select * from recipes order by recipes.rating desc;';
+} else if (option == "Rating_Low_High"){
+query = 'select * from recipes order by recipes.rating asc;';
+}
 
-      //Render sort page
-    res.render("pages/sort", {
-      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
-    });
-    })
-    .catch(err => {
-    // Handle errors, send no results and an error message to HTML
-      console.log(err);
-      res.render("pages/home", {
-        results: [],
-        message: err,
-      });
-    });
+db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
+.then(queryResult => {
+
+  //Render sort page
+res.render("pages/sort", {
+  results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+});
+})
+.catch(err => {
+// Handle errors, send no results and an error message to HTML
+  console.log(err);
+  res.render("pages/home", {
+    results: [],
+    message: err,
+  });
+});
 }); 
-    
 
-/*POST favorite - will be called by some kind of form that you use to favorite a recipe. It does not need to be its own page. Updates the database favorites table.
-  //Need from HTML: only one thing, recipe_name
-
-  //Return to HTML: Nothing
-
-  //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
-  //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
-  //redirects to home.
-  */
-  //WORKING - But handles edge cases and errors badly
-app.post("/favorite", (req, res) => {
-  const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
-  db.any(query, [req.session.user.user_id, req.body.recipe_name])
-    .then(queryResult => {
-      //don't need to do anything
-      res.redirect("pages/home");
-    })
-    .catch(err => {
-    // Handle errors, send no results and an error message to HTML
-      console.log(err);
-      res.redirect("pages/home");
-    });
-}); 
 
 
 // Authentication Required
