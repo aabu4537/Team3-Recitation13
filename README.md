@@ -17,7 +17,7 @@ The personal cookbook will of course require a sign-in function, but the rest of
 Docker
 
 # How to run locally
-Dowload zip file from github repository
+### Dowload zip file from github repository
 Open VS code
 Type "docker-compose up -d" in terminal
 Open "localhost:3000" on your preferred browser
