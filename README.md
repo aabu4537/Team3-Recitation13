@@ -11,7 +11,8 @@ The personal cookbook will of course require a sign-in function, but the rest of
 ## Alam Bushara - aabu4537 - aabu4537@colorado.edu
 
 # Technology Stack
-
+#### postgres
+#### node-ejs
 
 # Prerequisites to run the application
 #### Docker
