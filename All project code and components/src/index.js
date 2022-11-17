@@ -405,9 +405,8 @@ app.post("/searchCuisineType", (req, res) => {
 });
 
  
-    //IN PROGRESS
 app.post("/filter", (req, res) => {
-
+    
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
   var query = 'SELECT * FROM recipes WHERE (';
   //here we will start building the query based off of the filters the user has sent.
@@ -505,10 +504,10 @@ app.post("/filter", (req, res) => {
   //dairy free
   if((req.body.dairy_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` dairy_free = TRUE`;
+      query = query + ` contains_dairy = TRUE`;
     }
     else {
-      query = query + ` AND dairy_free = TRUE`;
+      query = query + ` AND contains_dairy = TRUE`;
     }
     i++;
   }
@@ -633,8 +632,9 @@ app.post("/filter", (req, res) => {
   }else{ //Not null and not empty
     if(i == 0){
       query = query + ` (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
-    }else {
-      query = query + ` AND h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
+    }
+    else {
+      query = query + ` AND (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
     }
     i++;
   }
@@ -725,7 +725,7 @@ query = 'select * from recipes order by recipes.date_published asc;';
 } else if (option == "Date_New_Old"){
 query = 'select * from recipes order by recipes.date_published desc;';
 } else if (option == "Total_Time_Low_High"){
-query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) asc;';
+query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time)F asc;';
 } else if (option == "Total_Time_High_Low"){
 query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
 } else if (option == "Rating_High_Low"){
