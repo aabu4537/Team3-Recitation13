@@ -183,70 +183,143 @@ const auth = (req, res, next) => {
 */
   //DONE - Partially Tested with Postman - 
   //UPDATE: not tested since adding star and time category boolean logic
-app.post("/upload", (req, res) => {
-  //Print received object to console for testing purposes
-  console.log(req.body);
-
-  //Need to add some logic for assigning star and total time booleans:
-  var star1 = false;
-  var star2 = false;
-  var star3 = false;
-  var star4 = false;
-  var star5 = false;
-  var underThirtyMin = false;
-  var thirtyMinToHour = false;
-  var HourToTwoHour = false;
-  var TwoHourToThreeHour = false;
-  var aboveThreeHour = false;
-
-  //assigning star category for filtering
-  if(req.body.rating >= 5){
-    star5 = true;
-  }
-  else if(req.body.rating >= 4){
-    star4 = true;
-  }
-  else if(req.body.rating >= 3){
-    star3 = true;
-  }
-  else if(req.body.rating >= 2){
-    star2 = true;
-  }
-  else {
-    star1 = true;
-  }
-
-  //assigning total time category for filtering
-  if((req.body.cook_time + req.body.prep_time) < 30){
-    underThirtyMin = true;
-  }
-  else if((req.body.cook_time + req.body.prep_time) < 60){
-    thirtyMinToHour = true;
-  }
-  else if((req.body.cook_time + req.body.prep_time) < 120){
-    HourToTwoHour = true;
-  }
-  else if((req.body.cook_time + req.body.prep_time) < 180){
-    TwoHourToThreeHour = true;
-  }
-  else{
-    aboveThreeHour = true;
-  }
-
-                                  //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
-  var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
+  app.post("/upload", (req, res) => {
+    //Print received object to console for testing purposes
+    console.log("Printing body");
+    console.log(req.body);
   
-  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
-    .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
-      //don't need to do anything special
-      res.redirect("/profile");
-    })
-    .catch(err => {
-    // Handle errors, send no results and an error message to HTML
-      console.log(err);
-      res.redirect("/profile");
-    });
-}); 
+    //Need to add some logic for assigning star and total time booleans:
+    var star1 = false;
+    var star2 = false;
+    var star3 = false;
+    var star4 = false;
+    var star5 = false;
+    var underThirtyMin = false;
+    var thirtyMinToHour = false;
+    var HourToTwoHour = false;
+    var TwoHourToThreeHour = false;
+    var aboveThreeHour = false;
+  
+    
+      var convertedVegetetarian = false;
+      var convertedVegan = false;
+      var convertedKeto = false;
+      var convertedPaleo = false;
+      var convertedGrainFree = false;
+      var convertedGlutenFree = false;
+      var convertedDairy = false;
+      var convertedEggs = false;
+      var convertedNuts = false;
+      var convertedSoy = false;
+      var convertedWheat = false;
+      var convertedBeef = false;
+      var convertedPork = false;
+      var convertedFish = false;
+  
+    //assigning star category for filtering
+    if(req.body.rating >= 5){
+      star5 = true;
+    }
+    else if(req.body.rating >= 4){
+      star4 = true;
+    }
+    else if(req.body.rating >= 3){
+      star3 = true;
+    }
+    else if(req.body.rating >= 2){
+      star2 = true;
+    }
+    else {
+      star1 = true;
+    }
+  
+    //assigning total time category for filtering
+    if((req.body.cook_time + req.body.prep_time) < 30){
+      underThirtyMin = true;
+    }
+    else if((req.body.cook_time + req.body.prep_time) < 60){
+      thirtyMinToHour = true;
+    }
+    else if((req.body.cook_time + req.body.prep_time) < 120){
+      HourToTwoHour = true;
+    }
+    else if((req.body.cook_time + req.body.prep_time) < 180){
+      TwoHourToThreeHour = true;
+    }
+    else{
+      aboveThreeHour = true;
+    }
+  
+    if(req.body.vegetarian == "on"){
+      convertedVegetetarian = true;
+    }
+    
+    if(req.body.vegan == "on"){
+      convertedVegan = true;
+    }
+    
+    if(req.body.keto == "on"){
+      convertedKeto = true;
+    }
+    
+    if(req.body.paleo == "on"){
+      convertedPaleo = true;
+    }
+  
+    if(req.body.grain_free == "on"){
+      convertedGrainFree = true;
+    }
+    
+    if(req.body.gluten_free == "on"){
+      convertedGlutenFree = true;
+    }
+    
+    if(req.body.contains_dairy == "on"){
+      convertedDairy = true;
+    }
+    
+    if(req.body.contains_eggs == "on"){
+      convertedEggs = true;
+    }
+    
+    if(req.body.contains_nuts == "on"){
+      convertedNuts = true;
+    }
+    
+    if(req.body.contains_soy == "on"){
+      convertedSoy = true;
+    }
+    
+    if(req.body.contains_wheat == "on"){
+      convertedWheat = true;
+    }
+    
+    if(req.body.contains_beef == "on"){
+      convertedBeef = true;
+    }
+    
+    if(req.body.contains_pork == "on"){
+      convertedPork = true;
+    }
+    
+    if(req.body.contains_fish == "on"){
+      convertedFish = true;
+    }
+  
+                                    //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
+    var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
+    
+    db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, convertedVegan, convertedVegetetarian, convertedKeto, convertedPaleo, convertedGrainFree, convertedGlutenFree, convertedDairy, convertedEggs, convertedNuts, convertedSoy, convertedWheat, convertedBeef, convertedPork, convertedFish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
+      .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
+        //don't need to do anything special
+        res.redirect("/profile");
+      })
+      .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+        console.log(err);
+        res.redirect("/profile");
+      });
+  }); 
 
 /*GET logout - called when clicked on logout button from other pages, renders login page with message, EXACTLY like labs
   Need: nothing
