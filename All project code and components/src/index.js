@@ -378,8 +378,6 @@ app.post("/searchRecipeName", (req, res) => {
     });
 });
 
-
-
 app.post("/searchCuisineType", (req, res) => {
   const cuisineType = req.body.cuisine_type;
   var query = '';
@@ -406,8 +404,8 @@ app.post("/searchCuisineType", (req, res) => {
     });
 });
 
-
-
+ 
+    //IN PROGRESS
 app.post("/filter", (req, res) => {
 
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
@@ -638,6 +636,11 @@ app.post("/filter", (req, res) => {
     }
     else {
       query = query + ` AND (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
+=======
+      query = query + ` h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
+    }
+    else {
+      query = query + ` AND h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
     }
     i++;
   }
@@ -688,6 +691,11 @@ app.post("/filter", (req, res) => {
     }
     else {
       query = query + ` AND (s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE)`;
+=======
+      query = query + ` s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE`;
+    }
+    else {
+      query = query + ` AND s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE`;
     }
     i++;
   }
@@ -715,7 +723,6 @@ app.post("/filter", (req, res) => {
       });
     });
 }); 
-
 
 
 app.get("/sort", (req, res) => {
@@ -756,6 +763,24 @@ res.render("pages/sort", {
 });
 }); 
 
+  //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
+  //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
+  //redirects to home.
+  */
+  //WORKING - But handles edge cases and errors badly
+app.post("/favorite", (req, res) => {
+  const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
+  db.any(query, [req.session.user.user_id, req.body.recipe_name])
+    .then(queryResult => {
+      //don't need to do anything
+      res.redirect("/home");
+    })
+    .catch(err => {
+    // Handle errors, send no results and an error message to HTML
+      console.log(err);
+      res.redirect("/home");
+    });
+}); 
 
 
 // Authentication Required

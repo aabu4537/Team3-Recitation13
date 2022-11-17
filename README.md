@@ -9,3 +9,16 @@ The personal cookbook will of course require a sign-in function, but the rest of
 ## Batool Hani - Batoolfh - baha1027@colorado.edu
 ## Drew Boynton - dmboynton56 - drbo5382@colorado.edu
 ## Alam Bushara - aabu4537 - aabu4537@colorado.edu
+
+# Technology Stack
+#### postgres
+#### node-ejs
+
+# Prerequisites to run the application
+#### Docker
+
+# How to run locally
+### Dowload zip file from github repository
+### Open VS code
+### Type "docker-compose up -d" in terminal
+### Open "localhost:3000" on your preferred browser

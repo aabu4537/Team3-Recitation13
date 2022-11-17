@@ -8,102 +8,36 @@
             <div class="profile-nav col-md-3">
                 <div class="panel">
                     <div class="user-heading round">
-                        <a href="#">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                        </a>
+                        <h1></h1>
                         <!--Fetch username and email from data-->
-                        <h1>Username</h1>
-                        <p>Email</p>
+                        <h1><%= username %>, Welcome to your profile!</h1>
+                        <p><%= email %></p>
                     </div>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#"> <i class="button"></i> Recent Activity</a></li> <!--link to all added recipes-->
-                        <li><a href="#"> <i class="button"></i> Add a recipe</a></li> <!--link to add recipe form-->
-                        <li><a href="#"> <i class="button"></i> Pinned recipes</a></li> <!--link to pinned recipes-->
+                        <button type="button" class="btn btn-primary btn-lg active" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Add a recipe 
+                        </button>
                     </ul>
                 </div>
             </div>
+
+
+            
             <div class="profile-info col-md-9">
-                <div class="panel">
-                    <form>
-                    </form>
-                    <div class="bio-graph-heading">
-                    Welcome to your profile.
-                </div>
-                </div>
-                <div class="panel">
-                    <div class="panel-body bio-graph-info">
-                        <h1>My info</h1>
-                        <div class="row">
-                            <!--fetch info or make add info feature-->
-                            <div class="bio-row">
-                                <p><span>Name </span>: Camila Smith</p>
-                            </div>
-                            <div class="bio-row">
-                                <p><span>Birthday</span>: 13 July 1983</p>
-                            </div>
-                            <div class="bio-row">
-                                <p><span>Email </span>: jsmith@flatlab.com</p>
-                            </div>
+                <p1 class="display-6">My favorite recipes</p1>
+                <div class="row">
+                    <% results.forEach(result => { %>
+                        <div class="card col-lg-4 col-md-6">
+                          <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
+                          <div class="card-body">
+                            <h5 class="card-title"><%= result.recipe_name %></h5>
+                          </div>
                         </div>
-                    </div>
-                </div>
-                
-                
-                <!--fetch preveiw of recipes added-->
-                <p1>My recent recipes</p1>
-                <div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <div class="bio-desk">
-                                    <h4 class="red">recipe</h4>
-                                    <p>recipe date</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <div class="bio-desk">
-                                    <h4 class="terques">recipe</h4>
-                                    <p>recipe date</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <div class="bio-desk">
-                                    <h4 class="green">recipe</h4>
-                                    <p>recipe date</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <div class="bio-desk">
-                                    <h4 class="purple">recipe</h4>
-                                    <p>recipe date</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <% }) %>
+                  </div>
             </div>
-        </div>
-        </div>
 
 
-
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Add a recipe 
-          </button>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -112,7 +46,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                        <form action="/upload" method="post">
+                        <form action="/upload" method="post" id="form1">
                             <div class="mb-3">
                                 <label class="form-label">Recipe name</label>
                                 <input class="form-control" id="recipe_name">
@@ -222,14 +156,11 @@
                                 <label class="form-label">Image link</label>
                                 <input class="form-control" id="recipe_image">
                             </div>
-
-                            
-
                         </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Submit</button> <!--submit to data base and homepage-->
+                  <button type="submit" class="btn btn-primary" form="form1">Submit</button> <!--submit to data base and homepage-->
                 </div>
               </div>
             </div>
