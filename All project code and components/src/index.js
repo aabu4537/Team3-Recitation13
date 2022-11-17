@@ -352,7 +352,6 @@ app.get("/home", (req, res) => {
     });
 }); 
 
-
 /*GET /filter
   //HTML needs to send values for cuisine_type and all of the columns under "filters"
   //the items sent can be empty, (in fact most of the time there will be some empty) but they should still be sent.
@@ -368,10 +367,10 @@ app.get("/home", (req, res) => {
   Same as GET home, except will have fewer recipes
 */
     //IN PROGRESS
-app.get("/filter", (req, res) => {
+app.post("/filter", (req, res) => {
 
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
-  const query = 'SELECT * FROM recipes WHERE (';
+  var query = 'SELECT * FROM recipes WHERE (';
   //here we will start building the query based off of the filters the user has sent.
   //this will basically be a lot of if statements that concatenate the query string, for example:
 
@@ -593,6 +592,14 @@ app.get("/filter", (req, res) => {
       query = query + ` AND h3_hours_or_more = TRUE`;
     }
     i++;
+  }else{ //Not null and not empty
+    if(i == 0){
+      query = query + ` h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
+    }
+    else {
+      query = query + ` AND h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
+    }
+    i++;
   }
 
   if((req.body.rating_filters == 's1_star_filter')){ //Not null and not empty
@@ -635,6 +642,14 @@ app.get("/filter", (req, res) => {
       query = query + ` AND s5_stars = TRUE`;
     }
     i++;
+  }else { //Not null and not empty
+    if(i == 0){
+      query = query + ` s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE`;
+    }
+    else {
+      query = query + ` AND s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE`;
+    }
+    i++;
   }
 
 
@@ -670,24 +685,25 @@ app.get("/filter", (req, res) => {
   Same as GET home, except will be sorted by the attribute in question
 */
     //JUST STARTED (copied skeleton of filter because they're similar)
-app.get("/sort", (req, res) => {
+app.post("/sort", (req, res) => {
   //Here's where you'll build the query based off of the info you receive in req.body
   //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
   const option = req.body.sort_recipes;
-  if (option = "Date_Old_New"){
-    const query = 'select * from recipes order by data_published asc';
-  } else if (option = "Date_New_Old"){
-    const query = 'select * from recipes order by data_published desc';
-  } else if (option = "Total_Time_Low_High"){
-    const query = 'select * from recipes order by (prep_time + cook_time) asc';
-  } else if (option = "Total_Time_High_Low"){
-    const query = 'select * from recipes order by (prep_time + cook_time) desc';
-  } else if (option = "Rating_High_Low"){
-    const query = 'select * from recipes order by rating desc';
-  } else if (option = "Rating_Low_High"){
-    const query = 'select * from recipes order by rating asc';
+  var query = '';
+  if (option == "Date_Old_New"){
+    query = 'select * from recipes order by data_published asc';
+  } else if (option == "Date_New_Old"){
+    query = 'select * from recipes order by data_published desc';
+  } else if (option == "Total_Time_Low_High"){
+    query = 'select * from recipes order by (prep_time + cook_time) asc';
+  } else if (option == "Total_Time_High_Low"){
+    query = 'select * from recipes order by (prep_time + cook_time) desc';
+  } else if (option == "Rating_High_Low"){
+    query = 'select * from recipes order by rating desc';
+  } else if (option == "Rating_Low_High"){
+    query = 'select * from recipes order by rating asc';
   } else {
-    const query = 'select * from recipes';
+    query = 'select * from recipes';
   }
 
   db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
