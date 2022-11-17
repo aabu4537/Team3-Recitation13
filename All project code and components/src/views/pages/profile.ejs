@@ -49,31 +49,31 @@
                         <form action="/upload" method="post" id="form1">
                             <div class="mb-3">
                                 <label class="form-label">Recipe name</label>
-                                <input class="form-control" id="recipe_name">
+                                <input class="form-control" id="recipe_name" name="recipe_name">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Prep time</label>
-                                <input class="form-control" id="prep_time">
+                                <input class="form-control" id="prep_time" name="prep_time">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Cook time</label>
-                                <input class="form-control" id="cook_time">
+                                <input class="form-control" id="cook_time" name="cook_time">
                             </div>
                             <div class="mb-3">
                                 <label class="col-form-label">Ingredients</label>
-                                <textarea class="form-control" id="recipe_ingredients"></textarea>
+                                <textarea class="form-control" id="recipe_ingredients" name="recipe_ingredients"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="col-form-label">Instructions</label>
-                                <textarea class="form-control" id="instructions"></textarea>
+                                <textarea class="form-control" id="instructions" name="instructions"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="col-form-label">Cuisine type</label>
-                                <input class="form-control" id="cuisine_type"></textarea>
+                                <input class="form-control" id="cuisine_type" name="cuisine_type"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="col-form-label">Rating</label>
-                                <input class="form-control" id="rating"></textarea>
+                                <input class="form-control" id="rating" name="rating"></textarea>
                             </div>
                             
                             <label for="exampleInputPassword1" class="form-label">Check all that apply</label>
@@ -81,80 +81,80 @@
 
                             <div>
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="vegetarian">
+                                    <input type="checkbox" class="form-check-input" id="vegetarian" name="vegetarian">
                                     <label class="form-check-label" for="exampleCheck1">vegetarian</label>
                                 </div>
                                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="vegan">
-                                    <label class="form-check-label" for="exampleCheck1">vegan</label>
+                                    <input type="checkbox" class="form-check-input" id="vegan" name="vegan">
+                                    <label class="form-check-label" for="exampleCheck2">vegan</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="keto">
-                                    <label class="form-check-label" for="exampleCheck1">keto</label> 
+                                    <input type="checkbox" class="form-check-input" id="keto" name="keto">
+                                    <label class="form-check-label" for="exampleCheck3">keto</label> 
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="paleo">
-                                    <label class="form-check-label" for="exampleCheck1">paleo</label> 
+                                    <input type="checkbox" class="form-check-input" id="paleo" name="paleo">
+                                    <label class="form-check-label" for="exampleCheck4">paleo</label> 
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="grain_free">
-                                    <label class="form-check-label" for="exampleCheck1">grain free</label>
+                                    <input type="checkbox" class="form-check-input" id="grain_free" name="grain_free">
+                                    <label class="form-check-label" for="exampleCheck5">grain free</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="gluten_free">
-                                    <label class="form-check-label" for="exampleCheck1">gluten free</label> 
+                                    <input type="checkbox" class="form-check-input" id="gluten_free" name="gluten_free">
+                                    <label class="form-check-label" for="exampleCheck6">gluten free</label> 
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_dairy">
-                                    <label class="form-check-label" for="exampleCheck1">contains dairy</label>
+                                    <input type="checkbox" class="form-check-input" id="contains_dairy" name="contains_dairy">
+                                    <label class="form-check-label" for="exampleCheck7">contains dairy</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_eggs">
-                                    <label class="form-check-label" for="exampleCheck1">contains eggs</label>
+                                    <input type="checkbox" class="form-check-input" id="contains_eggs" name="contains_eggs">
+                                    <label class="form-check-label" for="exampleCheck8">contains eggs</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_nuts">
-                                    <label class="form-check-label" for="exampleCheck1">contains nuts</label> 
+                                    <input type="checkbox" class="form-check-input" id="contains_nuts" name="contains_nuts">
+                                    <label class="form-check-label" for="exampleCheck9">contains nuts</label> 
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_soy">
-                                    <label class="form-check-label" for="exampleCheck1">contains soy</label> 
+                                    <input type="checkbox" class="form-check-input" id="contains_soy" name="contains_soy">
+                                    <label class="form-check-label" for="exampleCheck10">contains soy</label> 
                                 </div>
                                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_wheat">
-                                    <label class="form-check-label" for="exampleCheck1">contains wheat</label>
+                                    <input type="checkbox" class="form-check-input" id="contains_wheat" name="contains_wheat">
+                                    <label class="form-check-label" for="exampleCheck11">contains wheat</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_beef">
-                                    <label class="form-check-label" for="exampleCheck1">contains beef</label>
+                                    <input type="checkbox" class="form-check-input" id="contains_beef" name="contains_beef">
+                                    <label class="form-check-label" for="exampleCheck12">contains beef</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_pork">
-                                    <label class="form-check-label" for="exampleCheck1">contains pork</label>
+                                    <input type="checkbox" class="form-check-input" id="contains_pork" name="contains_pork">
+                                    <label class="form-check-label" for="exampleCheck13">contains pork</label>
                                 </div>
                 
                                 <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_fish">
-                                    <label class="form-check-label" for="exampleCheck1">contains fish</label>
+                                    <input type="checkbox" class="form-check-input" id="contains_fish" name="contains_fish">
+                                    <label class="form-check-label" for="exampleCheck14">contains fish</label>
                                 </div>
                             </div>
                             
                             
                             <div class="mb-3">
                                 <label class="form-label">Image link</label>
-                                <input class="form-control" id="recipe_image">
+                                <input class="form-control" id="recipe_image" name="recipe_image">
                             </div>
                         </form>
                 </div>
