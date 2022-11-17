@@ -724,12 +724,12 @@ app.post("/favorite", (req, res) => {
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
     .then(queryResult => {
       //don't need to do anything
-      res.redirect("pages/home");
+      res.redirect("/home");
     })
     .catch(err => {
     // Handle errors, send no results and an error message to HTML
       console.log(err);
-      res.redirect("pages/home");
+      res.redirect("/home");
     });
 }); 
 
