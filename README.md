@@ -18,6 +18,6 @@ Docker
 
 # How to run locally
 ### Dowload zip file from github repository
-Open VS code
-Type "docker-compose up -d" in terminal
-Open "localhost:3000" on your preferred browser
+### Open VS code
+### Type "docker-compose up -d" in terminal
+### Open "localhost:3000" on your preferred browser
