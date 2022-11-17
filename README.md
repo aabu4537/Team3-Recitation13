@@ -14,7 +14,7 @@ The personal cookbook will of course require a sign-in function, but the rest of
 
 
 # Prerequisites to run the application
-Docker
+#### Docker
 
 # How to run locally
 ### Dowload zip file from github repository
