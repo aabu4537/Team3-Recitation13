@@ -1,41 +1,31 @@
-Last TA Meeting (11/10/2022):
-- Logout.ejs had code but was not functional, did not log users out or redirect to login when logout in menu was clicked
-- Home.ejs, profile.ejs empty
-- Had the following API calls (all tested)
-    - (GET) '/', '/register', '/login', '/profile'
-    - (POST) '/register', '/login'
-- Had some insertions in the users table and the recipes table
+Last TA Meeting (11/15/2022):
+- Had bugs with login, users could not login
+- Sort and Filter functions in Discover page were not functional
+- Had bugs with profile, profiles for every user was the same
 
 What's Changed (11/15/2022):
-- Removed previous insertions and added 16 new insertions into database (in insert.sql, 5 to users table, 11 to recipes table)
-- Implemented home.ejs
-    - Added checkboxes, textboxes, and dropdown menus for users in filter column to filter recipes
-    - Added dropdown menu to sort recipes in recipe column
-    - Added recipe cards to recipe column
-- Implemented profile.ejs
-    - Fixed formatting of profile picture, name, and all other info
-    - Created outline for upload recipe
-    - Added favorited recipes of each user to their profile
-- Created and implemented addRecipe.html
-    - Added modal to upload recipes in the profile page
-- Created filter.ejs, sort.ejs and copied contents of home.ejs for API calls
-- Added, implemented, and tested the following API calls
-    - (GET) '/logout', '/profile', '/home', '/filter', '/sort'
-    - (POST) '/upload', 'favorite'
-- Changed text on the "Register" page
+- Added a search feature to the Discover page
+- Fixed the following APIs:
+    - (GET) "/filter", "/sort"
+- Created the following APIs:
+    - (GET) "view"
+    - (POST) "/searchRecipeName", "/searchCuisineType"
+- Added a page with recipe details for each recipe
 
-- Users can now press the "Logout" button in the menu and successfully logout
-- Users can now press the "Discover Recipes" button in the menu and navigate to the "Discover Recipes" page
-    - Previously the "Search" button in menu
-- Users can now upload their own recipes on the profile page
-- Users can now favorite recipes from the Discover Recipes page
-- Users can now filter/sort the recipes on the Discover Page
+- Users can now:
+    - Successfully login
+    - Click on "View Recipe" on each recipe card in the Discover Page to see recipe details on a new page
+    - Search for recipes by recipe name or cuisine type
+    - Filter recipes on the discover page
+    - Sort recipes on the discover page
+    - Upload recipes from their profile
+    - View the recipes they've favorited on their profile
 
-- Additional commits since last TA meeting (11/10/2022):
-    Eric: 11 *Some are minor changes (like changing one line)
-    Batool: 3 *Had issues with committing to Github, already talked to Professor Nath
-    Drew: 4 
-    Alam: 2
-    Kayla: 16 *6 are from merging a duplicate branch, some are minor changes (like changing one line)
+- Additional commits since last TA meeting (11/15/2022):
+    Eric: 3
+    Drew: 3
+    Alam: 4
+    Batool: 4
+    Kayla: 2
 
-Last edited: November 15th, 2022
+Last edited: November 17th, 2022
