@@ -8,17 +8,13 @@
             <div class="profile-nav col-md-3">
                 <div class="panel">
                     <div class="user-heading round">
-                        <a href="#">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                        </a>
+                        <h1></h1>
                         <!--Fetch username and email from data-->
-                        <h1><%= username %></h1>
+                        <h1><%= username %>, Welcome to your profile!</h1>
                         <p><%= email %></p>
                     </div>
                     <ul class="nav nav-pills nav-stacked">
-                        <button type="button" class="button"> My recipes </button>
-                        <button type="button" class="button"> Favorite recipes </button>
-                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-primary btn-lg active" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Add a recipe 
                         </button>
                     </ul>
@@ -28,21 +24,7 @@
 
             
             <div class="profile-info col-md-9">
-                
-                <!--fetch preveiw of recipes added-->
-                <p1>My recent recipes</p1>
-                <div class="row">
-                    <% results.forEach(result => { %>
-                        <div class="card col-lg-4 col-md-6">
-                          <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
-                          <div class="card-body">
-                            <h5 class="card-title"><%= result.recipe_name %></h5>
-                          </div>
-                        </div>
-                    <% }) %>
-                  </div>
-
-                <p1>My favorite recipes</p1>
+                <p1 class="display-6">My favorite recipes</p1>
                 <div class="row">
                     <% results.forEach(result => { %>
                         <div class="card col-lg-4 col-md-6">
