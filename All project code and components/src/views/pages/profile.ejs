@@ -30,13 +30,21 @@
                         <div class="card col-lg-4 col-md-6">
                           <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
                           <div class="card-body">
-                            <h5 class="card-title"><%= result.recipe_name %></h5>
+                            <h4 class="card-title"><%= result.recipe_name %></h4>
+                            <div class="row">
+                              <div class="col">
+                                <form action="/view" method="get">
+                                  <input type="hidden" name="recipe_id" value="<%- result.recipe_id %>"/>
+                                  <button type="submit" class="form-control" style="background-color:rgb(166, 166, 16); color:white">View Recipe</button>
+                                </form>
+                              </div>
+                            </div>
                           </div>
                         </div>
                     <% }) %>
                   </div>
             </div>
-
+            
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
