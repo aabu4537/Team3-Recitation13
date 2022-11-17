@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 const { query } = require('express');
+const url = require('url');
 //const { queryResult } = require("pg-promise");
 // db config
 const dbConfig = {
@@ -183,143 +184,70 @@ const auth = (req, res, next) => {
 */
   //DONE - Partially Tested with Postman - 
   //UPDATE: not tested since adding star and time category boolean logic
-  app.post("/upload", (req, res) => {
-    //Print received object to console for testing purposes
-    console.log("Printing body");
-    console.log(req.body);
+app.post("/upload", (req, res) => {
+  //Print received object to console for testing purposes
+  console.log(req.body);
+
+  //Need to add some logic for assigning star and total time booleans:
+  var star1 = false;
+  var star2 = false;
+  var star3 = false;
+  var star4 = false;
+  var star5 = false;
+  var underThirtyMin = false;
+  var thirtyMinToHour = false;
+  var HourToTwoHour = false;
+  var TwoHourToThreeHour = false;
+  var aboveThreeHour = false;
+
+  //assigning star category for filtering
+  if(req.body.rating >= 5){
+    star5 = true;
+  }
+  else if(req.body.rating >= 4){
+    star4 = true;
+  }
+  else if(req.body.rating >= 3){
+    star3 = true;
+  }
+  else if(req.body.rating >= 2){
+    star2 = true;
+  }
+  else {
+    star1 = true;
+  }
+
+  //assigning total time category for filtering
+  if((req.body.cook_time + req.body.prep_time) < 30){
+    underThirtyMin = true;
+  }
+  else if((req.body.cook_time + req.body.prep_time) < 60){
+    thirtyMinToHour = true;
+  }
+  else if((req.body.cook_time + req.body.prep_time) < 120){
+    HourToTwoHour = true;
+  }
+  else if((req.body.cook_time + req.body.prep_time) < 180){
+    TwoHourToThreeHour = true;
+  }
+  else{
+    aboveThreeHour = true;
+  }
+
+                                  //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
+  var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
   
-    //Need to add some logic for assigning star and total time booleans:
-    var star1 = false;
-    var star2 = false;
-    var star3 = false;
-    var star4 = false;
-    var star5 = false;
-    var underThirtyMin = false;
-    var thirtyMinToHour = false;
-    var HourToTwoHour = false;
-    var TwoHourToThreeHour = false;
-    var aboveThreeHour = false;
-  
-    
-      var convertedVegetetarian = false;
-      var convertedVegan = false;
-      var convertedKeto = false;
-      var convertedPaleo = false;
-      var convertedGrainFree = false;
-      var convertedGlutenFree = false;
-      var convertedDairy = false;
-      var convertedEggs = false;
-      var convertedNuts = false;
-      var convertedSoy = false;
-      var convertedWheat = false;
-      var convertedBeef = false;
-      var convertedPork = false;
-      var convertedFish = false;
-  
-    //assigning star category for filtering
-    if(req.body.rating >= 5){
-      star5 = true;
-    }
-    else if(req.body.rating >= 4){
-      star4 = true;
-    }
-    else if(req.body.rating >= 3){
-      star3 = true;
-    }
-    else if(req.body.rating >= 2){
-      star2 = true;
-    }
-    else {
-      star1 = true;
-    }
-  
-    //assigning total time category for filtering
-    if((req.body.cook_time + req.body.prep_time) < 30){
-      underThirtyMin = true;
-    }
-    else if((req.body.cook_time + req.body.prep_time) < 60){
-      thirtyMinToHour = true;
-    }
-    else if((req.body.cook_time + req.body.prep_time) < 120){
-      HourToTwoHour = true;
-    }
-    else if((req.body.cook_time + req.body.prep_time) < 180){
-      TwoHourToThreeHour = true;
-    }
-    else{
-      aboveThreeHour = true;
-    }
-  
-    if(req.body.vegetarian == "on"){
-      convertedVegetetarian = true;
-    }
-    
-    if(req.body.vegan == "on"){
-      convertedVegan = true;
-    }
-    
-    if(req.body.keto == "on"){
-      convertedKeto = true;
-    }
-    
-    if(req.body.paleo == "on"){
-      convertedPaleo = true;
-    }
-  
-    if(req.body.grain_free == "on"){
-      convertedGrainFree = true;
-    }
-    
-    if(req.body.gluten_free == "on"){
-      convertedGlutenFree = true;
-    }
-    
-    if(req.body.contains_dairy == "on"){
-      convertedDairy = true;
-    }
-    
-    if(req.body.contains_eggs == "on"){
-      convertedEggs = true;
-    }
-    
-    if(req.body.contains_nuts == "on"){
-      convertedNuts = true;
-    }
-    
-    if(req.body.contains_soy == "on"){
-      convertedSoy = true;
-    }
-    
-    if(req.body.contains_wheat == "on"){
-      convertedWheat = true;
-    }
-    
-    if(req.body.contains_beef == "on"){
-      convertedBeef = true;
-    }
-    
-    if(req.body.contains_pork == "on"){
-      convertedPork = true;
-    }
-    
-    if(req.body.contains_fish == "on"){
-      convertedFish = true;
-    }
-  
-                                    //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
-    var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
-    
-    db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, convertedVegan, convertedVegetetarian, convertedKeto, convertedPaleo, convertedGrainFree, convertedGlutenFree, convertedDairy, convertedEggs, convertedNuts, convertedSoy, convertedWheat, convertedBeef, convertedPork, convertedFish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
-      .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
-        //don't need to do anything special
-        res.redirect("/profile");
-      })
-      .catch(err => {
-      // Handle errors, send no results and an error message to HTML
-        console.log(err);
-        res.redirect("/profile");
-      });
-  }); 
+  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
+    .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
+      //don't need to do anything special
+      res.redirect("/profile");
+    })
+    .catch(err => {
+    // Handle errors, send no results and an error message to HTML
+      console.log(err);
+      res.redirect("/profile");
+    });
+}); 
 
 /*GET logout - called when clicked on logout button from other pages, renders login page with message, EXACTLY like labs
   Need: nothing
@@ -425,6 +353,32 @@ app.get("/home", (req, res) => {
     });
 }); 
 
+
+
+  app.get("/view/:recipe_id", (req, res) => {
+    var query_recipe = req.params.recipe_id
+    const query = 'select * from recipes where recipe_id = $1;'; //getting all recipes and all their info
+    db.one(query, [query_recipe]) //note: MUST be db.any to return multipe query rows /recipes!
+      .then(queryResult => {
+        //Render home page using a JSON object called results that contains all recipes for the webpage to use however it wants to.
+        console.log(queryResult);
+       res.render('pages/view',{
+        results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+      });
+      })
+      .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+        console.log(err);
+        res.render("pages/home", {
+          results: [],
+          message: err,
+        });
+      });
+  }); 
+
+
+
+
 app.post("/searchRecipeName", (req, res) => {
   const recipeName = req.body.recipe_name;
   var query = '';
@@ -478,8 +432,9 @@ app.post("/searchCuisineType", (req, res) => {
 });
 
  
+    //IN PROGRESS
 app.post("/filter", (req, res) => {
-    
+
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
   var query = 'SELECT * FROM recipes WHERE (';
   //here we will start building the query based off of the filters the user has sent.
@@ -577,10 +532,10 @@ app.post("/filter", (req, res) => {
   //dairy free
   if((req.body.dairy_filter == "checked")){ //Not null and not empty
     if(i == 0){
-      query = query + ` contains_dairy = TRUE`;
+      query = query + ` dairy_free = TRUE`;
     }
     else {
-      query = query + ` AND contains_dairy = TRUE`;
+      query = query + ` AND dairy_free = TRUE`;
     }
     i++;
   }
@@ -706,8 +661,9 @@ app.post("/filter", (req, res) => {
     if(i == 0){
       query = query + ` (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
     }
-    else {
+    else{
       query = query + ` AND (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
+
     }
     i++;
   }
@@ -798,7 +754,7 @@ query = 'select * from recipes order by recipes.date_published asc;';
 } else if (option == "Date_New_Old"){
 query = 'select * from recipes order by recipes.date_published desc;';
 } else if (option == "Total_Time_Low_High"){
-query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time)F asc;';
+query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) asc;';
 } else if (option == "Total_Time_High_Low"){
 query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
 } else if (option == "Rating_High_Low"){
@@ -825,9 +781,13 @@ res.render("pages/sort", {
 });
 }); 
 
+
+
+/*
   //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
   //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
   //redirects to home.
+  */
   //WORKING - But handles edge cases and errors badly
 app.post("/favorite", (req, res) => {
   const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
