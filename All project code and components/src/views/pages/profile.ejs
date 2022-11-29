@@ -35,7 +35,11 @@
                               <div class="col">
                                 <form action="/view" method="get">
                                   <input type="hidden" name="recipe_id" value="<%- result.recipe_id %>"/>
-                                  <button type="submit" class="form-control" style="background-color:rgb(166, 166, 16); color:white">View Recipe</button>
+                                  <button type="submit" class="form-control" style="background-color:rgb(166, 166, 16); color:white"><a src="fullRecipes.ejs">View Recipe</a></button>
+                                </form>
+                                <form action="/favorite_delete" method="post">
+                                    <input type="hidden" name="recipe_name" value="<%- result.recipe_name %>"/>
+                                    <button type="submit" class="form-control">Remove favorite</button> 
                                 </form>
                               </div>
                             </div>
@@ -45,6 +49,7 @@
                   </div>
             </div>
             
+
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">

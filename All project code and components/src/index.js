@@ -28,7 +28,7 @@ db.connect()
   .catch((error) => {
     console.log("ERROR:", error.message || error);
   });
-  
+
 // set the view engine to ejs
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
@@ -57,12 +57,12 @@ SESSION_SECRET="super duper secret!"
 
 */
 
-  app.use(
-    bodyParser.urlencoded({
-      extended: true,
-    })
-  );
-  app.use(express.static("resources"));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(express.static("resources"));
 
 //We will use this to store the user's information in a session variable.
 const user = {
@@ -72,9 +72,9 @@ const user = {
 };
 
 
-  //Redirect from / to /login - once we have a home page, can change to home
-app.get('/', (req, res) =>{
-    res.redirect('/login'); 
+//Redirect from / to /login - once we have a home page, can change to home
+app.get('/', (req, res) => {
+  res.redirect('/login');
 });
 
 //GET register - Done
@@ -85,7 +85,7 @@ app.get('/register', (req, res) => {
 
 //GET login - Done
 app.get("/login", (req, res) => {
-    res.render("pages/login");
+  res.render("pages/login");
 });
 
 
@@ -93,60 +93,60 @@ app.get("/login", (req, res) => {
 app.post('/register', async (req, res) => { //Input: username and password as JSON
   //hashes the user's password for safety. The password that goes into the database will be the hashed one, not what the user provided.
   const hash = await bcrypt.hash(req.body.password, 10);
-  
+
   //Insert username and hash into users
   const query = 'insert into users (username, email, password) values ($1, $2, $3);';
-  
+
   db.any(query, [req.body.username, req.body.email, hash])
     .then(function (queryResult) {
-        res.render("pages/login"); //kind of inefficient to have them login right after registering, but its not a problem
+      res.render("pages/login"); //kind of inefficient to have them login right after registering, but its not a problem
     })
     .catch(function (err) { // if there's an error, send them back to register page, rendered with the error as a JSON object accessible by EJS/JS to show to the user 
-        console.log(err);
-        res.render("pages/register", {
-          message: err,
-        });
+      console.log(err);
+      res.render("pages/register", {
+        message: err,
+      });
 
     });
 });
 
 //POST login - Tested - Done
-  app.post("/login", (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    const query = 'SELECT * FROM users WHERE username = $1;';
-  
-    db.one(query, [username]) //query the database using the username provided at login
-      .then(async (queryResult) => {
+app.post("/login", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const query = 'SELECT * FROM users WHERE username = $1;';
 
-        //compare the hashed password in the database with the hashed version of the password the user provided
-        const match = await bcrypt.compare(req.body.password, queryResult.password);
-  
-        if(!match){   //if the hashed passwords didn't match, return error and redirect
-          console.log("Incorrect username or password");
-          res.redirect("/login");
-        }
-        else{   //If user was found, save the results of the query (except password) in a session variable
+  db.one(query, [username]) //query the database using the username provided at login
+    .then(async (queryResult) => {
 
-          //updating the data of user
-          user.user_id = queryResult.user_id;
-          user.username = queryResult.username;
-          user.email = queryResult.email;
+      //compare the hashed password in the database with the hashed version of the password the user provided
+      const match = await bcrypt.compare(req.body.password, queryResult.password);
 
-          //make this user into a session variable
-          req.session.user = user;
-            req.session.save();
-            res.redirect("/profile");
-        }
-      })
-      //if error, return the error and render login with this error message so it can be displayed to user
-      .catch((err) => {
-        console.log(err);
-        res.render("pages/login", {
-          message: err,
-        });
+      if (!match) {   //if the hashed passwords didn't match, return error and redirect
+        console.log("Incorrect username or password");
+        res.redirect("/login");
+      }
+      else {   //If user was found, save the results of the query (except password) in a session variable
+
+        //updating the data of user
+        user.user_id = queryResult.user_id;
+        user.username = queryResult.username;
+        user.email = queryResult.email;
+
+        //make this user into a session variable
+        req.session.user = user;
+        req.session.save();
+        res.redirect("/profile");
+      }
+    })
+    //if error, return the error and render login with this error message so it can be displayed to user
+    .catch((err) => {
+      console.log(err);
+      res.render("pages/login", {
+        message: err,
       });
-  });
+    });
+});
 
 
 /*
@@ -181,10 +181,11 @@ const auth = (req, res, next) => {
   //Return to HTML:
   //I will not return anything for the website to use, instead I will redirect to home.
 */
-  //DONE - Partially Tested with Postman - 
-  //UPDATE: not tested since adding star and time category boolean logic
+//DONE - Partially Tested with Postman - 
+//UPDATE: not tested since adding star and time category boolean logic
 app.post("/upload", (req, res) => {
   //Print received object to console for testing purposes
+  console.log("Printing body");
   console.log(req.body);
 
   //Need to add some logic for assigning star and total time booleans:
@@ -199,17 +200,33 @@ app.post("/upload", (req, res) => {
   var TwoHourToThreeHour = false;
   var aboveThreeHour = false;
 
+
+  var convertedVegetetarian = false;
+  var convertedVegan = false;
+  var convertedKeto = false;
+  var convertedPaleo = false;
+  var convertedGrainFree = false;
+  var convertedGlutenFree = false;
+  var convertedDairy = false;
+  var convertedEggs = false;
+  var convertedNuts = false;
+  var convertedSoy = false;
+  var convertedWheat = false;
+  var convertedBeef = false;
+  var convertedPork = false;
+  var convertedFish = false;
+
   //assigning star category for filtering
-  if(req.body.rating >= 5){
+  if (req.body.rating >= 5) {
     star5 = true;
   }
-  else if(req.body.rating >= 4){
+  else if (req.body.rating >= 4) {
     star4 = true;
   }
-  else if(req.body.rating >= 3){
+  else if (req.body.rating >= 3) {
     star3 = true;
   }
-  else if(req.body.rating >= 2){
+  else if (req.body.rating >= 2) {
     star2 = true;
   }
   else {
@@ -217,43 +234,99 @@ app.post("/upload", (req, res) => {
   }
 
   //assigning total time category for filtering
-  if((req.body.cook_time + req.body.prep_time) < 30){
+  if ((req.body.cook_time + req.body.prep_time) < 30) {
     underThirtyMin = true;
   }
-  else if((req.body.cook_time + req.body.prep_time) < 60){
+  else if ((req.body.cook_time + req.body.prep_time) < 60) {
     thirtyMinToHour = true;
   }
-  else if((req.body.cook_time + req.body.prep_time) < 120){
+  else if ((req.body.cook_time + req.body.prep_time) < 120) {
     HourToTwoHour = true;
   }
-  else if((req.body.cook_time + req.body.prep_time) < 180){
+  else if ((req.body.cook_time + req.body.prep_time) < 180) {
     TwoHourToThreeHour = true;
   }
-  else{
+  else {
     aboveThreeHour = true;
   }
 
-                                  //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
+  if (req.body.vegetarian == "on") {
+    convertedVegetetarian = true;
+  }
+
+  if (req.body.vegan == "on") {
+    convertedVegan = true;
+  }
+
+  if (req.body.keto == "on") {
+    convertedKeto = true;
+  }
+
+  if (req.body.paleo == "on") {
+    convertedPaleo = true;
+  }
+
+  if (req.body.grain_free == "on") {
+    convertedGrainFree = true;
+  }
+
+  if (req.body.gluten_free == "on") {
+    convertedGlutenFree = true;
+  }
+
+  if (req.body.contains_dairy == "on") {
+    convertedDairy = true;
+  }
+
+  if (req.body.contains_eggs == "on") {
+    convertedEggs = true;
+  }
+
+  if (req.body.contains_nuts == "on") {
+    convertedNuts = true;
+  }
+
+  if (req.body.contains_soy == "on") {
+    convertedSoy = true;
+  }
+
+  if (req.body.contains_wheat == "on") {
+    convertedWheat = true;
+  }
+
+  if (req.body.contains_beef == "on") {
+    convertedBeef = true;
+  }
+
+  if (req.body.contains_pork == "on") {
+    convertedPork = true;
+  }
+
+  if (req.body.contains_fish == "on") {
+    convertedFish = true;
+  }
+
+  //1             2         3           4             5                   6             7          8            9       10              11      12          13    14    15          16            17              18            19              20            21              22            23                24              25                26              27                28                29                30      31          32      33          34      
   var query = 'INSERT INTO recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34);'; //insert a new row in recipes according to the form info that the user submitted. This is basically the line that makes this call different than POST /favorite
-  
-  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, req.body.vegan, req.body.vegetarian, req.body.keto, req.body.paleo, req.body.grain_free, req.body.gluten_free, req.body.contains_dairy, req.body.contains_eggs, req.body.contains_nuts, req.body.contains_soy, req.body.contains_wheat, req.body.contains_beef, req.body.contains_pork, req.body.contains_fish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
+
+  db.any(query, [req.body.recipe_name, req.body.prep_time, req.body.cook_time, req.body.recipe_image, req.body.recipe_ingredients, req.body.instructions, req.session.user.user_id, req.body.cuisine_type, req.body.rating, req.body.date_published, convertedVegan, convertedVegetetarian, convertedKeto, convertedPaleo, convertedGrainFree, convertedGlutenFree, convertedDairy, convertedEggs, convertedNuts, convertedSoy, convertedWheat, convertedBeef, convertedPork, convertedFish, underThirtyMin, thirtyMinToHour, HourToTwoHour, TwoHourToThreeHour, aboveThreeHour, star1, star2, star3, star4, star5])
     .then(queryResult => {  //1         2                   3                   4                       5                           6                       7                         8                     9                 10                      11              12                  13                14              15                  16                    17                      18                      19                      20                      21                       22                      23                     24                      25               26              27             28                  29              30     31     32     33     34
       //don't need to do anything special
       res.redirect("/profile");
     })
     .catch(err => {
-    // Handle errors, send no results and an error message to HTML
+      // Handle errors, send no results and an error message to HTML
       console.log(err);
       res.redirect("/profile");
     });
-}); 
+});
 
 /*GET logout - called when clicked on logout button from other pages, renders login page with message, EXACTLY like labs
   Need: nothing
   Return to HTML: an object called message - it says "Logged out successfully"
   //Tested the error message functionality as well as session destroy functionality and it all worked.
 */
-    //DONE - TESTED
+//DONE - TESTED
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.render("pages/login", {
@@ -276,41 +349,53 @@ app.get("/logout", (req, res) => {
     if you don't need to display all of the information for each recipe, you can simply use whatever you need.
     if you wanted to, you could try to find a way to display a bunch of recipes as cards, and then when you click on one, it gives you a popup which shows all of the information. I don't know how difficult this would be.
 */
-    //DONE - TESTED
-app.get("/profile", (req, res) => {
+//DONE - TESTED
+app.get("/profile", async (req, res) => {
   const query = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM users FULL JOIN favorites ON users.user_id = favorites.user_id FULL JOIN recipes ON favorites.recipe_id = recipes.recipe_id WHERE users.user_id = $1;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user.
-  db.any(query, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
+  const favorites = await db.any(query, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
-      
+      return queryResult
       //little edge case: if the user hasn't favorited any recipes, then send EMPTY results, and error message
-      if(queryResult[0].recipe_id == null){
-        res.render("pages/profile", {
-          results: [],
-          message: 'No Favorited Recipes',
-          username: req.session.user.username, //provides the username for use in EJS
-          email: req.session.user.email //provides the email for use in EJS
-        });
-        return;
-      }
-
-      // show the object on console for reference, then render it to the page. On page, reference like results[0].recipe_name 
-      console.log(queryResult);
-      
-      res.render("pages/profile", {
-      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
-      username: req.session.user.username, //provides the username for use in EJS
-      email: req.session.user.email //provides the email for use in EJS
-    });
     })
     .catch(err => {
-    // Handle errors, send no results and an error message to HTML
+      // Handle errors, send no results and an error message to HTML
       console.log(err);
-      res.render("pages/profile", {
-        results: [],
-        message: err,
-      });
+      return []
     });
-}); 
+    //fix query request
+    const recipeQuery = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM users FULL JOIN favorites ON users.user_id = favorites.user_id FULL JOIN recipes ON favorites.recipe_id = recipes.recipe_id WHERE users.user_id = $1;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user.
+    const recipes = await db.any(recipeQuery, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
+    .then(queryResult => {
+      return queryResult
+      //little edge case: if the user hasn't favorited any recipes, then send EMPTY results, and error message
+    })
+    .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+      console.log(err);
+      return []
+    });
+
+  if (favorites[0].recipe_id == null) {
+    res.render("pages/profile", {
+      results: [],
+      message: 'No Favorited Recipes',
+      username: req.session.user.username, //provides the username for use in EJS
+      email: req.session.user.email, //provides the email for use in EJS
+      myRecipes: []
+    });
+    return;
+  }
+
+  // show the object on console for reference, then render it to the page. On page, reference like results[0].recipe_name 
+  console.log(favorites);
+
+  res.render("pages/profile", {
+    results: favorites, //you will access in the EJS/HTML by calling results, not queryResult
+    username: req.session.user.username, //provides the username for use in EJS
+    email: req.session.user.email, //provides the email for use in EJS
+    myRecipes: recipes
+  });
+});
 
 /*GET home - will render the HTML page home.ejs with a results object containing recipes. If called from its own page, this means it needs to filter the database before returning this. If called from somewhere else (i.e. menu bar), renders with all recipes.
   
@@ -338,25 +423,24 @@ app.get("/home", (req, res) => {
     .then(queryResult => {
       //Render home page using a JSON object called results that contains all recipes for the webpage to use however it wants to.
       console.log(queryResult);
-     res.render("pages/home", {
-      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
-    });
+      res.render("pages/home", {
+        results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+      });
     })
     .catch(err => {
-    // Handle errors, send no results and an error message to HTML
+      // Handle errors, send no results and an error message to HTML
       console.log(err);
       res.render("pages/home", {
         results: [],
         message: err,
       });
     });
-}); 
+});
 
 app.post("/searchRecipeName", (req, res) => {
   const recipeName = req.body.recipe_name;
   var query = '';
-  if ((recipeName != null) && (recipeName != ""))
-  {
+  if ((recipeName != null) && (recipeName != "")) {
     query = 'SELECT * FROM recipes WHERE recipe_name = $1;';
   }
   else {
@@ -381,8 +465,7 @@ app.post("/searchRecipeName", (req, res) => {
 app.post("/searchCuisineType", (req, res) => {
   const cuisineType = req.body.cuisine_type;
   var query = '';
-  if ((cuisineType != null) && (cuisineType != ""))
-  {
+  if ((cuisineType != null) && (cuisineType != "")) {
     query = 'SELECT * FROM recipes WHERE cuisine_type = $1;';
   }
   else {
@@ -404,8 +487,7 @@ app.post("/searchCuisineType", (req, res) => {
     });
 });
 
- 
-    //IN PROGRESS
+
 app.post("/filter", (req, res) => {
 
   var i = 0; //we use this because the first filter added to the query shouldn't have AND, but the rest should
@@ -435,8 +517,8 @@ app.post("/filter", (req, res) => {
   }*/
 
   //vegan
-  if((req.body.vegan_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.vegan_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ' vegan = ' + `TRUE`;
     }
     else {
@@ -446,8 +528,8 @@ app.post("/filter", (req, res) => {
   }
 
   //vegetarian
-  if((req.body.vegetarian_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.vegetarian_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` vegetarian = TRUE`;
     }
     else {
@@ -457,8 +539,8 @@ app.post("/filter", (req, res) => {
   }
 
   //keto
-  if((req.body.keto_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.keto_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` keto = TRUE`;
     }
     else {
@@ -468,8 +550,8 @@ app.post("/filter", (req, res) => {
   }
 
   //paleo
-  if((req.body.paleo_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.paleo_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` paleo = TRUE`;
     }
     else {
@@ -480,8 +562,8 @@ app.post("/filter", (req, res) => {
 
 
   //grain free
-  if((req.body.grain_free_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.grain_free_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` grain_free = TRUE`;
     }
     else {
@@ -492,8 +574,8 @@ app.post("/filter", (req, res) => {
 
 
   //gluten free
-  if((req.body.gluten_free_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.gluten_free_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` gluten_free = TRUE`;
     }
     else {
@@ -501,21 +583,21 @@ app.post("/filter", (req, res) => {
     }
     i++;
   }
-  
+
   //dairy free
-  if((req.body.dairy_filter == "checked")){ //Not null and not empty
-    if(i == 0){
-      query = query + ` dairy_free = TRUE`;
+  if ((req.body.dairy_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
+      query = query + ` contains_dairy = TRUE`;
     }
     else {
-      query = query + ` AND dairy_free = TRUE`;
+      query = query + ` AND contains_dairy = TRUE`;
     }
     i++;
   }
 
   //eggs
-  if((req.body.eggs_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.eggs_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_eggs = FALSE`;
     }
     else {
@@ -525,8 +607,8 @@ app.post("/filter", (req, res) => {
   }
 
   //nuts
-  if((req.body.nuts_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.nuts_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_nuts = FALSE`;
     }
     else {
@@ -536,8 +618,8 @@ app.post("/filter", (req, res) => {
   }
 
   //soy
-  if((req.body.soy_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.soy_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_soy = FALSE`;
     }
     else {
@@ -545,10 +627,10 @@ app.post("/filter", (req, res) => {
     }
     i++;
   }
-  
+
   //wheat
-  if((req.body.wheat_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.wheat_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_wheat = FALSE`;
     }
     else {
@@ -556,10 +638,10 @@ app.post("/filter", (req, res) => {
     }
     i++;
   }
-  
+
   //beef
-  if((req.body.beef_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.beef_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_beef = FALSE`;
     }
     else {
@@ -567,10 +649,10 @@ app.post("/filter", (req, res) => {
     }
     i++;
   }
-  
+
   //pork
-  if((req.body.pork_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.pork_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_pork = FALSE`;
     }
     else {
@@ -578,10 +660,10 @@ app.post("/filter", (req, res) => {
     }
     i++;
   }
-  
+
   //fish
-  if((req.body.fish_filter == "checked")){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.fish_filter == "checked")) { //Not null and not empty
+    if (i == 0) {
       query = query + ` contains_fish = FALSE`;
     }
     else {
@@ -590,112 +672,102 @@ app.post("/filter", (req, res) => {
     i++;
   }
 
-  if((req.body.time_filters == 'under_30_minutes_filter')){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.time_filters == 'under_30_minutes_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` under_30_minutes = TRUE`;
     }
     else {
       query = query + ` AND under_30_minutes = TRUE`;
     }
     i++;
-  } else if((req.body.time_filters == 'm30_minutes_1_hour_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.time_filters == 'm30_minutes_1_hour_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` m30_minutes_1_hour = TRUE`;
     }
     else {
       query = query + ` AND m30_minutes_1_hour = TRUE`;
     }
     i++;
-  }else if((req.body.time_filters == 'h1_hour_2_hours_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.time_filters == 'h1_hour_2_hours_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` h1_hour_2_hours = TRUE`;
     }
     else {
       query = query + ` AND h1_hour_2_hours = TRUE`;
     }
     i++;
-  }else if((req.body.time_filters == 'h2_hours_3_hours_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.time_filters == 'h2_hours_3_hours_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` h2_hours_3_hours = TRUE`;
     }
     else {
       query = query + ` AND h2_hours_3_hours = TRUE`;
     }
     i++;
-  }else if((req.body.time_filters == 'h3_hours_or_more_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.time_filters == 'h3_hours_or_more_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` h3_hours_or_more = TRUE`;
     }
     else {
       query = query + ` AND h3_hours_or_more = TRUE`;
     }
     i++;
-  }else{ //Not null and not empty
-    if(i == 0){
+  } else { //Not null and not empty
+    if (i == 0) {
       query = query + ` (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
     }
     else {
       query = query + ` AND (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
-=======
-      query = query + ` h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
-    }
-    else {
-      query = query + ` AND h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE`;
     }
     i++;
   }
 
-  if((req.body.rating_filters == 's1_star_filter')){ //Not null and not empty
-    if(i == 0){
+  if ((req.body.rating_filters == 's1_star_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` s1_star = TRUE`;
     }
     else {
       query = query + ` AND s1_star = TRUE`;
     }
     i++;
-  } else if((req.body.rating_filters == 's2_star_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.rating_filters == 's2_star_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` s2_stars = 1TRUE`;
     }
     else {
       query = query + ` AND s2_stars = TRUE`;
     }
     i++;
-  }else if((req.body.rating_filters == 's3_star_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.rating_filters == 's3_star_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` s3_stars = TRUE`;
     }
     else {
       query = query + ` AND s3_stars = TRUE`;
     }
     i++;
-  }else if((req.body.rating_filters == 's4_star_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.rating_filters == 's4_star_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` s4_stars = TRUE`;
     }
     else {
       query = query + ` AND s4_stars = TRUE`;
     }
     i++;
-  }else if((req.body.rating_filters == 's5_star_filter')){ //Not null and not empty
-    if(i == 0){
+  } else if ((req.body.rating_filters == 's5_star_filter')) { //Not null and not empty
+    if (i == 0) {
       query = query + ` s5_stars = TRUE`;
     }
     else {
       query = query + ` AND s5_stars = TRUE`;
     }
     i++;
-  }else { //Not null and not empty
-    if(i == 0){
+  } else { //Not null and not empty
+    if (i == 0) {
       query = query + ` (s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE)`;
     }
     else {
       query = query + ` AND (s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE)`;
-=======
-      query = query + ` s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE`;
-    }
-    else {
-      query = query + ` AND s5_stars = TRUE or s4_stars = TRUE or s3_stars = TRUE or s2_stars = TRUE or s1_star = TRUE`;
     }
     i++;
   }
@@ -710,64 +782,63 @@ app.post("/filter", (req, res) => {
     .then(queryResult => {
 
       //Render HOME or different page?
-    res.render("pages/filter", {
-      results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
-    });
+      res.render("pages/filter", {
+        results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+      });
     })
     .catch(err => {
-    // Handle errors, send no results and an error message to HTML
+      // Handle errors, send no results and an error message to HTML
       console.log(err);
       res.render("pages/home", {
         results: [],
         message: err,
       });
     });
-}); 
+});
 
 
 app.get("/sort", (req, res) => {
-//Here's where you'll build the query based off of the info you receive in req.body
-//Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
-var option = req.query.sort_recipes;
-var query = 'select * from recipes;';
+  //Here's where you'll build the query based off of the info you receive in req.body
+  //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
+  var option = req.query.sort_recipes;
+  var query = 'select * from recipes;';
 
-if (option == "Date_Old_New"){
-query = 'select * from recipes order by recipes.date_published asc;';
-} else if (option == "Date_New_Old"){
-query = 'select * from recipes order by recipes.date_published desc;';
-} else if (option == "Total_Time_Low_High"){
-query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) asc;';
-} else if (option == "Total_Time_High_Low"){
-query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
-} else if (option == "Rating_High_Low"){
-query = 'select * from recipes order by recipes.rating desc;';
-} else if (option == "Rating_Low_High"){
-query = 'select * from recipes order by recipes.rating asc;';
-}
+  if (option == "Date_Old_New") {
+    query = 'select * from recipes order by recipes.date_published asc;';
+  } else if (option == "Date_New_Old") {
+    query = 'select * from recipes order by recipes.date_published desc;';
+  } else if (option == "Total_Time_Low_High") {
+    query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time)F asc;';
+  } else if (option == "Total_Time_High_Low") {
+    query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
+  } else if (option == "Rating_High_Low") {
+    query = 'select * from recipes order by recipes.rating desc;';
+  } else if (option == "Rating_Low_High") {
+    query = 'select * from recipes order by recipes.rating asc;';
+  }
 
-db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
-.then(queryResult => {
+  db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
+    .then(queryResult => {
 
-  //Render sort page
-res.render("pages/sort", {
-  results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+      //Render sort page
+      res.render("pages/sort", {
+        results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+      });
+    })
+    .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+      console.log(err);
+      res.render("pages/home", {
+        results: [],
+        message: err,
+      });
+    });
 });
-})
-.catch(err => {
-// Handle errors, send no results and an error message to HTML
-  console.log(err);
-  res.render("pages/home", {
-    results: [],
-    message: err,
-  });
-});
-}); 
 
-  //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
-  //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
-  //redirects to home.
-  */
-  //WORKING - But handles edge cases and errors badly
+//Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
+//the sent recipe will then be included in the JSON object returned by GET profile next time its called.
+//redirects to home.
+//WORKING - But handles edge cases and errors badly
 app.post("/favorite", (req, res) => {
   const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
@@ -776,17 +847,32 @@ app.post("/favorite", (req, res) => {
       res.redirect("/home");
     })
     .catch(err => {
-    // Handle errors, send no results and an error message to HTML
+      // Handle errors, send no results and an error message to HTML
       console.log(err);
       res.redirect("/home");
     });
-}); 
+});
+
+
+app.post("/favorite_delete", (req, res) => {
+  console.log("favorite route");
+  const query = 'DELETE FROM favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));';
+  db.any(query, [req.session.user.user_id, req.body.recipe_name])
+    .then(queryResult => {
+      //don't need to do anything
+      res.redirect("/profile");
+    })
+    .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+      console.log("error deleting favorite", err);
+      res.redirect("/profile");
+    });
+});
 
 
 // Authentication Required
 //app.use(auth);
 
 
-  app.listen(3000);
-  console.log("Server is listening on port 3000");
-    
+app.listen(3000);
+console.log("Server is listening on port 3000");
