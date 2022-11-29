@@ -1,9 +1,42 @@
+
+/* Initialize Users Table*/
 insert into users (username, email, password) values ('Player1', 'player1@gmail.com', '12345');
 insert into users (username, email, password) values ('Player2', 'player2@gmail.com', '12345');
 insert into users (username, email, password) values ('Robert', 'rob@gmail.com', 'ert');
 insert into users (username, email, password) values ('OldPerson', 'grandpa@gmail.com', 'cooking');
 insert into users (username, email, password) values ('Light', 'deathnote@gmail.com', 'illtakeapotatochipandeatit');
 
+/* mock recipes */
+insert into recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, 
+    date_published, vegan, vegetarian, keto, paleo, grain_free, gluten_free, contains_dairy, contains_eggs, contains_nuts, contains_soy, 
+    contains_wheat, contains_beef, contains_pork, contains_fish, under_30_minutes, m30_minutes_1_hour, h1_hour_2_hours, h2_hours_3_hours, 
+    h3_hours_or_more, s1_star, s2_stars, s3_stars, s4_stars, s5_stars)
+    values('Steak and Eggs', 10, 30, 'https://healthyrecipesblogs.com/wp-content/uploads/2013/02/steak-and-eggs-featured-2021.jpg', 
+    '2 (5 ounce) filet mignon
+
+1 tablespoon steak seasoning
+
+1 teaspoon salt
+
+2 slices thick-cut bacon
+
+2 tablespoons clarified butter, divided
+
+2 large eggs', 'Preheat the oven to 400 degrees F (200 degrees C).
+
+Melt 1 tablespoon butter in a cast iron skillet over medium heat. Add steaks and sear for 1 minute per side.
+
+Transfer the skillet to the preheated oven and bake to medium-rare or medium, 6 to 8 minutes. An instant-read thermometer inserted into the center should read 130 to 140 degrees F (54 to 60 degrees C).
+
+Remove from the oven and transfer steaks to a plate. Tent with foil to let the juices set while you cook the eggs.
+
+Wipe the excess grease from the skillet, add the remaining 1 tablespoon butter, and place over medium heat. Gently crack eggs into the skillet, being careful not to break the yolks as youre preparing these sunny-side up.
+
+Drop 1 tablespoon water into the skillet to make a rush of steam and cover immediately so the steam can help cook the eggs without letting the bottoms burn. Cook until the whites are cooked through but the yolks are still runny, 1 to 2 minutes.
+
+Remove from the pan and serve with the steaks.', 1, 'American', 5, '2020-01-01', false, false, false, false, false, true, false, true, 
+    false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, true);
+/* mock recipes */
 
 
 insert into recipes (recipe_name, prep_time, cook_time, recipe_image, recipe_ingredients, instructions, author_id, cuisine_type, rating, 
@@ -89,7 +122,11 @@ salt and ground black pepper to taste,
 
 2 cups vegetable broth, 
 
-1 (14 ounce) can pinto beans, rinsed and drained', 'Recipe B Instructions', 1, 'Mexican', 1, '2020-12-21',
+1 (14 ounce) can pinto beans, rinsed and drained', 'Heat olive oil in a medium pot over medium-high heat. Cook and stir onion, poblano pepper, and garlic in hot oil for 2 to 3 minutes. Add rice and cook, stirring occasionally, until rice is completely coated in oil, about 2 minutes. Season with paprika, cumin, oregano, salt, and black pepper.
+
+Stir in tomato paste and cook for 1 to 2 minutes. Add vegetable broth and pinto beans. Bring to a boil; reduce heat to low. Cover and simmer until rice is tender, 15 to 20 minutes.
+
+Remove the pot from the heat, keep covered, and let stand for at least 5 minutes. Fluff with a fork.', 1, 'Mexican', 1, '2020-12-21',
    true, true, true, false, false, true, false, true, 
     false, true, false, true, false, true, false, false, true, false, false, true, false, false ,false, false); 
 

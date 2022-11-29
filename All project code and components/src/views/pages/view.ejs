@@ -1,0 +1,98 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main>
+  <div class="container-fluid">
+    <div style="background-image:url(img/Healthy_food_ingredients.jpg)">
+      <br><br>
+      <div class="row">
+        <div class="col"></div>
+        <div style="background-color:black; opacity:0.6" class="col-10">
+          <br>
+          <h1 style="text-align:center; color:white; opacity:1">Discover Recipes</h1>
+          <br>
+        </div>
+        <div class="col"></div>
+      </div>
+      <br><br>
+    </div>
+    <div class="col"><%- include ('../partials/message') %></div>
+    <div class="row">
+
+
+      <% results.forEach(result => { %>
+        <div class="mt-md-4"></div>
+
+        <div class="card col-lg-4 col-md-6">
+          <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
+          <div class="card-body">
+            <h4 class="card-title"><%= result.recipe_name %></h4>
+            <div class="row">
+            </div>
+          </div>
+        </div>
+        <div class="card col-lg-4 col-md-6">
+        <h5>Ingredients</h5>
+        <%= result.recipe_ingredients %> 
+        </div>
+        <div class="card col-lg-4 col-md-6">
+          <h5>Instructions</h5>
+          <%= result.instructions %> 
+          <div class="mt-md-4"></div>
+          <div class="mt-md-4"></div>
+
+          <h6> Rating </h6>
+          <% if (result.rating == 1){ %>
+            <img class="img-responsive" src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+          <% } else if (result.rating == 2) { %>
+            <div class="row">
+              <div class="column">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+              </div>
+            </div>
+
+          <% } else if (result.rating == 3) { %>
+
+            <div class="row">
+              <div class="column">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+              </div>
+            </div>
+          <% } else if (result.rating == 4) { %>  
+            <div class="row">
+              <div class="column">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+              </div>
+            </div>
+          <% } else if (result.rating == 5) { %>  
+            <div class="row">
+              <div class="column">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" width="50px" alt="">
+              </div>
+            </div>
+            
+            <% } %>
+          </div>
+        
+    <% }) %>
+
+
+
+
+
+      <div class="col"></div>
+    </div>
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>

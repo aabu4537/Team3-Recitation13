@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 const { query } = require('express');
+const url = require('url');
 //const { queryResult } = require("pg-promise");
 // db config
 const dbConfig = {
@@ -436,6 +437,188 @@ app.get("/home", (req, res) => {
     });
 });
 
+
+
+// app.get("/view", (req, res) => {
+
+
+//   console.log(req.query.recipe_id) // "great-white"
+//   const query = 'select * from recipes where recipe_id = req.query.recipe_id;'; //getting all recipes and all their info
+//     db.one(query, [query_recipe]) //note: MUST be db.any to return multipe query rows /recipes!
+//       .then(queryResult => {
+//         //Render home page using a JSON object called results that contains all recipes for the webpage to use however it wants to.
+//         console.log(queryResult);
+//        res.render('pages/view',{
+//         results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+//       });
+//       })
+//       .catch(err => {
+//       // Handle errors, send no results and an error message to HTML
+//         console.log(err);
+//         res.render("pages/home", {
+//           results: [],
+//           message: err,
+//         });
+//       });
+//   }); 
+
+// app.get("/sort", (req, res) => {
+//   //Here's where you'll build the query based off of the info you receive in req.body
+//   //Note that you should always return all of the recipes, just sorted. Thus you probably want to use ORDER BY the sum of cook and prep time rather than the 5 total time booleans, etc
+//   var option = req.query.sort_recipes;
+//   var query = 'select * from recipes;';
+  
+//   if (option == "Date_Old_New"){
+//   query = 'select * from recipes order by recipes.date_published asc;';
+//   } else if (option == "Date_New_Old"){
+//   query = 'select * from recipes order by recipes.date_published desc;';
+//   } else if (option == "Total_Time_Low_High"){
+//   query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) asc;';
+//   } else if (option == "Total_Time_High_Low"){
+//   query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
+//   } else if (option == "Rating_High_Low"){
+//   query = 'select * from recipes order by recipes.rating desc;';
+//   } else if (option == "Rating_Low_High"){
+//   query = 'select * from recipes order by recipes.rating asc;';
+//   }
+  
+//   db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
+//   .then(queryResult => {
+  
+//     //Render sort page
+//   res.render("pages/sort", {
+//     results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+//   });
+//   })
+//   .catch(err => {
+//   // Handle errors, send no results and an error message to HTML
+//     console.log(err);
+//     res.render("pages/home", {
+//       results: [],
+//       message: err,
+//     });
+//   });
+//   }); 
+
+
+
+
+app.get("/view", (req, res) => {
+
+
+    var query_recipe = req.query.recipe_id;    
+    var d = parseInt(query_recipe);
+    const query =  "select * from recipes where recipe_id = '" + d + "'  ;"; 
+
+    
+    // if (d = 1){
+    //   const query = "select * from recipes where recipe_id = 1 ;"; 
+    // } else if (d = 2){
+    //   const query = "select * from recipes where recipe_id = 2 ;"; 
+    // } else if (d = 3){
+    //   const query = "select * from recipes where recipe_id = 3 ;" ;
+    // } else if (d = 4){
+    //   const query = "select * from recipes where recipe_id = 4 ;" ;
+    // } else if (d = 5){
+    //   const query = "select * from recipes where recipe_id = 5 ;" ;
+    // } else if (d = 6){
+    //   const query = "select * from recipes where recipe_id = 6 ;"; 
+    // } else if (d = 7){
+    //   const query = "select * from recipes where recipe_id = 7 ;" ;
+    // } else if (d = 8){
+    //   const query = "select * from recipes where recipe_id = 8 ;"; 
+    // } else if (d = 9){
+    //   const query = "select * from recipes where recipe_id = 9 ;"; 
+    // } else if (d = 10){
+    //   const query = "select * from recipes where recipe_id = 10 ;" ;
+    // } else if (d = 11){
+    //   const query = "select * from recipes where recipe_id = 11;" ;
+    // } else if (d = 12){
+    //   const query = "select * from recipes where recipe_id = 12 ;"; 
+    // } else if (d = 13){
+    //   const query = "select * from recipes where recipe_id = 13 ;"; 
+    // } else if (d = 14){
+    //   const query = "select * from recipes where recipe_id = 14 ;"; 
+    // } else if (d = 15){
+    //   const query = "select * from recipes where recipe_id = 15;"; 
+    // } else if (d = 16){
+    //   const query = "select * from recipes where recipe_id = 16 ;"; 
+    // } else if (d = 17){
+    //   const query = "select * from recipes where recipe_id = 17 ;"; 
+    // } else if (d = 18){
+    //   const query = "select * from recipes where recipe_id = 18 ;"; 
+    // } else if (d = 19){
+    //   const query = "select * from recipes where recipe_id = 19 ;"; 
+    // } else if (d = 20){
+    //   const query = "select * from recipes where recipe_id = 20 ;"; 
+    // } else if (d = 21){
+    //   const query = "select * from recipes where recipe_id = 21 ;" ;
+    // } 
+
+
+
+    console.log(query);
+
+      db.any(query) //note: MUST be db.any to return multipe query rows /recipes!
+        .then(queryResult => {
+          //Render home page using a JSON object called results that contains all recipes for the webpage to use however it wants to.
+          console.log(queryResult);
+         res.render('pages/view',{
+          results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+        });
+        })
+        .catch(err => {
+        // Handle errors, send no results and an error message to HTML
+          console.log(err);
+          res.render("pages/home", {
+            results: [],
+            message: err,
+          });
+        });
+    }); 
+
+  // app.post("/favorite", (req, res) => {
+  //   const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
+  //   db.any(query, [req.session.user.user_id, req.body.recipe_name])
+  //     .then(queryResult => {
+  //       //don't need to do anything
+  //       res.redirect("/home");
+  //     })
+  //     .catch(err => {
+  //     // Handle errors, send no results and an error message to HTML
+  //       console.log(err);
+  //       res.redirect("/home");
+  //     });
+  // }); 
+
+
+
+  // app.get("/view/recipe_id", (req, res) => {
+  //   var query_recipe = req.params.recipe_id
+  //   const query = 'select * from recipes where recipe_id = $1;'; //getting all recipes and all their info
+  //   db.one(query, [query_recipe]) //note: MUST be db.any to return multipe query rows /recipes!
+  //     .then(queryResult => {
+  //       //Render home page using a JSON object called results that contains all recipes for the webpage to use however it wants to.
+  //       console.log(queryResult);
+  //      res.render('pages/view',{
+  //       results: queryResult, //you will access in the EJS/HTML by calling results, not queryResult
+  //     });
+  //     })
+  //     .catch(err => {
+  //     // Handle errors, send no results and an error message to HTML
+  //       console.log(err);
+  //       res.render("pages/home", {
+  //         results: [],
+  //         message: err,
+  //       });
+  //     });
+  // }); 
+
+
+
+
+
+
 app.post("/searchRecipeName", (req, res) => {
   const recipeName = req.body.recipe_name;
   var query = '';
@@ -715,7 +898,7 @@ app.post("/filter", (req, res) => {
     if (i == 0) {
       query = query + ` (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
     }
-    else {
+    else{
       query = query + ` AND (h3_hours_or_more = TRUE or under_30_minutes = TRUE or h2_hours_3_hours = TRUE or h1_hour_2_hours = TRUE or m30_minutes_1_hour = TRUE)`;
     }
     i++;
@@ -834,10 +1017,15 @@ app.get("/sort", (req, res) => {
     });
 });
 
-//Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
-//the sent recipe will then be included in the JSON object returned by GET profile next time its called.
-//redirects to home.
-//WORKING - But handles edge cases and errors badly
+
+
+/*
+  //Explanation: POST favorite will take req.body.recipe_name and use this along with req.session.user.user_id to add an entry to the favorites table. 
+  //the sent recipe will then be included in the JSON object returned by GET profile next time its called.
+  //redirects to home.
+  */
+  //WORKING - But handles edge cases and errors badly
+
 app.post("/favorite", (req, res) => {
   const query = 'INSERT INTO favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));'; //insert a new row in favorites which is the user's id and the recipe_id of the recipe the user typed
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
