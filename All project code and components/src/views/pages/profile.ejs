@@ -1,182 +1,386 @@
-<%- include ('../partials/header') %> <%- include ('../partials/menu') %>
+<%- include ('../partials/header') %>
+    <%- include ('../partials/menu') %>
 
-<main>
-    <div class="container">
-        <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-        <div class="container bootstrap snippets bootdey">
-        <div class="row">
-            <div class="profile-nav col-md-3">
-                <div class="panel">
-                    <div class="user-heading round">
-                        <h1></h1>
-                        <!--Fetch username and email from data-->
-                        <h1><%= username %>, Welcome to your profile!</h1>
-                        <p><%= email %></p>
-                    </div>
-                    <ul class="nav nav-pills nav-stacked">
-                        <button type="button" class="btn btn-primary btn-lg active" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Add a recipe 
-                        </button>
-                    </ul>
-                </div>
-            </div>
-
-
-            
-            <div class="profile-info col-md-9">
-                <p1 class="display-6">My favorite recipes</p1>
-                <div class="row">
-                    <% results.forEach(result => { %>
-                        <div class="card col-lg-4 col-md-6">
-                          <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
-                          <div class="card-body">
-                            <h4 class="card-title"><%= result.recipe_name %></h4>
-                            <div class="row">
-                              <div class="col">
-                                <form action="/view" method="get">
-                                  <input type="hidden" name="recipe_id" value="<%- result.recipe_id %>"/>
-                                  <button type="submit" class="form-control" style="background-color:rgb(166, 166, 16); color:white">View Recipe</button>
-                                </form>
-                              </div>
+        <main>
+            <div class="container">
+                <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+                <div class="container bootstrap snippets bootdey">
+                    <div class="row">
+                        <div class="profile-nav col-md-3">
+                            <div class="panel">
+                                <div class="user-heading round">
+                                    <h1></h1>
+                                    <!--Fetch username and email from data-->
+                                    <h1>
+                                        <%= username %>, Welcome to your profile!
+                                    </h1>
+                                    <p>
+                                        <%= email %>
+                                    </p>
+                                </div>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <button type="button" class="btn btn-primary btn-lg active" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        Add a recipe
+                                    </button>
+                                </ul>
                             </div>
-                          </div>
                         </div>
-                    <% }) %>
-                  </div>
-            </div>
-            
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add a recipe</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                        <form action="/upload" method="post" id="form1">
-                            <div class="mb-3">
-                                <label class="form-label">Recipe name</label>
-                                <input class="form-control" id="recipe_name" name="recipe_name">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Prep time</label>
-                                <input class="form-control" id="prep_time" name="prep_time">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Cook time</label>
-                                <input class="form-control" id="cook_time" name="cook_time">
-                            </div>
-                            <div class="mb-3">
-                                <label class="col-form-label">Ingredients</label>
-                                <textarea class="form-control" id="recipe_ingredients" name="recipe_ingredients"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="col-form-label">Instructions</label>
-                                <textarea class="form-control" id="instructions" name="instructions"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="col-form-label">Cuisine type</label>
-                                <input class="form-control" id="cuisine_type" name="cuisine_type"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="col-form-label">Rating</label>
-                                <input class="form-control" id="rating" name="rating"></textarea>
-                            </div>
-                            
-                            <label for="exampleInputPassword1" class="form-label">Check all that apply</label>
-                            
 
-                            <div>
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="vegetarian" name="vegetarian">
-                                    <label class="form-check-label" for="exampleCheck1">vegetarian</label>
-                                </div>
-                                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="vegan" name="vegan">
-                                    <label class="form-check-label" for="exampleCheck2">vegan</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="keto" name="keto">
-                                    <label class="form-check-label" for="exampleCheck3">keto</label> 
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="paleo" name="paleo">
-                                    <label class="form-check-label" for="exampleCheck4">paleo</label> 
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="grain_free" name="grain_free">
-                                    <label class="form-check-label" for="exampleCheck5">grain free</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="gluten_free" name="gluten_free">
-                                    <label class="form-check-label" for="exampleCheck6">gluten free</label> 
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_dairy" name="contains_dairy">
-                                    <label class="form-check-label" for="exampleCheck7">contains dairy</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_eggs" name="contains_eggs">
-                                    <label class="form-check-label" for="exampleCheck8">contains eggs</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_nuts" name="contains_nuts">
-                                    <label class="form-check-label" for="exampleCheck9">contains nuts</label> 
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_soy" name="contains_soy">
-                                    <label class="form-check-label" for="exampleCheck10">contains soy</label> 
-                                </div>
-                                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_wheat" name="contains_wheat">
-                                    <label class="form-check-label" for="exampleCheck11">contains wheat</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_beef" name="contains_beef">
-                                    <label class="form-check-label" for="exampleCheck12">contains beef</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_pork" name="contains_pork">
-                                    <label class="form-check-label" for="exampleCheck13">contains pork</label>
-                                </div>
-                
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="contains_fish" name="contains_fish">
-                                    <label class="form-check-label" for="exampleCheck14">contains fish</label>
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Image link</label>
-                                <input class="form-control" id="recipe_image" name="recipe_image">
-                            </div>
-                        </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary" form="form1">Submit</button> <!--submit to data base and homepage-->
-                </div>
-              </div>
-            </div>
-          </div>
-        
-    </div>
-    <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </main>
 
-<%- include ('../partials/footer') %>
+                        <div class="profile-info col-md-9">
+                            <p1 class="display-6">My favorite recipes</p1>
+                            <div class="row">
+                                <% results.forEach(result=> { %>
+                                    <div class="card col-lg-4 col-md-6">
+                                        <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
+                                        <div class="card-body">
+                                            <h4 class="card-title">
+                                                <%= result.recipe_name %>
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <form action="/view" method="get">
+                                                        <input type="hidden" name="recipe_id"
+                                                            value="<%- result.recipe_id %>" />
+                                                        <button type="submit" class="form-control"
+                                                            style="background-color:rgb(166, 166, 16); color:white"><a
+                                                                src="fullRecipes.ejs">View Recipe</a></button>
+                                                    </form>
+                                                    <form action="/favorite_delete" method="post">
+                                                        <input type="hidden" name="recipe_name"
+                                                            value="<%- result.recipe_name %>" />
+                                                        <button type="submit" class="form-control"
+                                                            style="background-color:rgb(83, 0, 25); color:white">Remove
+                                                            favorite</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+
+                        <div class="profile-info col-md-9">
+                            <p1 class="display-6">My recipes</p1>
+                            <div class="row">
+                                <% myRecipes.forEach(result=> { %>
+                                    <div class="card col-lg-4 col-md-6">
+                                        <img class="card-img-top" src="<%= result.recipe_image %>" alt="Food">
+                                        <div class="card-body">
+                                            <h4 class="card-title">
+                                                <%= result.recipe_name %>
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <form action="/view" method="get">
+                                                        <input type="hidden" name="recipe_id"
+                                                            value="<%- result.recipe_id %>" />
+                                                        <button type="submit" class="form-control"
+                                                            style="background-color:rgb(166, 166, 16); color:white"><a
+                                                                src="fullRecipes.ejs">View Recipe</a></button>
+                                                    </form>
+                                                    <button
+                                                        class="form-control recipe-<%= result.recipe_id %>-edit-button"
+                                                        style="background-color:rgb(178, 217, 181); color:white">Edit
+                                                        recipe</button>
+                                                    <script>
+                                                        const button = document.querySelector(".recipe-<%= result.recipe_id %>-edit-button");
+                                                        button.onclick = () => {
+                                                            const form = document.querySelector(".recipe-<%= result.recipe_id %>-edit-form");
+                                                            form.classList.remove("d-none");
+                                                            button.classList.add("d-none");
+                                                        }
+                                                    </script>
+                                                    <form action="/edit" method="post"
+                                                        class="d-none recipe-<%= result.recipe_id %>-edit-form">
+                                                        <input type="hidden" name="recipe_id" value="<%- result.recipe_id %>" />
+
+                                                        <label class="form-label">Recipe name</label>
+                                                        <input class="form-control" type="text" name="recipe_name" value="<%- result.recipe_name %>" />
+
+                                                        <label class="form-label">Recipe name</label>
+                                                        <input class="form-control" type="text" name="prep_time" value="<%- result.prep_time %>" />
+
+                                                        <label class="form-label">Recipe name</label>
+                                                        <input class="form-control" type="text" name="cook_time" value="<%- result.cook_time %>" />
+
+                                                        <label class="form-label">Recipe name</label>
+                                                        <input class="form-control" type="text" name="recipe_image" value="<%- result.recipe_image %>" />
+
+                                                        <label class="form-label">Ingredients</label>
+                                                        <textarea class="form-control" name="recipe_ingredients" value="<%- result.recipe_ingredients %>"></textarea>
+
+                                                        <label class="form-label">instructions</label>
+                                                        <textarea class="form-control" name="instructions" value="<%- result.instructions %>"></textarea>
+
+                                                        <label class="form-label">Recipe name</label>
+                                                        <input class="form-control" type="text" name="cuisine_type" value="<%- result.cuisine_type %>" />
+
+                                                        <label class="form-label">Rating</label>
+                                                        <input class="form-control" type="text" name="rating" value="<%- result.rating %>" />
+                                                    
+                                                    <div class ="mb-3 col">
+
+                                                        <div>
+                                                         <input class="form-check-input" type="checkbox" name="vegan" value="<%- result.vegan %>" />
+                                                         <label class="form-label">vegan</label>   
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class="form-check-input" name="vegetarian" value="<%- result.vegetarian %>" />
+                                                          <label class="form-label">vegetarian</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="keto" value="<%- result.keto %>" />
+                                                          <label class="form-label">keto</label>
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="paleo" value="<%- result.paleo %>" />
+                                                        <label class="form-label">paleo</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                           <input class ="form-check-input" type="checkbox" name="grain_free" value="<%- result.grain_free %>" />
+                                                        <label class="form-label">grain_free</label> 
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="gluten_free" value="<%- result.gluten_free %>" />
+                                                        <label class="form-label">gluten_free</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                           <input class ="form-check-input" type="checkbox" name="contains_dairy" value="<%- result.contains_dairy %>" />
+                                                        <label class="form-label">contains_dairy</label> 
+                                                        </div>
+                                                        
+                                                        <div>
+                                                           <input class ="form-check-input" type="checkbox" name="contains_eggs" value="<%- result.contains_eggs %>" />
+                                                        <label class="form-label">contains_eggs</label> 
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="contains_nuts" value="<%- result.contains_nuts %>" />
+                                                        <label class="form-label">contains_nuts</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="contains_soy" value="<%- result.contains_soy %>" />
+                                                        <label class="form-label">contains_soy</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="contains_wheat" value="<%- result.contains_wheat %>" />
+                                                        <label class="form-label">contains_wheat</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="contains_beef" value="<%- result.contains_beef %>" />
+                                                        <label class="form-label">contains_beef</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="contains_pork" value="<%- result.contains_pork %>" />
+                                                        <label class="form-label">contains_pork</label>  
+                                                        </div>
+                                                        
+                                                        <div>
+                                                          <input class ="form-check-input" type="checkbox" name="contains_fish" value="<%- result.contains_fish %>" />
+                                                        <label class="form-label">contains_fish</label>  
+                                                        </div>
+                                                        
+                                                        
+                                                    </div>
+                                                        <button type="submit" class="form-control"
+                                                            style="background-color:rgb(178, 217, 181); color:white">Save recipe</button>
+                                                    </form>
+                                                    <form action="/recipe_delete" method="post">
+                                                        <input type="hidden" name="recipe_name"
+                                                            value="<%- result.recipe_name %>" />
+                                                        <button type="submit" class="form-control"
+                                                            style="background-color:rgb(160, 11, 11); color:white">Delete recipe</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+
+
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add a recipe</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/upload" method="post" id="form1">
+                                            <div class="mb-3">
+                                                <label class="form-label">Recipe name</label>
+                                                <input class="form-control" id="recipe_name" name="recipe_name">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Prep time</label>
+                                                <input class="form-control" id="prep_time" name="prep_time">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Cook time</label>
+                                                <input class="form-control" id="cook_time" name="cook_time">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Ingredients</label>
+                                                <textarea class="form-control" id="recipe_ingredients"
+                                                    name="recipe_ingredients"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Instructions</label>
+                                                <textarea class="form-control" id="instructions"
+                                                    name="instructions"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Cuisine type</label>
+                                                <input class="form-control" id="cuisine_type"
+                                                    name="cuisine_type"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Rating</label>
+                                                <input class="form-control" id="rating" name="rating"></textarea>
+                                            </div>
+
+                                            <label for="exampleInputPassword1" class="form-label">Check all that
+                                                apply</label>
+
+
+                                            <div class="mb-3 col">
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="vegetarian"
+                                                        name="vegetarian">
+                                                    <label class="form-check-label"
+                                                        for="exampleCheck1">vegetarian</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="vegan"
+                                                        name="vegan">
+                                                    <label class="form-check-label" for="exampleCheck2">vegan</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="keto"
+                                                        name="keto">
+                                                    <label class="form-check-label" for="exampleCheck3">keto</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="paleo"
+                                                        name="paleo">
+                                                    <label class="form-check-label" for="exampleCheck4">paleo</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="grain_free"
+                                                        name="grain_free">
+                                                    <label class="form-check-label" for="exampleCheck5">grain
+                                                        free</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="gluten_free"
+                                                        name="gluten_free">
+                                                    <label class="form-check-label" for="exampleCheck6">gluten
+                                                        free</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_dairy"
+                                                        name="contains_dairy">
+                                                    <label class="form-check-label" for="exampleCheck7">contains
+                                                        dairy</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_eggs"
+                                                        name="contains_eggs">
+                                                    <label class="form-check-label" for="exampleCheck8">contains
+                                                        eggs</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_nuts"
+                                                        name="contains_nuts">
+                                                    <label class="form-check-label" for="exampleCheck9">contains
+                                                        nuts</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_soy"
+                                                        name="contains_soy">
+                                                    <label class="form-check-label" for="exampleCheck10">contains
+                                                        soy</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_wheat"
+                                                        name="contains_wheat">
+                                                    <label class="form-check-label" for="exampleCheck11">contains
+                                                        wheat</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_beef"
+                                                        name="contains_beef">
+                                                    <label class="form-check-label" for="exampleCheck12">contains
+                                                        beef</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_pork"
+                                                        name="contains_pork">
+                                                    <label class="form-check-label" for="exampleCheck13">contains
+                                                        pork</label>
+                                                </div>
+
+                                                <div>
+                                                    <input type="checkbox" class="form-check-input" id="contains_fish"
+                                                        name="contains_fish">
+                                                    <label class="form-check-label" for="exampleCheck14">contains
+                                                        fish</label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Image link</label>
+                                                <input class="form-control" id="recipe_image" name="recipe_image">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" form="form1">Submit</button>
+                                        <!--submit to data base and homepage-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- JavaScript Bundle with Popper -->
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                        crossorigin="anonymous"></script>
+        </main>
+
+        <%- include ('../partials/footer') %>
