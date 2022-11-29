@@ -362,8 +362,7 @@ app.get("/profile", async (req, res) => {
       console.log(err);
       return []
     });
-    //fix query request
-    const recipeQuery = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM recipes WHERE recipes.author_id = $1;'; //need to do a join on recipes, users, over favorites, so that we can select all recipes that are the favorite of the current user.
+    const recipeQuery = 'SELECT recipes.recipe_id, recipes.recipe_name, recipes.prep_time, recipes.cook_time, recipes.recipe_image, recipes.recipe_ingredients, recipes.instructions, recipes.author_id, recipes.cuisine_type, recipes.rating, recipes.date_published, recipes.vegan, recipes.vegetarian, recipes.keto, recipes.paleo, recipes.grain_free, recipes.gluten_free, recipes.contains_dairy, recipes.contains_eggs, recipes.contains_nuts, recipes.contains_soy, recipes.contains_wheat, recipes.contains_beef, recipes.contains_pork, recipes.contains_fish, recipes.under_30_minutes, recipes.m30_minutes_1_hour, recipes.h1_hour_2_hours, recipes.h2_hours_3_hours, recipes.h3_hours_or_more, recipes.s1_star, recipes.s2_stars, recipes.s3_stars, recipes.s4_stars, recipes.s5_stars FROM recipes WHERE recipes.author_id = $1;'; //select recipes with the user id to show in the profile.
     const recipes = await db.any(recipeQuery, [req.session.user.user_id]) //note: MUST be db.any to return multipe query rows /recipes!
     .then(queryResult => {
       return queryResult
@@ -856,7 +855,9 @@ app.post("/favorite", (req, res) => {
 
 app.post("/favorite_delete", (req, res) => {
   console.log("favorite route");
-  const query = 'DELETE FROM favorites (user_id, recipe_id) VALUES ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2));';
+  console.log("hello world");
+
+  const query = 'DELETE FROM favorites WHERE user_id = $1 AND recipe_id = (SELECT recipe_id FROM recipes WHERE recipe_name = $2);';
   db.any(query, [req.session.user.user_id, req.body.recipe_name])
     .then(queryResult => {
       //don't need to do anything
@@ -865,6 +866,93 @@ app.post("/favorite_delete", (req, res) => {
     .catch(err => {
       // Handle errors, send no results and an error message to HTML
       console.log("error deleting favorite", err);
+      res.redirect("/profile");
+    });
+});
+
+app.post("/recipe_delete", (req, res) => {
+  console.log("delete recipe route");
+  const query = 'DELETE FROM recipes WHERE recipe_id = (SELECT recipe_id FROM recipes WHERE recipe_name = $1);';
+  db.any(query, [req.body.recipe_name])
+    .then(queryResult => {
+      //don't need to do anything
+      res.redirect("/profile");
+    })
+    .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+      console.log("error deleting recipe", err);
+      res.redirect("/profile");
+    });
+});
+
+
+app.post("/edit", (req, res) => {
+  console.log("edit recipe route");
+  // ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2))
+
+  // TODO: Add the rest of the columns to the SET clause
+  const query = `
+    UPDATE recipes SET 
+      recipe_name = $2,
+      prep_time = $3,
+      cook_time = $4,
+      recipe_image = $5,
+      recipe_ingredients = $6,
+      instructions = $7,
+      cuisine_type = $8,
+      rating = $9,
+      vegan = $10,
+      vegetarian = $11,
+      keto = $12,
+      paleo = $13,
+      grain_free = $14,
+      gluten_free = $15,
+      contains_dairy = $16,
+      contains_eggs = $17,
+      contains_nuts = $18,
+      contains_soy = $19,
+      contains_wheat = $20,
+      contains_beef = $21,
+      contains_pork = $22,
+      contains_fish = $23
+    WHERE
+      recipe_id = $1
+    ;
+  `;
+
+  // TODO: Add the rest of the column values (data) to this list
+  db.any(query, [
+    req.body.recipe_id,
+    req.body.recipe_name,
+    req.body.prep_time,
+    req.body.cook_time,
+    req.body.recipe_image,
+    req.body.recipe_ingredients,
+    req.body.instructions,
+    req.body.cuisine_type,
+    req.body.rating,
+    req.body.vegan,
+    req.body.vegetarian,
+    req.body.keto,
+    req.body.paleo,
+    req.body.grain_free,
+    req.body.gluten_free,
+    req.body.contains_dairy,
+    req.body.contains_eggs,
+    req.body.contains_nuts,
+    req.body.contains_soy,
+    req.body.contains_wheat,
+    req.body.contains_beef,
+    req.body.contains_pork,
+    req.body.contains_fish
+  ])
+    .then(queryResult => {
+      //don't need to do anything
+      res.redirect("/profile");
+    })
+    .catch(err => {
+      // Handle errors, send no results and an error message to HTML
+      console.log("error editing recipe", err);
       res.redirect("/profile");
     });
 });
