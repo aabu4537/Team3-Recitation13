@@ -1075,10 +1075,8 @@ app.post("/recipe_delete", (req, res) => {
 
 
 app.post("/edit", (req, res) => {
-  console.log("edit recipe route");
+  console.log("edit recipe route", req.body);
   // ($1, (SELECT recipe_id FROM recipes WHERE recipe_name = $2))
-
-  // TODO: Add the rest of the columns to the SET clause
   const query = `
     UPDATE recipes SET 
       recipe_name = $2,
@@ -1108,7 +1106,6 @@ app.post("/edit", (req, res) => {
     ;
   `;
 
-  // TODO: Add the rest of the column values (data) to this list
   db.any(query, [
     req.body.recipe_id,
     req.body.recipe_name,
@@ -1119,20 +1116,20 @@ app.post("/edit", (req, res) => {
     req.body.instructions,
     req.body.cuisine_type,
     req.body.rating,
-    req.body.vegan,
-    req.body.vegetarian,
-    req.body.keto,
-    req.body.paleo,
-    req.body.grain_free,
-    req.body.gluten_free,
-    req.body.contains_dairy,
-    req.body.contains_eggs,
-    req.body.contains_nuts,
-    req.body.contains_soy,
-    req.body.contains_wheat,
-    req.body.contains_beef,
-    req.body.contains_pork,
-    req.body.contains_fish
+    req.body.vegan || false,
+    req.body.vegetarian || false,
+    req.body.keto || false,
+    req.body.paleo || false,
+    req.body.grain_free || false,
+    req.body.gluten_free || false,
+    req.body.contains_dairy || false,
+    req.body.contains_eggs || false,
+    req.body.contains_nuts || false,
+    req.body.contains_soy || false,
+    req.body.contains_wheat || false,
+    req.body.contains_beef || false,
+    req.body.contains_pork || false,
+    req.body.contains_fish || false
   ])
     .then(queryResult => {
       //don't need to do anything
