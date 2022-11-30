@@ -1,31 +1,44 @@
-Last TA Meeting (11/15/2022):
+Last TA Meeting (11/17/2022):
 - Had bugs with login, users could not login
-- Sort and Filter functions in Discover page were not functional
-- Had bugs with profile, profiles for every user was the same
+- Had bugs with sorting in Discover page, could not sort by cook time: low to high
+- "View Recipe" button on recipe cards were not functional
+- Checkboxes unaligned on the "Add a recipe" modal
+- Only features on the Profile page were "My favorite recipes" and "Add a recipe"
 
-What's Changed (11/15/2022):
-- Added a search feature to the Discover page
+What's Changed (11/17/2022):
+- Added a "My Recipes" feature to the Profile page
+- Added a recipe page for each recipe
+- Added "Edit recipe", "Delete recipe", "Remove favorite" features to the Profile page
+- Fixed layout issues in the "Add a recipe" modal on the Profile page
+- Fixed sorting bug on the Discover page
+
 - Fixed the following APIs:
-    - (GET) "/filter", "/sort"
+    - (GET) "/sort"
 - Created the following APIs:
     - (GET) "view"
-    - (POST) "/searchRecipeName", "/searchCuisineType"
-- Added a page with recipe details for each recipe
+    - (POST) "/favorite_delete", "/recipe_delete", "edit"
 
 - Users can now:
-    - Successfully login
     - Click on "View Recipe" on each recipe card in the Discover Page to see recipe details on a new page
-    - Search for recipes by recipe name or cuisine type
-    - Filter recipes on the discover page
-    - Sort recipes on the discover page
-    - Upload recipes from their profile
-    - View the recipes they've favorited on their profile
+    - Remove a recipe from their Favorites on their Profile page
+    - Successfully create, edit, and delete their own recipes from their Profile page
+    - Sort recipes by cook time from lowest to highest on the Discover page
 
-- Additional commits since last TA meeting (11/15/2022):
-    Eric: 3
-    Drew: 3
-    Alam: 4
+- Additional commits since last TA meeting (11/17/2022):
+    Eric: 0
+    Drew: 0
+    Alam: 3
     Batool: 4
-    Kayla: 2
+    Kayla: 0
 
-Last edited: November 17th, 2022
+Testing(11/28/2022 - 11/30/2022):
+- Use Cases:
+    - Login/Logout/Register
+    - Filter Recipes
+    - Search/Sort Recipes
+    - Favorite/Unfavorite Recipes
+    - Add/Edit/Delete Recipes
+- Number of Participants: 5
+* For full testing details, see the Milestone SUbmissions/ProjectReport_13 on Github
+
+Last edited: November 30th, 2022
