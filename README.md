@@ -28,3 +28,6 @@ The personal cookbook will of course require a sign-in function, but the rest of
 ### Open VS code
 ### Type "docker-compose up -d" in terminal
 ### Open "localhost:3000" on your preferred browser
+
+# Website demo:
+https://drive.google.com/file/d/1iftWl_fFXMfu6o0q8vTCYqEbyL5C2vep/view?usp=share_link
