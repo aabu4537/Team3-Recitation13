@@ -1001,7 +1001,7 @@ app.get("/sort", (req, res) => {
   } else if (option == "Date_New_Old") {
     query = 'select * from recipes order by recipes.date_published desc;';
   } else if (option == "Total_Time_Low_High") {
-    query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time)F asc;';
+    query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) asc;';
   } else if (option == "Total_Time_High_Low") {
     query = 'select * from recipes order by (recipes.prep_time + recipes.cook_time) desc;';
   } else if (option == "Rating_High_Low") {
