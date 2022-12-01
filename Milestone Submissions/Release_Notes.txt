@@ -39,6 +39,6 @@ Testing(11/28/2022 - 11/30/2022):
     - Favorite/Unfavorite Recipes
     - Add/Edit/Delete Recipes
 - Number of Participants: 5
-* For full testing details, see the Milestone SUbmissions/ProjectReport_13 on Github
+* For full testing details, see ProjectReport_013-13
 
 Last edited: November 30th, 2022
