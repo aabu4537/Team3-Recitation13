@@ -375,16 +375,27 @@ app.get("/profile", async (req, res) => {
       return []
     });
 
-  if (favorites[0].recipe_id == null) {
-    res.render("pages/profile", {
-      results: [],
-      message: 'No Favorited Recipes',
-      username: req.session.user.username, //provides the username for use in EJS
-      email: req.session.user.email, //provides the email for use in EJS
-      myRecipes: []
-    });
-    return;
-  }
+    if (favorites[0].recipe_id == null) {
+      if(recipes[0] == undefined)
+      {
+        res.render("pages/profile", {
+          results: [],
+          message: 'No Favorited Recipes',
+          username: req.session.user.username, //provides the username for use in EJS
+          email: req.session.user.email, //provides the email for use in EJS
+          myRecipes: []
+        });
+        return;
+      }
+      res.render("pages/profile", {
+        results: [],
+        message: 'No Favorited Recipes',
+        username: req.session.user.username, //provides the username for use in EJS
+        email: req.session.user.email, //provides the email for use in EJS
+        myRecipes: recipes
+      });
+      return;
+    }
 
   // show the object on console for reference, then render it to the page. On page, reference like results[0].recipe_name 
   console.log(favorites);
